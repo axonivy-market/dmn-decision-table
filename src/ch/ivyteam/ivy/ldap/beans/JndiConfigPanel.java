@@ -12,12 +12,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import ch.ivyteam.awtExt.AWTUtil;
-import ch.ivyteam.awtExt.IvyPanel;
 import ch.ivyteam.naming.JndiConfig;
 import ch.ivyteam.naming.JndiProvider;
  
@@ -28,7 +28,7 @@ import ch.ivyteam.naming.JndiProvider;
  * @version ReW 4.4.2002 created
  */
 
-public class JndiConfigPanel extends IvyPanel
+public class JndiConfigPanel extends JPanel
 {
   /**
 	 * 
