@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="IVY_CONTAINER"/>
+	<classpathentry kind="lib" path="D:/XIVY61/AxonIvyDesigner6.0.0-SNAPSHOT.50529-win32.win32.x86_64/plugins/ch.ivyteam.awtExt_6.0.0.r50529.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
