@@ -2,83 +2,20 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.axonivy.ivy.supplements</groupId>
-	<artifactId>ldap-beans</artifactId>
-	<version>6.0.0-SNAPSHOT</version>
+	<artifactId>ldap-beans-modules</artifactId>
+	<version>6.1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	
 	<organization><name>The open source community of Axon.ivy</name></organization>
 	<description>Not supported community artifact to query and modify Active Directory with ivy Program Interface activities.</description>
 	
 	<properties>
-		<engine.dir>${project.build.directory}/ivyEngine</engine.dir>
-		<engine.lib.dir>${engine.dir}/lib/ivy</engine.lib.dir>
-		<ivy.version>6.0.0</ivy.version>
+		<ivy.version>6.1.0</ivy.version>
 	</properties>
-	
-	<dependencies>
-		<dependency>
-			<groupId>ch.ivyteam.ivy</groupId>
-			<artifactId>ch.ivyteam.util</artifactId>
-			<version>${ivy.version}</version>
-			<scope>system</scope>
-			<systemPath>${engine.lib.dir}/ch.ivyteam.util-${ivy.version}-server.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>ch.ivyteam.ivy</groupId>
-			<artifactId>ch.ivyteam.ivy.request</artifactId>
-			<version>${ivy.version}</version>
-			<scope>system</scope>
-			<systemPath>${engine.lib.dir}/ch.ivyteam.ivy.request-${ivy.version}-server.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>ch.ivyteam.ivy</groupId>
-			<artifactId>ch.ivyteam.ivy.bpm.exec</artifactId>
-			<version>${ivy.version}</version>
-			<scope>system</scope>
-			<systemPath>${engine.lib.dir}/ch.ivyteam.ivy.bpm.exec-${ivy.version}-server.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>ch.ivyteam.ivy</groupId>
-			<artifactId>ch.ivyteam.ivy.scripting.objects</artifactId>
-			<version>${ivy.version}</version>
-			<scope>system</scope>
-			<systemPath>${engine.lib.dir}/ch.ivyteam.ivy.scripting.objects-${ivy.version}-server.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>ch.ivyteam.ivy</groupId>
-			<artifactId>ch.ivyteam.ivy.scripting</artifactId>
-			<version>${ivy.version}</version>
-			<scope>system</scope>
-			<systemPath>${engine.lib.dir}/ch.ivyteam.ivy.scripting-${ivy.version}-server.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>ch.ivyteam.ivy</groupId>
-			<artifactId>ch.ivyteam.ivy.persistence</artifactId>
-			<version>${ivy.version}</version>
-			<scope>system</scope>
-			<systemPath>${engine.lib.dir}/ch.ivyteam.ivy.persistence-${ivy.version}-server.jar</systemPath>
-		</dependency>
-	</dependencies>
-	
-	<build>
-		<sourceDirectory>src</sourceDirectory>
-		
-		<plugins>
-			<plugin>
-				<groupId>com.axonivy.ivy.ci</groupId>
-				<artifactId>project-build-plugin</artifactId>
-				<version>${ivy.version}</version>
-				<executions>
-					<execution>
-						<id>get.axonivy.classes</id>
-						<phase>generate-resources</phase>
-						<goals><goal>ensureInstalledEngine</goal></goals>
-						<configuration>
-							<engineDirectory>${engine.dir}</engineDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+
+	<modules>
+		<module>build/ivyEngineResolver</module>
+		<module>build/ldap-beans</module>
+	</modules>
 	
 </project>
