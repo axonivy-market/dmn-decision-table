@@ -8,11 +8,15 @@
 
 	<parent>
 		<groupId>com.axonivy.ivy.supplements</groupId>
-		<artifactId>deployment-pom</artifactId>
+		<artifactId>dependencies-pom</artifactId>
 		<version>6.1.0-SNAPSHOT</version>
-		<relativePath>../deployment-pom/</relativePath>
+		<relativePath>../parent-poms/dependencies/</relativePath>
 	</parent>
-	
+
+	<properties>
+		<ivy.version>6.1.1</ivy.version>
+	</properties>
+
 	<name>ldap-beans</name>
 	<description>Utility classes to query and modify Active Directory with ivy Program Interface activities.</description>
 	<url>https://github.com/ivy-supplements/ldap-beans/</url>
