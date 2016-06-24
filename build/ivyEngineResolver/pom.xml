@@ -15,7 +15,7 @@
 	<properties>
 		<engine.dir>${project.build.directory}/ivyEngine</engine.dir>
 		<engine.lib.dir>${engine.dir}/lib/ivy</engine.lib.dir>
-		<ivy.version>6.1.0</ivy.version>
+		<ivy.version>6.1.1</ivy.version>
 	</properties>
 	
 	<build>
@@ -23,7 +23,7 @@
 			<plugin>
 				<groupId>com.axonivy.ivy.ci</groupId>
 				<artifactId>project-build-plugin</artifactId>
-				<version>${ivy.version}</version>
+				<version>6.1.0</version>
 				<executions>
 					<execution>
 						<id>get.axonivy.classes</id>
@@ -36,6 +36,7 @@
 				<configuration>
 					<engineDirectory>${engine.dir}</engineDirectory>
 					<engineListPageUrl>http://zugprobldmas/view/Trunk/job/Trunk_All/</engineListPageUrl>
+					<ivyVersion>${ivy.version}</ivyVersion>
 				</configuration>
 			</plugin>
 		</plugins>
