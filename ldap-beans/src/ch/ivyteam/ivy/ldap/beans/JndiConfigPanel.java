@@ -57,13 +57,13 @@ public class JndiConfigPanel extends JPanel
   private ResourceBundle resBun;
   
   /** Provider combo box */
-  private JComboBox cbProvider;
+  private JComboBox<JndiProvider> cbProvider;
 
   /** Url text field*/
   private JTextField tfUrl;
 
   /** authentication type combo box */
-  private JComboBox cbAuthType;
+  private JComboBox<String> cbAuthType;
 
   /** user text field */
   private JTextField tfUser;
@@ -81,7 +81,7 @@ public class JndiConfigPanel extends JPanel
    * Constructor
    * @param config Jndi configuration
    */
-  public JndiConfigPanel(JndiConfig config, Locale locale)
+  public JndiConfigPanel(JndiConfig config)
   {
     this.config=config;
     createGui(true);
@@ -94,28 +94,15 @@ public class JndiConfigPanel extends JPanel
    */
   public JndiConfigPanel(JndiConfig config, boolean isDefaultContextVisible)
   {
-    this(config, isDefaultContextVisible, Locale.getDefault());
-  }
-
-  /**
-   * Constructor
-   * @param config Jndi configuration
-   * @param isDefaultContextVisible Flag to indicate whether the default context field should be shown or not
-   * @param locale The locale used for resBunources
-   */
-  public JndiConfigPanel(JndiConfig config, boolean isDefaultContextVisible,
-                         Locale locale)
-  {
     this.config=config;
     createGui(isDefaultContextVisible);
   }
   /**
    * Constructor
-   * @param env The environment properties
    */
-  public JndiConfigPanel(Locale locale)
+  public JndiConfigPanel()
   {
-    this(new JndiConfig(), locale);    
+    this(new JndiConfig());    
   }
 
 
@@ -136,7 +123,7 @@ public class JndiConfigPanel extends JPanel
       10,10,0,0
     );
 
-    cbProvider = new JComboBox(JndiProvider.PROVIDERS);
+    cbProvider = new JComboBox<>(JndiProvider.PROVIDERS);
     AWTUtil.constrain(this, cbProvider,
       1,ypos++,1,1,
       GridBagConstraints.HORIZONTAL, GridBagConstraints.WEST, 1.0, 0.0,
@@ -164,7 +151,7 @@ public class JndiConfigPanel extends JPanel
       10,10,0,0
     );
 
-    cbAuthType = new JComboBox(
+    cbAuthType = new JComboBox<>(
         new String[]{
             resBun.getString("jndi_auth_type_none"),
             resBun.getString("jndi_auth_type_simple")
@@ -239,13 +226,6 @@ public class JndiConfigPanel extends JPanel
       );
     }
 
-//    JButton btTest = new JButton(resBun.getString("jndi_test"));
-//    btTest.addActionListener(new TestListener());
-//    AWTUtil.constrain(this, btTest,
-//      1,ypos,1,1,
-//      GridBagConstraints.NONE, GridBagConstraints.EAST, 0.0, 0.0,
-//      10,10,10,10
-//    );
   }
 
   /**
@@ -265,7 +245,7 @@ public class JndiConfigPanel extends JPanel
     case 1:
       config.setAuthenticationKind(JndiConfig.AUTH_KIND_SIMPLE);
       config.setUserName(tfUser.getText().trim());
-      config.setPassword(tfPassword.getText());
+      config.setPassword(new String(tfPassword.getPassword()));
       break;
     default:
       config.setAuthenticationKind(JndiConfig.AUTH_KIND_NONE);
@@ -305,8 +285,9 @@ public class JndiConfigPanel extends JPanel
     }
 
     cbSsl.setSelected(config.isUseSsl());
-
-    tfContext.setText(config.getDefaultContext());
+    @SuppressWarnings("deprecation")
+    String context = config.getDefaultContext();
+    tfContext.setText(context);
 
     for (int pos=0; pos < JndiProvider.PROVIDERS.length; pos++)
     {
@@ -320,6 +301,7 @@ public class JndiConfigPanel extends JPanel
 
   /**
    * Testprogramm
+   * @param args Standard main parameter
    */
   public static void main(String args[])
   {
@@ -328,18 +310,15 @@ public class JndiConfigPanel extends JPanel
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     }
     catch(Throwable th)
-    {};
+    {}
     JFrame dialog = new JFrame();
-    dialog.getContentPane().add(new JndiConfigPanel(Locale.GERMAN));
+    dialog.getContentPane().add(new JndiConfigPanel());
     dialog.pack();
     dialog.setVisible(true);
   }
 
-  /**
-   * Gets the model
-   * @return model
-   */
-  public Hashtable getModel()
+  @SuppressWarnings("deprecation")
+  public Hashtable<?, ?> getModel()
   {
     return config.getEnvironement();
   }
@@ -378,6 +357,7 @@ public class JndiConfigPanel extends JPanel
      * Gets a represBunenting string
      * @return string
      */
+    @Override
     public String toString()
     {
       return providerName;
@@ -410,6 +390,7 @@ public class JndiConfigPanel extends JPanel
     /**
      * Invoked when an action occurs.
      */
+    @Override
     public void actionPerformed(ActionEvent e)
     {
       tfUser.setEnabled(cbAuthType.getSelectedIndex()!=0);
@@ -420,50 +401,4 @@ public class JndiConfigPanel extends JPanel
 
   }
 
-//  /**
-//   * Test Listener
-//   */
-//  class TestListener implements ActionListener
-//  {
-//    /**
-//     * Invoked when an action occurs.
-//     */
-//    public void actionPerformed(ActionEvent e)
-//    {
-//      try
-//      {
-//        WaitDialog.doAndShowWaitDialog(
-//            JndiConfigPanel.this,
-//            resBun.getString("jndi_test_title"),
-//            resBun.getString("jndi_test_msg"),
-//            new TestWorker());
-//        CommonDialogs.messageMonolog(
-//          JndiConfigPanel.this,
-//          resBun.getString("jndi_test_title"),
-//          resBun.getString("jndi_test_success"),
-//          locale);
-//      }
-//      catch(Throwable th)
-//      {
-//        CommonDialogs.messageMonolog(
-//            JndiConfigPanel.this,
-//            res.getString("jndi_test_title"),
-//            res.getString("jndi_test_failed")+"\n" +
-//                ExceptionUtil.getLocalizedMessageOf(th),
-//            locale
-//        );
-//      }
-//    }
-//  }
-//
-//  /**
-//   * Test worker class
-//   */
-//  class TestWorker extends GuiWorker
-//  {
-//    protected void work() throws Throwable
-//    {
-//      test();
-//    }
-//  }
 }
