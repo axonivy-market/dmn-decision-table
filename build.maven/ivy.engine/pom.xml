@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.axonivy.ivy.supplements</groupId>
+	<artifactId>ivy.engine.download</artifactId>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>com.axonivy.ivy.supplements</groupId>
+		<artifactId>maven-deploy</artifactId>
+		<version>6.1.0-SNAPSHOT</version>
+		<relativePath>../central.deploy/</relativePath>
+	</parent>
+
+	<properties>
+		<engine.dir>${java.io.tmpdir}ivyEngine</engine.dir>
+		<ivy.version>6.2.0</ivy.version>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.axonivy.ivy.ci</groupId>
+				<artifactId>project-build-plugin</artifactId>
+				<version>6.1.0</version>
+				<executions>
+					<execution>
+						<id>get.axonivy.classes</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>installEngine</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<engineDirectory>${engine.dir}</engineDirectory>
+					<engineListPageUrl>http://zugprobldmas/view/Trunk/job/Trunk_All/</engineListPageUrl>
+					<ivyVersion>${ivy.version}</ivyVersion>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
