@@ -14,13 +14,7 @@
 
 	<name>ldap-beans</name>
 	<description>Utility classes to query and modify Active Directory with ivy Program Interface activities.</description>
-	<url>https://github.com/ivy-supplements/ldap-beans/</url>
-
-	<scm>
-		<connection>scm:git:git@github.com:ivy-supplements/ldap-beans.git</connection>
-		<developerConnection>scm:git:git@github.com:ivy-supplements/ldap-beans.git</developerConnection>
-		<url>git@github.com:ivy-supplements/ldap-beans.git</url>
-	</scm>
+	<url>https://github.com/ivy-supplements/bpm-beans/tree/master/ldap-beans</url>
 
 	<build>
 		<resources>
