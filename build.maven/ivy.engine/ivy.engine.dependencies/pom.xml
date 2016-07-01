@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.axonivy.ivy.supplements</groupId>
+	<artifactId>ivy.engine.dependencies</artifactId>
+	<version>6.1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>com.axonivy.ivy.supplements</groupId>
+		<artifactId>ivy.engine.download</artifactId>
+		<version>6.1.0-SNAPSHOT</version>
+		<relativePath>../</relativePath>
+	</parent>
+
+	<properties>
+		<engine.lib.dir>${engine.dir}/lib/ivy</engine.lib.dir>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>ch.ivyteam.ivy</groupId>
+			<artifactId>ch.ivyteam.util</artifactId>
+			<version>${ivy.version}</version>
+			<scope>system</scope>
+			<systemPath>${engine.lib.dir}/ch.ivyteam.util-${ivy.version}-server.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>ch.ivyteam.ivy</groupId>
+			<artifactId>ch.ivyteam.ivy.request</artifactId>
+			<version>${ivy.version}</version>
+			<scope>system</scope>
+			<systemPath>${engine.lib.dir}/ch.ivyteam.ivy.request-${ivy.version}-server.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>ch.ivyteam.ivy</groupId>
+			<artifactId>ch.ivyteam.ivy.bpm.exec</artifactId>
+			<version>${ivy.version}</version>
+			<scope>system</scope>
+			<systemPath>${engine.lib.dir}/ch.ivyteam.ivy.bpm.exec-${ivy.version}-server.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>ch.ivyteam.ivy</groupId>
+			<artifactId>ch.ivyteam.ivy.scripting.objects</artifactId>
+			<version>${ivy.version}</version>
+			<scope>system</scope>
+			<systemPath>${engine.lib.dir}/ch.ivyteam.ivy.scripting.objects-${ivy.version}-server.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>ch.ivyteam.ivy</groupId>
+			<artifactId>ch.ivyteam.ivy.scripting</artifactId>
+			<version>${ivy.version}</version>
+			<scope>system</scope>
+			<systemPath>${engine.lib.dir}/ch.ivyteam.ivy.scripting-${ivy.version}-server.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>ch.ivyteam.ivy</groupId>
+			<artifactId>ch.ivyteam.ivy.persistence</artifactId>
+			<version>${ivy.version}</version>
+			<scope>system</scope>
+			<systemPath>${engine.lib.dir}/ch.ivyteam.ivy.persistence-${ivy.version}-server.jar</systemPath>
+		</dependency>
+	</dependencies>
+</project>
