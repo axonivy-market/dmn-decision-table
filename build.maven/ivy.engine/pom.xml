@@ -14,7 +14,7 @@
 
 	<properties>
 		<engine.dir>${java.io.tmpdir}ivyEngine</engine.dir>
-		<ivy.version>6.2.1</ivy.version>
+		<ivy.version>6.2.0</ivy.version>
 	</properties>
 
 	<build>
