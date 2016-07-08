@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.axonivy.ivy.supplements</groupId>
 	<artifactId>ldap-beans</artifactId>
-	<version>6.1.0-SNAPSHOT</version>
+	<version>6.2.0-SNAPSHOT</version>
 
 	<parent>
 		<groupId>com.axonivy.ivy.supplements</groupId>
 		<artifactId>ivy.engine.dependencies</artifactId>
-		<version>6.1.0-SNAPSHOT</version>
+		<version>6.2.0-SNAPSHOT</version>
 		<relativePath>../build.maven/ivy.engine/ivy.engine.dependencies/</relativePath>
 	</parent>
 

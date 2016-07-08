@@ -8,13 +8,13 @@
 	<parent>
 		<groupId>com.axonivy.ivy.supplements</groupId>
 		<artifactId>maven-deploy</artifactId>
-		<version>6.1.0-SNAPSHOT</version>
+		<version>6.2.0-SNAPSHOT</version>
 		<relativePath>../central.deploy/</relativePath>
 	</parent>
 
 	<properties>
 		<engine.dir>${java.io.tmpdir}ivyEngine</engine.dir>
-		<ivy.version>6.2.1</ivy.version>
+		<ivy.version>6.2.0</ivy.version>
 	</properties>
 
 	<build>
@@ -34,7 +34,6 @@
 				</executions>
 				<configuration>
 					<engineDirectory>${engine.dir}</engineDirectory>
-					<engineListPageUrl>http://zugprobldmas/view/Trunk/job/Trunk_All/</engineListPageUrl>
 					<ivyVersion>${ivy.version}</ivyVersion>
 				</configuration>
 			</plugin>

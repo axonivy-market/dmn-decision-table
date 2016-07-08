@@ -3,58 +3,59 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.axonivy.ivy.supplements</groupId>
 	<artifactId>ivy.engine.dependencies</artifactId>
-	<version>6.1.0-SNAPSHOT</version>
+	<version>6.2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>com.axonivy.ivy.supplements</groupId>
 		<artifactId>ivy.engine.download</artifactId>
-		<version>6.1.0-SNAPSHOT</version>
+		<version>6.2.0-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 
 	<properties>
 		<engine.lib.dir>${engine.dir}/lib/ivy</engine.lib.dir>
+		<ivy.group.id>ch.ivyteam.ivy</ivy.group.id>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>ch.ivyteam.ivy</groupId>
+			<groupId>${ivy.group.id}</groupId>
 			<artifactId>ch.ivyteam.util</artifactId>
 			<version>${ivy.version}</version>
 			<scope>system</scope>
 			<systemPath>${engine.lib.dir}/ch.ivyteam.util-${ivy.version}-server.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>ch.ivyteam.ivy</groupId>
+			<groupId>${ivy.group.id}</groupId>
 			<artifactId>ch.ivyteam.ivy.request</artifactId>
 			<version>${ivy.version}</version>
 			<scope>system</scope>
 			<systemPath>${engine.lib.dir}/ch.ivyteam.ivy.request-${ivy.version}-server.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>ch.ivyteam.ivy</groupId>
+			<groupId>${ivy.group.id}</groupId>
 			<artifactId>ch.ivyteam.ivy.bpm.exec</artifactId>
 			<version>${ivy.version}</version>
 			<scope>system</scope>
 			<systemPath>${engine.lib.dir}/ch.ivyteam.ivy.bpm.exec-${ivy.version}-server.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>ch.ivyteam.ivy</groupId>
+			<groupId>${ivy.group.id}</groupId>
 			<artifactId>ch.ivyteam.ivy.scripting.objects</artifactId>
 			<version>${ivy.version}</version>
 			<scope>system</scope>
 			<systemPath>${engine.lib.dir}/ch.ivyteam.ivy.scripting.objects-${ivy.version}-server.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>ch.ivyteam.ivy</groupId>
+			<groupId>${ivy.group.id}</groupId>
 			<artifactId>ch.ivyteam.ivy.scripting</artifactId>
 			<version>${ivy.version}</version>
 			<scope>system</scope>
 			<systemPath>${engine.lib.dir}/ch.ivyteam.ivy.scripting-${ivy.version}-server.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>ch.ivyteam.ivy</groupId>
+			<groupId>${ivy.group.id}</groupId>
 			<artifactId>ch.ivyteam.ivy.persistence</artifactId>
 			<version>${ivy.version}</version>
 			<scope>system</scope>
