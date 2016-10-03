@@ -1,3 +1,6 @@
 *.svn
-*.class
+
+.class
+
+bin/
 
