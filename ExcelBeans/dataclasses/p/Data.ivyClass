@@ -1,0 +1,8 @@
+Data #class
+p #namespace
+f File #field
+f PERSISTENT #fieldModifier
+s String #field
+s PERSISTENT #fieldModifier
+rs Recordset #field
+rs PERSISTENT #fieldModifier

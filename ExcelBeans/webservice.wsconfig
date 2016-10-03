@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<webServiceConfigurationNode>
+    <id>14999E9CE11CFB11</id>
+    <webServiceConfig>
+        <name>ws1</name>
+        <id>14999E9866BFE748</id>
+        <description></description>
+        <wsdlUrl>http://localhost:8081/ivy/ws/designer/P1/14999E7D9DCA1840?WSDL</wsdlUrl>
+        <transportSession>false</transportSession>
+        <sessionHandlingMode>0</sessionHandlingMode>
+        <wsdlGeneratedInfo>
+            <axisLocatorClassname></axisLocatorClassname>
+            <axisNamespacesNew>http\://unknown.namespace/=namespace.unknown
+ch.ivyteam.ivy.webservice.process=process.webservice.ivy.ivyteam.ch</axisNamespacesNew>
+            <axisOperationsToPort>WS1Port=&quot;call&quot;</axisOperationsToPort>
+            <axisEndPointForPortType>WS1Port=http\://localhost\:8081/ivy/ws/designer/P1/14999E7D9DCA1840</axisEndPointForPortType>
+            <axisParameterProperties>WS1Portcall=&quot;arg0__@@__namespace.unknown.CallE__@@__&quot;</axisParameterProperties>
+            <axisPortList>WS1Port</axisPortList>
+            <axisStubClassnameList>namespace.unknown.WS1ServiceStub</axisStubClassnameList>
+            <axisReturnTypes>WS1Portcall=namespace.unknown.CallResponseE</axisReturnTypes>
+            <axisServiceClassname>namespace.unknown.WS1Service</axisServiceClassname>
+            <axisUsedJavaclasses>&quot;namespace\\unknown\\Call.java&quot;,&quot;namespace\\unknown\\CallE.java&quot;,&quot;namespace\\unknown\\CallResponse.java&quot;,&quot;namespace\\unknown\\CallResponseE.java&quot;,&quot;namespace\\unknown\\ExtensionMapper.java&quot;,&quot;namespace\\unknown\\WebServiceProcessTechnicalException.java&quot;,&quot;namespace\\unknown\\WS1Service.java&quot;,&quot;namespace\\unknown\\WS1ServiceStub.java&quot;,&quot;process\\webservice\\ivy\\ivyteam\\ch\\TechnicalException.java&quot;</axisUsedJavaclasses>
+            <codeGenerationTimestamp>1415626474793</codeGenerationTimestamp>
+            <wsdlWebserviceName>WS1Service</wsdlWebserviceName>
+            <wsClassGenerationImplementationUsed>AXIS_2_0</wsClassGenerationImplementationUsed>
+            <jarPacked>true</jarPacked>
+        </wsdlGeneratedInfo>
+        <webServiceVersion/>
+    </webServiceConfig>
+</webServiceConfigurationNode>

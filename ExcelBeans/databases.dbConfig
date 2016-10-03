@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseconfigs>
+    <databaseconfig name="cdb" url="jdbc:hsqldb:file:D:\XIVY45 Schulung\TestDBContact\mydb" driver="org.hsqldb.jdbcDriver"/>
+</databaseconfigs>
