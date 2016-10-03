@@ -47,6 +47,7 @@ import ch.ivyteam.naming.JndiUtil;
  * Bean to change the common name (cn) of a jndi object Extended copy of Reto
  * Weiss' LdapAttributeModifierBean:
  * @author Reto Weiss
+ * @version bb 29.09.2016 bb: fix parameter extraction for LdapRenameObjectBean
  * @version Ken Iseli November2012
  * @version Marc Willaredt August2009 Updated to Ivy 4.1
  * @version bb 22.11.2005 bb: allow ivy attributes ("in.xx") to set url, name,
@@ -357,10 +358,7 @@ public class LdapRenameObjectBean extends AbstractUserProcessExtension
        * "cn=Lager_AG_020,ou=Drucker,ou=Infrastruktur,ou=Informatik,DC=SNB,DC=CH"
        * ;
        */
-      objectName = (String) getVariable(objectName, cont);
-      newObjectName = (String) getVariable(newObjectName, cont);
-
-      dirContext.rename(objectName, newObjectName);
+      dirContext.rename(modifyObjectName, newName);
     }
     finally
     {
