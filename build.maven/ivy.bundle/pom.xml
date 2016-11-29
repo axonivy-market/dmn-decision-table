@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.axonivy.ivy.supplements</groupId>
+	<artifactId>ivy-bundle</artifactId>
+	<version>6.4.1-SNAPSHOT</version>
+	<parent>
+		<groupId>com.axonivy.ivy.supplements</groupId>
+		<artifactId>maven-deploy</artifactId>
+		<version>6.4.1-SNAPSHOT</version>
+		<relativePath>../central.deploy</relativePath>
+	</parent>
+	<packaging>pom</packaging>
+	
+	<properties>
+		<tycho.version>0.23.1</tycho.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>ivy.sprint.release</id>
+			<layout>p2</layout>
+			<url>http://developer.axonivy.com/dev-releases/ivy/sprint-release/p2</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<extensions>true</extensions>
+			</plugin>
+		</plugins>
+		
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-compiler-plugin</artifactId>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>target-platform-configuration</artifactId>
+					<version>${tycho.version}</version>
+					<configuration>
+						<environments>
+							<environment>
+								<os>win64</os>
+								<ws>win32</ws>
+								<arch>x86</arch>
+							</environment>
+						</environments>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
