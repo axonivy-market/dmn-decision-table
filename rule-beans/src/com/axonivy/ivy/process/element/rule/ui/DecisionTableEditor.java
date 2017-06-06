@@ -1,0 +1,218 @@
+package com.axonivy.ivy.process.element.rule.ui;
+
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Optional;
+
+import org.apache.commons.io.IOUtils;
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.TextViewer;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Shell;
+
+import com.axonivy.ivy.process.element.rule.CitizenSample;
+import com.axonivy.ivy.process.element.rule.dmn.DmnSerializer;
+import com.axonivy.ivy.process.element.rule.model.ActionColumn;
+import com.axonivy.ivy.process.element.rule.model.ColumnType;
+import com.axonivy.ivy.process.element.rule.model.ConditionColumn;
+import com.axonivy.ivy.process.element.rule.model.RulesModel;
+
+import ch.ivyteam.icons.Size;
+import ch.ivyteam.ivy.designer.richdialog.ui.configeditors.SelectAttributeDialog;
+import ch.ivyteam.ivy.scripting.IvyScriptManagerFactory;
+import ch.ivyteam.ivy.scripting.language.IvyScriptContextFactory;
+import ch.ivyteam.ivy.scripting.system.IIvyScriptClassRepository;
+import ch.ivyteam.ivy.scripting.types.IVariable;
+import ch.ivyteam.ivy.scripting.util.IvyScriptProcessVariables;
+import ch.ivyteam.ivy.scripting.util.Variable;
+import ch.ivyteam.ivy.server.IvyWebAppClassLoaderProvider;
+
+public class DecisionTableEditor extends Composite
+{
+  public DecisionTableComposite table;
+  public final CTabFolder tabs;
+  private ColumnEditActionsComposite columnEdit;
+
+  private IVariable[] dataVars = new IVariable[0];
+  
+  public DecisionTableEditor(Composite parent, int style)
+  {
+    super(parent, style);
+    setLayout(new GridLayout(1, false));
+    
+    tabs = new CTabFolder(this, SWT.BOTTOM);
+    tabs.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+    
+    createTableTab();
+    createDMNtab();
+  }
+
+  private CTabItem createTableTab()
+  {
+    CTabItem tab = new CTabItem(tabs, SWT.NONE);
+    tab.setText("Table");
+    tab.setImage(ch.ivyteam.swt.icons.IconFactory.get(this).getTable(Size.SIZE_16));
+    
+    Group grpDecisions = new Group(tabs, SWT.NONE);
+    grpDecisions.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+    grpDecisions.setText("Decisions");
+    grpDecisions.setLayout(new GridLayout(1, false));
+    tab.setControl(grpDecisions);
+    
+    columnEdit = new ColumnEditActionsComposite(grpDecisions, SWT.NONE);
+    columnEdit.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+    addDataChooser();
+    
+    table = new DecisionTableComposite(grpDecisions, SWT.NONE);
+    table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+    return tab;
+  }
+
+  private CTabItem createDMNtab()
+  {
+    CTabItem dmnTab = new CTabItem(tabs, SWT.NONE);
+    dmnTab.setText("DMN");
+    // assign a XML or DMN icon
+    TextViewer dmnViewer = new TextViewer(tabs, SWT.NONE);
+    dmnViewer.setDocument(new Document());
+    dmnTab.setControl(dmnViewer.getTextWidget());
+    dmnTab.addListener(SWT.SELECTED, evt -> {
+      dmnViewer.getDocument().set(toDMN(table.model));
+    });
+    
+    tabs.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        tabs.getSelection().notifyListeners(SWT.SELECTED, new Event());
+      }
+     });
+    return dmnTab;
+  }
+
+  private static String toDMN(RulesModel model)
+  { 
+    try
+    {
+      try(InputStream is = new DmnSerializer(model).serialize())
+      {
+        return IOUtils.toString(is);
+      }
+    }
+    catch (Exception ex)
+    {
+      return ex.getMessage();
+    }
+  }
+  
+  public void setDataVariables(IVariable[] vars)
+  {
+    this.dataVars = Arrays.stream(vars)
+            .filter(var -> var.getName().equals(IvyScriptProcessVariables.IN.getVariableName())) // use only IN
+            .flatMap(in -> Arrays.stream(new IVariable[]{in, new Variable(IvyScriptProcessVariables.OUT.getVariableName(), in.getType())})) // duplicate in as out
+            .toArray(IVariable[]::new);
+  }
+
+  private void addDataChooser()
+  {
+    columnEdit.btnAddCondition.addSelectionListener(new SelectionAdapter()
+    {
+      @Override
+      public void widgetSelected(SelectionEvent e)
+      {
+        Optional<String> selection = attributeSelectionDialog(IvyScriptProcessVariables.IN.getVariableName());
+        if (selection.isPresent())
+        {
+          String attribute = selection.get();
+          table.addConditionColumn(new ConditionColumn(attribute, ColumnType.String));
+          table.pack(true);
+        }
+      }
+    });
+    columnEdit.btnAddOutput.addSelectionListener(new SelectionAdapter()
+    {
+      @Override
+      public void widgetSelected(SelectionEvent e)
+      {
+        Optional<String> selection = attributeSelectionDialog(IvyScriptProcessVariables.OUT.getVariableName());
+        if (selection.isPresent())
+        {
+          String attribute = selection.get();
+          table.addActionColumn(new ActionColumn(attribute, ColumnType.String));
+          table.pack(true);
+        }
+      }
+    });
+  }
+  
+  private Optional<String> attributeSelectionDialog(String variableFilter)
+  {
+    SelectAttributeDialog dialog = SelectAttributeDialog.createAttributeBrowserDialog(this.getShell());
+    dialog.create();
+    try
+    {
+      IVariable[] vars = Arrays.stream(dataVars)
+        .filter(var -> var.getName().equals(variableFilter))
+        .toArray(IVariable[]::new);
+      dialog.setInput(IvyScriptContextFactory.createIvyScriptContext(vars));
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace();
+    }
+    if (dialog.open() == Window.OK)
+    {
+      String attribute = (String) dialog.getSelection();
+      return Optional.of(attribute);
+    }
+    return Optional.empty();
+  }
+  
+  public static void main(String[] args)
+  {
+    Shell shell = new Shell();
+    DecisionTableEditor editor = new DecisionTableEditor(shell, SWT.NONE);
+    
+    RulesModel model = CitizenSample.generateData();
+    editor.table.setModel(model);
+    editor.setDataVariables(getSampleScriptContext());
+    
+    editor.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
+    shell.setLayout(new FillLayout());
+    shell.setSize(400,400);
+    shell.setText("Test Decision Table");
+    shell.layout();
+    shell.open();
+    
+    Display display = Display.getDefault();
+    while(!shell.isDisposed())
+    {
+      if (!display.readAndDispatch())
+      {
+        display.sleep();
+      }
+    }
+  }
+  
+  private static IVariable[] getSampleScriptContext()
+  {
+    @SuppressWarnings({"restriction"})
+    IIvyScriptClassRepository tmpRepo = new ch.ivyteam.ivy.scripting.internal.system.IvyScriptGlobalClassRepository(
+            new IvyWebAppClassLoaderProvider(), 
+            (ch.ivyteam.ivy.scripting.internal.IvyScriptManager) IvyScriptManagerFactory.createIvyScriptManager());
+    Variable in = new Variable(IvyScriptProcessVariables.IN.getVariableName(), tmpRepo.getAnyCompositeObjectClass());
+    return new IVariable[]{in};
+  }
+
+}

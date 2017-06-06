@@ -8,6 +8,7 @@
 
 	<modules>
 		<module>ldap-beans</module>
+		<module>rule-beans</module>
 		<module>build.maven/central.deploy</module>
 		<module>build.maven/ivy.bundle</module>
 	</modules>
