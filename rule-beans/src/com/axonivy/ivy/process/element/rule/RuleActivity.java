@@ -1,59 +1,63 @@
 package com.axonivy.ivy.process.element.rule;
 
-import java.io.InputStream;
-import java.util.Optional;
+import java.io.IOException;
 
-import org.camunda.bpm.dmn.engine.DmnDecisionRuleResult;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import com.axonivy.ivy.process.element.rule.dmn.DmnExecutor;
-import com.axonivy.ivy.process.element.rule.dmn.DmnSerializer;
-import com.axonivy.ivy.process.element.rule.dmn.OutputMappingScriptGenerator;
-import com.axonivy.ivy.process.element.rule.model.RulesModel;
-import com.axonivy.ivy.process.element.rule.model.RulesModelSerialization;
-import com.axonivy.ivy.process.element.rule.ui.DecisionTableEditor;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.axonivy.ivy.process.element.rule.ui.RuleConfigEditor;
 
+import ch.ivyteam.awt.swt.SwtRunnable;
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.tabs.helper.ProcessExtensionConfigurationEditorEnvironment;
 import ch.ivyteam.ivy.process.engine.IRequestId;
 import ch.ivyteam.ivy.process.extension.IProcessExtensionConfigurationEditorEnvironment;
 import ch.ivyteam.ivy.process.extension.impl.AbstractProcessExtensionConfigurationEditor;
 import ch.ivyteam.ivy.process.extension.impl.AbstractUserProcessExtension;
-import ch.ivyteam.ivy.scripting.exceptions.IvyScriptException;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptContext;
 import ch.ivyteam.ivy.scripting.objects.CompositeObject;
-import ch.ivyteam.log.Logger;
 
 public class RuleActivity extends AbstractUserProcessExtension 
 {
-  private static final Logger LOGGER = Logger.getClassLogger(RuleActivity.class);
-
+  private static final String RULE_NAMESPACE = "RULE_NAMESPACE";
+  private static final String INPUT_DATA = "INPUT_DATA";
+  
+  @SuppressWarnings("restriction")
   @Override
   public CompositeObject perform(IRequestId requestId, CompositeObject in, IIvyScriptContext context) throws Exception
   {
-    String ruleModelJson = getConfiguration();
-    RulesModel model = RulesModelSerialization.deserialize(ruleModelJson);
-    InputStream dmnInputStream = new DmnSerializer(model).serialize();
-    Optional<DmnDecisionRuleResult> result = new DmnExecutor(dmnInputStream, in).execute();
-    if (result.isPresent()) {
-      mapResultToOutput(context, result.get());
-    }
+    executeIvyScript(context, createIvyScript());
+//    Rules.getInstance().engine.createRuleBase()
+//    RuleEngine ruleEngine = new RuleEngine();
+//    IRuleBase ruleBase = ruleEngine.createRuleBase();
+//    ruleBase.loadRulesFromNamespace(getConfigurationProperty(RULE_NAMESPACE));
+//    String property = getConfigurationProperty(INPUT_DATA);
+//    ruleBase.createSession().execute(in.get(property));
     return in;
   }
-
-  private void mapResultToOutput(IIvyScriptContext context, DmnDecisionRuleResult result) throws IvyScriptException
+  
+  private String createIvyScript() throws IOException
   {
-    String ivyScript = OutputMappingScriptGenerator.create(result);
-    executeIvyScript(context, ivyScript);
+    
+    String namespace = getConfigurationProperty(RULE_NAMESPACE);
+    String outData = getConfigurationProperty(INPUT_DATA);
+    StringBuilder script = new StringBuilder();
+    script.append("IRuleBase ruleBase = ivy.rules.engine.createRuleBase();");
+    script.append("\n");
+    script.append("ruleBase.loadRulesFromNamespace(\"" + namespace + "\");");
+    script.append("\n");
+    script.append("ruleBase.createSession().execute(" + outData + ");");
+    return script.toString();
   }
 
   public static class Editor extends AbstractProcessExtensionConfigurationEditor
   {    
     private ProcessExtensionConfigurationEditorEnvironment env;
-    private DecisionTableEditor decisionEditor;
-    private RulesModel model;
+    
+    private String ruleNamespace;
+    private String inputData;
+    
+    private RuleConfigEditor ruleConfigEditor;
 
     @Override
     public void setEnvironment(IProcessExtensionConfigurationEditorEnvironment environment)
@@ -64,47 +68,46 @@ public class RuleActivity extends AbstractUserProcessExtension
     @Override
     public Composite getComposite(Composite parent)
     {
-      if (decisionEditor == null)
+      if (ruleConfigEditor == null)
       {
-        decisionEditor = new DecisionTableEditor(parent, SWT.NONE);
-        GridLayout gridLayout = (GridLayout) decisionEditor.getLayout();
-        gridLayout.marginHeight = 0; // margin already provided by tab
+        ruleConfigEditor = new RuleConfigEditor(parent, SWT.NONE);
+        GridLayout gridLayout = (GridLayout) ruleConfigEditor.getLayout();
+        gridLayout.marginHeight = 0;
         gridLayout.marginWidth = 0;
-        decisionEditor.table.setModel(model);
-        decisionEditor.setDataVariables(env.getDataInputVariables());
-        decisionEditor.tabs.setSelection(0); // select table mode
+        ruleConfigEditor.setRuleNamespace(ruleNamespace);
+        ruleConfigEditor.setInputData(inputData);
+        ruleConfigEditor.setDataVariables(env.getDataInputVariables());
       }
-      return decisionEditor;
+      return ruleConfigEditor;
     }
 
     @Override
     protected void loadUiDataFromConfiguration()
     {
-      try
-      {
-        String ruleModelJson = getBeanConfiguration();
-        model = RulesModelSerialization.deserialize(ruleModelJson);
-      }
-      catch (Exception ex)
-      {
-        throw new IllegalStateException("Could deserialize rules model", ex);
-      }
+      new SwtRunnable()
+        {
+          @Override
+          public void run()
+          {
+            ruleNamespace = getBeanConfigurationProperty(RULE_NAMESPACE);
+            inputData = getBeanConfigurationProperty(INPUT_DATA);
+          }
+        }.syncExec();
     }
 
     @Override
     protected boolean saveUiDataToConfiguration()
     {
-      try
-      {
-        RulesModel rulesModel = decisionEditor.table.getModel();
-        String ruleModelJson = RulesModelSerialization.serialize(rulesModel);
-        setBeanConfiguration(ruleModelJson);
-      }
-      catch (JsonProcessingException ex)
-      {
-        LOGGER.error(ex);
-        return false;
-      }
+      clearBeanConfiguration();
+      new SwtRunnable()
+        {
+          @Override
+          public void run()
+          {
+            setBeanConfigurationProperty(RULE_NAMESPACE, ruleConfigEditor.getRuleNamespace());
+            setBeanConfigurationProperty(INPUT_DATA, ruleConfigEditor.getInputData());
+          }
+        }.syncExec();
       return true;
     }
   }

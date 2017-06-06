@@ -4,11 +4,11 @@ import javax.swing.table.AbstractTableModel;
 
 import com.axonivy.ivy.process.element.rule.model.RulesModel;
 
-public class RulesTableModel extends AbstractTableModel
+public class DecisionTableModel extends AbstractTableModel
 {
   private RulesModel model;
   
-  public RulesTableModel(RulesModel model)
+  public DecisionTableModel(RulesModel model)
   {
     this.model = model;
   }

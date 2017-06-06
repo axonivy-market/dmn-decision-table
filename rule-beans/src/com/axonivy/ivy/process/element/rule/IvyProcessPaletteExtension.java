@@ -18,6 +18,7 @@ public class IvyProcessPaletteExtension implements IIvyProcessPaletteExtension
   public void addEntries(IIvyProcessPalette palette)
   {
     palette.addProcessElementEntry(RULE_GROUP, ProcessElementExtension.RULE_ACTIVITY, 100);
+    palette.addProcessElementEntry(RULE_GROUP, ProcessElementExtension.DECISION_ACTIVITY, 200);
   }
 
 }

@@ -9,31 +9,43 @@ public class ProcessElementUiInformationExtension implements IProcessElementUiIn
   @Override
   public String getShortName(String processElementClassName, Locale locale)
   {
-    if (ProcessElementExtension.RULE_ACTIVITY.equals(processElementClassName))
+    switch (processElementClassName)
     {
-      return "Decision";
+      case ProcessElementExtension.RULE_ACTIVITY:
+        return "Rule";
+      case ProcessElementExtension.DECISION_ACTIVITY:
+        return "Decision";
+      default:
+        return null;
     }
-    return null;
   }
 
   @Override
   public String getName(String processElementClassName, Locale locale)
   {
-    if (ProcessElementExtension.RULE_ACTIVITY.equals(processElementClassName))
+    switch (processElementClassName)
     {
-      return "Decision Table Activity";
+      case ProcessElementExtension.RULE_ACTIVITY:
+        return "Rule Activity";
+      case ProcessElementExtension.DECISION_ACTIVITY:
+        return "Decision Table Activity";
+      default:
+        return null;
     }
-    return null;
   }
 
   @Override
   public String getDescription(String processElementClassName, Locale locale)
   {
-    if (ProcessElementExtension.RULE_ACTIVITY.equals(processElementClassName))
+    switch (processElementClassName)
     {
-      return "Executes a DMN table";
+      case ProcessElementExtension.RULE_ACTIVITY:
+        return "Executes a Rule";
+      case ProcessElementExtension.DECISION_ACTIVITY:
+        return "Executes a DMN table";
+      default:
+        return null;
     }
-    return null;
   }
 
 }
