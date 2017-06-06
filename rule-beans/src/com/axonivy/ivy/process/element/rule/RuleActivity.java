@@ -72,6 +72,7 @@ public class RuleActivity extends AbstractUserProcessExtension
         gridLayout.marginWidth = 0;
         decisionEditor.table.setModel(model);
         decisionEditor.setDataVariables(env.getDataInputVariables());
+        decisionEditor.setScriptEngine(env.getIvyProject().getIvyScriptEngine());
         decisionEditor.tabs.setSelection(0); // select table mode
       }
       return decisionEditor;

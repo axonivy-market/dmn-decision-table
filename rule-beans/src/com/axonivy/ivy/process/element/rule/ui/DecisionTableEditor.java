@@ -32,11 +32,15 @@ import com.axonivy.ivy.process.element.rule.model.RulesModel;
 import ch.ivyteam.icons.Size;
 import ch.ivyteam.ivy.designer.richdialog.ui.configeditors.SelectAttributeDialog;
 import ch.ivyteam.ivy.scripting.IvyScriptManagerFactory;
+import ch.ivyteam.ivy.scripting.language.IIvyScriptContext;
+import ch.ivyteam.ivy.scripting.language.IIvyScriptEngine;
 import ch.ivyteam.ivy.scripting.language.IvyScriptContextFactory;
 import ch.ivyteam.ivy.scripting.system.IIvyScriptClassRepository;
+import ch.ivyteam.ivy.scripting.types.IIvyClass;
 import ch.ivyteam.ivy.scripting.types.IVariable;
 import ch.ivyteam.ivy.scripting.util.IvyScriptProcessVariables;
 import ch.ivyteam.ivy.scripting.util.Variable;
+import ch.ivyteam.ivy.scripting.validator.IvyScriptValidator;
 import ch.ivyteam.ivy.server.IvyWebAppClassLoaderProvider;
 
 public class DecisionTableEditor extends Composite
@@ -46,6 +50,7 @@ public class DecisionTableEditor extends Composite
   private ColumnEditActionsComposite columnEdit;
 
   private IVariable[] dataVars = new IVariable[0];
+  private IIvyScriptEngine scriptEngine;
   
   public DecisionTableEditor(Composite parent, int style)
   {
@@ -116,6 +121,11 @@ public class DecisionTableEditor extends Composite
     }
   }
   
+  public void setScriptEngine(IIvyScriptEngine ivyScriptEngine)
+  {
+    this.scriptEngine = ivyScriptEngine;
+  }
+  
   public void setDataVariables(IVariable[] vars)
   {
     this.dataVars = Arrays.stream(vars)
@@ -135,7 +145,8 @@ public class DecisionTableEditor extends Composite
         if (selection.isPresent())
         {
           String attribute = selection.get();
-          table.addConditionColumn(new ConditionColumn(attribute, ColumnType.String));
+          ColumnType type = getTypeOf(attribute);
+          table.addConditionColumn(new ConditionColumn(attribute, type));
           table.pack(true);
         }
       }
@@ -149,7 +160,8 @@ public class DecisionTableEditor extends Composite
         if (selection.isPresent())
         {
           String attribute = selection.get();
-          table.addActionColumn(new ActionColumn(attribute, ColumnType.String));
+          ColumnType type = getTypeOf(attribute);
+          table.addActionColumn(new ActionColumn(attribute, type));
           table.pack(true);
         }
       }
@@ -177,6 +189,37 @@ public class DecisionTableEditor extends Composite
       return Optional.of(attribute);
     }
     return Optional.empty();
+  }
+  
+  private ColumnType getTypeOf(String attribute)
+  {
+    IIvyClass<?> ivyClass = getIvyTypeOf(attribute);
+    if (ivyClass != null)
+    {
+      if (ivyClass.getJavaClass().equals(Number.class))
+      {
+        return ColumnType.Number;
+      }
+      if (ivyClass.getJavaClass().equals(Boolean.class))
+      {
+        return ColumnType.Boolean;
+      }
+    }
+    return ColumnType.String;
+  }
+
+  private IIvyClass<?> getIvyTypeOf(String attribute)
+  {
+    try
+    {
+      IIvyScriptContext context = IvyScriptContextFactory.createIvyScriptContext(dataVars);
+      IvyScriptValidator validator = new IvyScriptValidator(scriptEngine, context);
+      return validator.determineType(attribute);
+    }
+    catch (Exception ex)
+    {
+      return null;
+    }
   }
   
   public static void main(String[] args)
