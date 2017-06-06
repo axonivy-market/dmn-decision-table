@@ -85,7 +85,7 @@ public class DecisionTableEditor extends Composite
     CTabItem dmnTab = new CTabItem(tabs, SWT.NONE);
     dmnTab.setText("DMN");
     // assign a XML or DMN icon
-    TextViewer dmnViewer = new TextViewer(tabs, SWT.NONE);
+    TextViewer dmnViewer = new TextViewer(tabs, SWT.V_SCROLL);
     dmnViewer.setDocument(new Document());
     dmnTab.setControl(dmnViewer.getTextWidget());
     dmnTab.addListener(SWT.SELECTED, evt -> {
