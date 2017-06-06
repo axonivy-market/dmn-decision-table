@@ -49,16 +49,43 @@
 					<artifactId>target-platform-configuration</artifactId>
 					<version>${tycho.version}</version>
 					<configuration>
-						<environments>
-							<environment>
-								<os>win64</os>
-								<ws>win32</ws>
-								<arch>x86</arch>
-							</environment>
-						</environments>
+						<dependency-resolution>
+							<optionalDependencies>ignore</optionalDependencies>
+						</dependency-resolution>
 					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
+	
+	<profiles>
+	<profile>
+		<id>ivy.package.linux64</id>
+			<activation>
+				<property>
+					<name>ivy.package.linux64</name>
+					<!-- (disabled by default, only activated if parameter "ivy.package.linux64"
+						is set to "true") -->
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>target-platform-configuration</artifactId>
+						<configuration>
+							<environments combine.children="append">
+								<environment>
+									<os>linux</os>
+									<ws>gtk</ws>
+									<arch>x86_64</arch>
+								</environment>
+							</environments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
