@@ -18,9 +18,9 @@
 
 	<repositories>
 		<repository>
-			<id>ivy.sprint.release</id>
+			<id>ivy.nightly.release</id>
 			<layout>p2</layout>
-			<url>http://developer.axonivy.com/dev-releases/ivy/sprint-release/p2</url>
+			<url>http://developer.axonivy.com/dev-releases/ivy/nightly/current/p2</url>
 		</repository>
 	</repositories>
 
