@@ -6,14 +6,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Text;
 
-public class StringConditionComposite extends Composite
+public class ComboConditionComposite extends Composite
 {
   public ComboViewer operation;
-  public Text text;
+  public ComboViewer value;
 
-  public StringConditionComposite(Composite parent, int style)
+  public ComboConditionComposite(Composite parent, int style)
   {
     super(parent, style);
     GridLayout gridLayout = new GridLayout(2, false);
@@ -27,8 +26,8 @@ public class StringConditionComposite extends Composite
     Combo combo = operation.getCombo();
     combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
     
-    text = new Text(this, SWT.BORDER);
-    text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+    value = new ComboViewer(this, SWT.BORDER);
+    value.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
   }
   
 }

@@ -29,10 +29,12 @@ public class NumberConditionEditor extends CellEditor
     composite = new StringConditionComposite(parent, SWT.NONE);
     composite.operation.setContentProvider(ArrayContentProvider.getInstance());
     composite.operation.setInput(Arrays.asList(
+            Operator.NO_CONDITION,
             Operator.EQUAL, Operator.UNEQUAL,
             Operator.EQUAL_OR_GREATER, Operator.EQUAL_OR_SMALLER, 
             Operator.GREATER, Operator.LESS));
     composite.operation.setLabelProvider(new OperatorLabelProvider());
+    composite.text.addVerifyListener(new NumericValueVerifier());
     return composite;
   }
   
@@ -46,6 +48,10 @@ public class NumberConditionEditor extends CellEditor
   protected Object doGetValue()
   {
     Operator op = SwtSelectionUtil.getFirstElement(composite.operation.getSelection());
+    if (op == null || op == Operator.NO_CONDITION)
+    {
+      return ConditionCell.NO_CONDITION;
+    }
     return new ConditionCell(op, composite.text.getText());
   }
 

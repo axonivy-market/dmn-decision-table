@@ -1,5 +1,8 @@
 package com.axonivy.ivy.process.element.rule.ui;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.swt.SWT;
@@ -7,6 +10,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
@@ -19,7 +23,9 @@ import com.axonivy.ivy.process.element.rule.model.Operator;
 import com.axonivy.ivy.process.element.rule.model.Row;
 import com.axonivy.ivy.process.element.rule.model.RulesModel;
 import com.axonivy.ivy.process.element.rule.model.ValueCell;
+import com.axonivy.ivy.process.element.rule.ui.cellEdit.BooleanConditionEditor;
 import com.axonivy.ivy.process.element.rule.ui.cellEdit.NumberConditionEditor;
+import com.axonivy.ivy.process.element.rule.ui.cellEdit.NumericValueVerifier;
 import com.axonivy.ivy.process.element.rule.ui.cellEdit.StringConditionEditor;
 
 import ch.ivyteam.icons.Size;
@@ -28,6 +34,7 @@ import ch.ivyteam.swt.editors.FastTextCellEditor;
 import ch.ivyteam.swt.icons.IconFactory;
 import ch.ivyteam.swt.table.TableComposite;
 import ch.ivyteam.swt.table.TypedViewerColumn;
+import ch.ivyteam.swt.table.TypedViewerColumn.Edited;
 
 public class DecisionTableComposite extends TableComposite<Row>
 {
@@ -45,7 +52,7 @@ public class DecisionTableComposite extends TableComposite<Row>
     withActionBar();
     
     
-    addColumn("#", new ColumnWeightData(1))
+    addColumn("#", new ColumnWeightData(1), 0)
       .withTextProvider(row -> String.valueOf(model.getRows().indexOf(row)+1));
   }
 
@@ -83,17 +90,16 @@ public class DecisionTableComposite extends TableComposite<Row>
 
   public void addConditionColumn(ConditionColumn column)
   {
+    int indexOf = this.model.getConditionColumns().size();
     this.model.addColumn(column);
-    int indexOf = this.model.getConditionColumns().indexOf(column);
     addUiColumn(indexOf, column);
   }
   
   public void addActionColumn(ActionColumn column)
   {
+    int indexOf = this.model.getColumns().size();
     this.model.addColumn(column);
-    int indexOf = this.model.getActionColumns().indexOf(column);
     addUiColumn(indexOf, column);
-    
   }
   
   private void attachModelRows()
@@ -108,7 +114,7 @@ public class DecisionTableComposite extends TableComposite<Row>
   private void addUiColumn(int i, Column column)
   {
     final int t = i;
-    TypedViewerColumn<Row> tableCol = addColumn(column.getAttributeName(), new ColumnWeightData(4))
+    TypedViewerColumn<Row> tableCol = addColumn(column.getAttributeName(), new ColumnWeightData(4), i+1)
             .withTextProvider(row -> row.getCells().get(t).getText());
     tableCol.getColumn().setImage(getColumnImage(column));
     provideEditSupport(column, i, tableCol);
@@ -118,22 +124,32 @@ public class DecisionTableComposite extends TableComposite<Row>
   {
     if (column instanceof ConditionColumn)
     {
+      Function<Row, Object> conditionValueReader = row -> row.getCells().get(columnIndex);
+      Consumer<Edited<Row>> conditionValueApplier = edit -> edit.element.getCells().set(columnIndex, (ConditionCell)edit.value);
       if (column.getType() == ColumnType.String)
       {
         tableCol.withEditingSupport(new StringConditionEditor(viewer.getTable(), SWT.NONE), 
-                row -> row.getCells().get(columnIndex), 
-                edit -> edit.element.getCells().set(columnIndex, (ConditionCell)edit.value));
+                conditionValueReader, conditionValueApplier);
       }
       else if (column.getType() == ColumnType.Number)
       {
         tableCol.withEditingSupport(new NumberConditionEditor(viewer.getTable(), SWT.NONE), 
-                row -> row.getCells().get(columnIndex), 
-                edit -> edit.element.getCells().set(columnIndex, (ConditionCell)edit.value));
+                conditionValueReader, conditionValueApplier);
+      }
+      else if (column.getType() == ColumnType.Boolean)
+      {
+        tableCol.withEditingSupport(new BooleanConditionEditor(viewer.getTable(), SWT.NONE), 
+                conditionValueReader, conditionValueApplier);
       }
     }
     if (column instanceof ActionColumn)
     {
-      tableCol.withEditingSupport(new FastTextCellEditor(viewer.getTable(), SWT.NONE), 
+      FastTextCellEditor editor = new FastTextCellEditor(viewer.getTable(), SWT.NONE);
+      if (column.getType() == ColumnType.Number)
+      {
+        ((Text)editor.getControl()).addVerifyListener(new NumericValueVerifier());
+      }
+      tableCol.withEditingSupport(editor, 
               row -> StringUtils.defaultIfBlank(row.getCells().get(columnIndex).getText(), ""), 
               edit -> edit.element.getCells().set(columnIndex, new ValueCell((String)edit.value)));
     }
