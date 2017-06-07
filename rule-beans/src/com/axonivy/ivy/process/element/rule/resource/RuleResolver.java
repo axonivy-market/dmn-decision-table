@@ -9,7 +9,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.kie.api.io.ResourceType;
 
 import ch.ivyteam.ivy.project.IIvyProject;
 
@@ -81,13 +80,7 @@ public class RuleResolver
     
     private static boolean isSupportedRuleResource(String path)
     {
-      ResourceType resourceType = getResourceType(path);
-      return resourceType == ResourceType.DRL || resourceType == ResourceType.DTABLE;
-    }
-
-    private static ResourceType getResourceType(String path)
-    {
-      return ResourceType.determineResourceType(path.toLowerCase());
+      return path.endsWith("drl") || path.endsWith("xls");
     }
   }
 }

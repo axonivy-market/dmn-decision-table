@@ -10,9 +10,7 @@ Require-Bundle: ch.ivyteam.ivy.components;bundle-version="6.6.2",
  ch.ivyteam.ivy.designer.ide;resolution:=optional,
  org.eclipse.swt,
  ch.ivyteam.swt,
- ch.ivyteam.icons,
- ch.ivyteam.ivy.rule.engine;bundle-version="6.5.0",
- ch.ivyteam.ivy.rule.engine.libs;bundle-version="6.5.0"
+ ch.ivyteam.icons
 Bundle-ClassPath: lib/camunda-commons-logging-1.4.0.jar,
  lib/camunda-commons-typed-values-1.4.0.jar,
  lib/camunda-commons-utils-1.4.0.jar,
