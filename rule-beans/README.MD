@@ -11,3 +11,7 @@ Exposes the decision in standard [DMN](http://www.omg.org/spec/DMN/) format so t
 ### Edit
 Convenient condition editing with zero scripting
 ![Condition Editing](samples/screenshots/decisionTable_editCondition.png)
+
+## Rule Activity
+Easy execution of existing rules (drl and xls)
+![Rule Activity](samples/screenshots/ruleActivityInAction.png)

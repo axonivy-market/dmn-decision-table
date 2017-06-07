@@ -1,0 +1,40 @@
+package com.axonivy.ivy.supplements.rule.beans.demo
+
+import com.axonivy.ivy.supplements.rule.beans.demos.Data;
+
+dialect "mvel"
+
+rule "Low income"
+  when
+      $in : Data(yearlyIncomeDollars > 0 && yearlyIncomeDollars < 50000)
+  then
+      $in.taxrate = 0
+end
+
+rule "Medium income and male"
+  when
+      $in : Data(yearlyIncomeDollars > 50000 && yearlyIncomeDollars < 250000 && person.gender == "male")
+  then
+      $in.taxrate = 15
+end
+
+rule "High income and male"
+  when
+      $in : Data(yearlyIncomeDollars > 250000 && person.gender == "male")
+  then
+      $in.taxrate = 30
+end
+
+rule "Medium income and female"
+  when
+      $in : Data(yearlyIncomeDollars > 50000 && yearlyIncomeDollars < 250000 && person.gender == "female")
+  then
+      $in.taxrate = 10
+end
+
+rule "High income and female"
+  when
+      $in : Data(yearlyIncomeDollars > 250000 && person.gender == "female")
+  then
+      $in.taxrate = 20
+end
