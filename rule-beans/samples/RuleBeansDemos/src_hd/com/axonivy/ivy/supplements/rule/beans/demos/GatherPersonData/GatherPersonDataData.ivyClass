@@ -1,0 +1,4 @@
+GatherPersonDataData #class
+com.axonivy.ivy.supplements.rule.beans.demos.GatherPersonData #namespace
+data com.axonivy.ivy.supplements.rule.beans.demos.Data #field
+data PERSISTENT #fieldModifier
