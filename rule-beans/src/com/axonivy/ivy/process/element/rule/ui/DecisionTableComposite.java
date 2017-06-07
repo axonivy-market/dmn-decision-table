@@ -10,6 +10,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
@@ -24,6 +25,7 @@ import com.axonivy.ivy.process.element.rule.model.RulesModel;
 import com.axonivy.ivy.process.element.rule.model.ValueCell;
 import com.axonivy.ivy.process.element.rule.ui.cellEdit.BooleanConditionEditor;
 import com.axonivy.ivy.process.element.rule.ui.cellEdit.NumberConditionEditor;
+import com.axonivy.ivy.process.element.rule.ui.cellEdit.NumericValueVerifier;
 import com.axonivy.ivy.process.element.rule.ui.cellEdit.StringConditionEditor;
 
 import ch.ivyteam.icons.Size;
@@ -142,7 +144,12 @@ public class DecisionTableComposite extends TableComposite<Row>
     }
     if (column instanceof ActionColumn)
     {
-      tableCol.withEditingSupport(new FastTextCellEditor(viewer.getTable(), SWT.NONE), 
+      FastTextCellEditor editor = new FastTextCellEditor(viewer.getTable(), SWT.NONE);
+      if (column.getType() == ColumnType.Number)
+      {
+        ((Text)editor.getControl()).addVerifyListener(new NumericValueVerifier());
+      }
+      tableCol.withEditingSupport(editor, 
               row -> StringUtils.defaultIfBlank(row.getCells().get(columnIndex).getText(), ""), 
               edit -> edit.element.getCells().set(columnIndex, new ValueCell((String)edit.value)));
     }

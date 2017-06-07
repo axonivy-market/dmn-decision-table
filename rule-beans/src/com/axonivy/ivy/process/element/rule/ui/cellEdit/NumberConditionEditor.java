@@ -34,6 +34,7 @@ public class NumberConditionEditor extends CellEditor
             Operator.EQUAL_OR_GREATER, Operator.EQUAL_OR_SMALLER, 
             Operator.GREATER, Operator.LESS));
     composite.operation.setLabelProvider(new OperatorLabelProvider());
+    composite.text.addVerifyListener(new NumericValueVerifier());
     return composite;
   }
   
