@@ -31,6 +31,6 @@ public class IvyProjectClassPathExtension implements IIvyProjectClassPathExtensi
   @Override
   public List<String> getClassLoaderContributingBundles()
   {
-    return Arrays.asList("com.axonivy.ivy.process.element.rule");
+    return Arrays.asList("supplement.rule.beans");
   }
 }

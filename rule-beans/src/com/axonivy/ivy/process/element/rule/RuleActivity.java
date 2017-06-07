@@ -74,9 +74,16 @@ public class RuleActivity extends AbstractUserProcessExtension
         GridLayout gridLayout = (GridLayout) ruleConfigEditor.getLayout();
         gridLayout.marginHeight = 0;
         gridLayout.marginWidth = 0;
+<<<<<<< HEAD
         ruleConfigEditor.setRuleNamespace(ruleNamespace);
         ruleConfigEditor.setInputData(inputData);
         ruleConfigEditor.setDataVariables(env.getDataInputVariables());
+=======
+        decisionEditor.table.setModel(model);
+        decisionEditor.setDataVariables(env.getDataInputVariables());
+        decisionEditor.setScriptEngine(env.getIvyProject().getIvyScriptEngine());
+        decisionEditor.tabs.setSelection(0); // select table mode
+>>>>>>> branch 'master' of https://github.com/ivy-supplements/bpm-beans
       }
       return ruleConfigEditor;
     }
