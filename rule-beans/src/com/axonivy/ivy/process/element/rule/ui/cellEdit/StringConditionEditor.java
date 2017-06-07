@@ -28,7 +28,8 @@ public class StringConditionEditor extends CellEditor
   {
     composite = new StringConditionComposite(parent, SWT.NONE);
     composite.operation.setContentProvider(ArrayContentProvider.getInstance());
-    composite.operation.setInput(Arrays.asList(Operator.EQUAL, Operator.UNEQUAL));
+    composite.operation.setInput(Arrays.asList(Operator.NO_CONDITION, 
+    	Operator.EQUAL, Operator.UNEQUAL));
     composite.operation.setLabelProvider(new OperatorLabelProvider());
     return composite;
   }
@@ -43,7 +44,7 @@ public class StringConditionEditor extends CellEditor
   protected Object doGetValue()
   {
     Operator op = SwtSelectionUtil.getFirstElement(composite.operation.getSelection());
-    if (op == null)
+    if (op == null || op == Operator.NO_CONDITION)
     {
       return new ConditionCell(Operator.NO_CONDITION);
     }
