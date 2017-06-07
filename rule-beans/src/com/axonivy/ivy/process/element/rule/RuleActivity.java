@@ -11,6 +11,7 @@ import com.axonivy.ivy.process.element.rule.resource.RuleResolver;
 import com.axonivy.ivy.process.element.rule.ui.RuleConfigEditor;
 
 import ch.ivyteam.awt.swt.SwtRunnable;
+import ch.ivyteam.ivy.bpm.exec.restricted.acl.scripting.IvyScriptCodeBuilder;
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.tabs.helper.ProcessExtensionConfigurationEditorEnvironment;
 import ch.ivyteam.ivy.process.engine.IRequestId;
 import ch.ivyteam.ivy.process.extension.IProcessExtensionConfigurationEditorEnvironment;
@@ -36,12 +37,11 @@ public class RuleActivity extends AbstractUserProcessExtension
   {
     String namespace = getConfigurationProperty(RULE_NAMESPACE);
     String outData = getConfigurationProperty(INPUT_DATA_MAPPING);
-    StringBuilder script = new StringBuilder();
+    
+    IvyScriptCodeBuilder script = new IvyScriptCodeBuilder();
     script.append("IRuleBase ruleBase = ivy.rules.engine.createRuleBase();");
-    script.append("\n");
     script.append("ruleBase.loadRulesFromNamespace(\"" + namespace + "\");");
-    script.append("\n");
-    script.append("ruleBase.createSession().execute(" + outData + ");");
+    script.append("ruleBase.createSession().execute(" + outData + ");");    
     return script.toString();
   }
 
@@ -66,7 +66,6 @@ public class RuleActivity extends AbstractUserProcessExtension
       if (ruleConfigEditor == null)
       {
         List<String> availableRuleNamespaces = new RuleResolver(env.getIvyProject()).findAvailableRulenamespaces();
-         
         ruleConfigEditor = new RuleConfigEditor(parent, SWT.NONE);
         GridLayout gridLayout = (GridLayout) ruleConfigEditor.getLayout();
         gridLayout.marginHeight = 0;
