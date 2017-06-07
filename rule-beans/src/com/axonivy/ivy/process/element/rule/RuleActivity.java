@@ -1,11 +1,13 @@
 package com.axonivy.ivy.process.element.rule;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import com.axonivy.ivy.process.element.rule.resource.RuleResolver;
 import com.axonivy.ivy.process.element.rule.ui.RuleConfigEditor;
 
 import ch.ivyteam.awt.swt.SwtRunnable;
@@ -63,10 +65,13 @@ public class RuleActivity extends AbstractUserProcessExtension
     {
       if (ruleConfigEditor == null)
       {
+        List<String> availableRuleNamespaces = new RuleResolver(env.getIvyProject()).findAvailableRulenamespaces();
+         
         ruleConfigEditor = new RuleConfigEditor(parent, SWT.NONE);
         GridLayout gridLayout = (GridLayout) ruleConfigEditor.getLayout();
         gridLayout.marginHeight = 0;
         gridLayout.marginWidth = 0;
+        ruleConfigEditor.setAvailableRuleNamespace(availableRuleNamespaces);
         ruleConfigEditor.setRuleNamespace(ruleNamespace);
         ruleConfigEditor.setInputData(inputData);
         ruleConfigEditor.setDataVariables(env.getDataInputVariables());
