@@ -233,7 +233,7 @@ public class DecisionTableEditor extends Composite
     
     editor.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
     shell.setLayout(new FillLayout());
-    shell.setSize(400,400);
+    shell.setSize(700,400);
     shell.setText("Test Decision Table");
     shell.layout();
     shell.open();
