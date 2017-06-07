@@ -1,5 +1,5 @@
 [Ivy]
-[>Created: Wed Jun 07 16:27:57 CEST 2017]
+[>Created: Wed Jun 07 22:49:30 CEST 2017]
 15C82A89FA49E8E6 3.20 #module
 >Proto >Proto Collection #zClass
 Tn0 TaxCalculation Big #zClass
@@ -35,8 +35,6 @@ Tn0 @PushWFArc f17 '' #zField
 Tn0 f0 outLink startDecisionTable.ivp #txt
 Tn0 f0 type com.axonivy.ivy.supplements.rule.beans.demos.Data #txt
 Tn0 f0 inParamDecl '<> param;' #txt
-Tn0 f0 inParamTable 'out.evaluationType="table";
-' #txt
 Tn0 f0 actionDecl 'com.axonivy.ivy.supplements.rule.beans.demos.Data out;
 ' #txt
 Tn0 f0 guid 15C82A89FABC8B67 #txt
@@ -50,7 +48,8 @@ TaskTriggered.EXPRI=2
 TaskTriggered.TYPE=0
 TaskTriggered.PRI=2
 TaskTriggered.EXROL=Everybody' #txt
-Tn0 f0 caseData businessCase.attach=true #txt
+Tn0 f0 caseData 'processCategory.code=table
+businessCase.attach=true' #txt
 Tn0 f0 showInStartList 1 #txt
 Tn0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
@@ -217,12 +216,12 @@ Tn0 f5 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
     <language>
         <name>data gathering</name>
-        <nameStyle>14
+        <nameStyle>14,7
 </nameStyle>
     </language>
 </elementInfo>
 ' #txt
-Tn0 f5 224 90 112 44 -47 -7 #rect
+Tn0 f5 224 90 112 44 -39 -8 #rect
 Tn0 f5 @|RichDialogIcon #fIcon
 Tn0 f6 expr out #txt
 Tn0 f6 135 64 280 90 #arcP
@@ -294,8 +293,6 @@ Tn0 f11 @|RuleActivity #fIcon
 Tn0 f13 outLink startRule.ivp #txt
 Tn0 f13 type com.axonivy.ivy.supplements.rule.beans.demos.Data #txt
 Tn0 f13 inParamDecl '<> param;' #txt
-Tn0 f13 inParamTable 'out.evaluationType="rule";
-' #txt
 Tn0 f13 actionDecl 'com.axonivy.ivy.supplements.rule.beans.demos.Data out;
 ' #txt
 Tn0 f13 guid 15C82E432EBD2361 #txt
@@ -309,7 +306,8 @@ TaskTriggered.EXPRI=2
 TaskTriggered.TYPE=0
 TaskTriggered.PRI=2
 TaskTriggered.EXROL=Everybody' #txt
-Tn0 f13 caseData businessCase.attach=true #txt
+Tn0 f13 caseData 'processCategory.code=rule
+businessCase.attach=true' #txt
 Tn0 f13 showInStartList 1 #txt
 Tn0 f13 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
@@ -335,12 +333,12 @@ Tn0 f12 type com.axonivy.ivy.supplements.rule.beans.demos.Data #txt
 Tn0 f12 512 96 32 32 0 16 #rect
 Tn0 f12 @|AlternativeIcon #fIcon
 Tn0 f14 expr in #txt
-Tn0 f14 outCond in.evaluationType.equalsIgnoreCase("table") #txt
+Tn0 f14 outCond ivy.case.getProcessCategoryCode().equalsIgnoreCase("table") #txt
 Tn0 f14 528 96 580 64 #arcP
 Tn0 f14 1 528 64 #addKink
 Tn0 f14 1 0.19694964172491886 0 0 #arcLabel
 Tn0 f16 expr in #txt
-Tn0 f16 outCond in.evaluationType.equalsIgnoreCase("rule") #txt
+Tn0 f16 outCond ivy.case.getProcessCategoryCode().equalsIgnoreCase("rule") #txt
 Tn0 f16 528 128 584 160 #arcP
 Tn0 f16 1 528 160 #addKink
 Tn0 f16 1 0.369888461904107 0 0 #arcLabel
