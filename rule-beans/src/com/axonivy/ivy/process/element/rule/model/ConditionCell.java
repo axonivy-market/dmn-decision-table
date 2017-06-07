@@ -1,11 +1,14 @@
 package com.axonivy.ivy.process.element.rule.model;
 
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -48,9 +51,27 @@ public class ConditionCell extends Cell
     for (int argument = 0; argument < operator.getArguments(); argument++)
     {
       builder.append(" ");
-      builder.append(arguments.get(argument));
+      String value = formatNumber(arguments.get(argument));
+      builder.append(value);
     }
     return builder.toString();
+  }
+
+  private static String formatNumber(String value)
+  {
+    if (NumberUtils.isNumber(value))
+    {
+      try
+      {
+        double amount = Double.parseDouble(value);
+        value = NumberFormat.getInstance(new Locale("DE", "ch")).format(amount);
+      }
+      catch (Exception ex)
+      {
+        // ignore;
+      }
+    }
+    return value;
   }
 
   public Operator getOperator()
@@ -88,6 +109,9 @@ public class ConditionCell extends Cell
   @Override
   public int hashCode()
   {
-    return new HashCodeBuilder().append(operator).append(arguments).toHashCode();
+    return new HashCodeBuilder()
+           .append(operator)
+           .append(arguments)
+           .toHashCode();
   }
 }

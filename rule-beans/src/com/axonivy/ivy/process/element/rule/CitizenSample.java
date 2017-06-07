@@ -27,10 +27,12 @@ public class CitizenSample
     model.addColumn(new ConditionColumn("person.age", ColumnType.Number));
     model.addColumn(new ConditionColumn("person.gender", ColumnType.String));
     model.addColumn(new ConditionColumn("person.isGoldMember", ColumnType.Boolean));
+    model.addColumn(new ConditionColumn("person.income", ColumnType.Number));
     model.addColumn(new ActionColumn("tax.rate", ColumnType.Number));
 
     Row rowModel = new Row();
     rowModel.addCell(new ConditionCell(Operator.LESS, "18"));
+    rowModel.addCell(ConditionCell.NO_CONDITION);
     rowModel.addCell(ConditionCell.NO_CONDITION);
     rowModel.addCell(ConditionCell.NO_CONDITION);
     rowModel.addCell(new ValueCell("0"));
@@ -40,6 +42,7 @@ public class CitizenSample
     rowModel.addCell(new ConditionCell(Operator.EQUAL_OR_GREATER, "18"));
     rowModel.addCell(new ConditionCell(Operator.EQUAL, "male"));
     rowModel.addCell(new ConditionCell(Operator.EQUAL, Boolean.TRUE.toString()));
+    rowModel.addCell(new ConditionCell(Operator.EQUAL_OR_GREATER, "50000"));
     rowModel.addCell(new ValueCell("12.5"));
     model.addRow(rowModel);
 
@@ -47,6 +50,7 @@ public class CitizenSample
     rowModel.addCell(new ConditionCell(Operator.EQUAL_OR_GREATER, "18"));
     rowModel.addCell(new ConditionCell(Operator.EQUAL, "female"));
     rowModel.addCell(new ConditionCell(Operator.EQUAL, Boolean.FALSE.toString()));
+    rowModel.addCell(new ConditionCell(Operator.EQUAL_OR_GREATER, "18"));
     rowModel.addCell(new ValueCell("8.5"));
     model.addRow(rowModel);
   }
