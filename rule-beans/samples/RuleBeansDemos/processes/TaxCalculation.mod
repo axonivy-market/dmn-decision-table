@@ -15,7 +15,7 @@ Tn0 @TextInP .xml .xml #zField
 Tn0 @TextInP .responsibility .responsibility #zField
 Tn0 @StartRequest f0 '' #zField
 Tn0 @EndTask f1 '' #zField
-Tn0 @RuleActivity f3 '' #zField
+Tn0 @DecisionActivity f3 '' #zField
 Tn0 @RichDialog f5 '' #zField
 Tn0 @PushWFArc f6 '' #zField
 Tn0 @RestClientCall f7 '' #zField
@@ -180,7 +180,7 @@ Tn0 f3 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 </elementInfo>
 ' #txt
 Tn0 f3 488 42 112 44 -46 -7 #rect
-Tn0 f3 @|RuleActivity #fIcon
+Tn0 f3 @|DecisionActivity #fIcon
 Tn0 f5 targetWindow NEW #txt
 Tn0 f5 targetDisplay TOP #txt
 Tn0 f5 richDialogId com.axonivy.ivy.supplements.rule.beans.demos.GatherPersonData #txt
