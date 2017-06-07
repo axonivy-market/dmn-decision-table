@@ -3,6 +3,7 @@ package com.axonivy.ivy.process.element.rule;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -101,8 +102,8 @@ public class RuleActivity extends AbstractUserProcessExtension
           @Override
           public void run()
           {
-            setBeanConfigurationProperty(RULE_NAMESPACE, ruleConfigEditor.getRuleNamespace());
-            setBeanConfigurationProperty(INPUT_DATA_MAPPING, ruleConfigEditor.getInputData());
+            setBeanConfigurationProperty(RULE_NAMESPACE, StringUtils.trimToEmpty(ruleConfigEditor.getRuleNamespace()));
+            setBeanConfigurationProperty(INPUT_DATA_MAPPING, StringUtils.trimToEmpty(ruleConfigEditor.getInputData()));
           }
         }.syncExec();
       return true;
