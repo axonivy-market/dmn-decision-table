@@ -3,6 +3,7 @@ package com.axonivy.ivy.process.element.rule;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -11,6 +12,7 @@ import com.axonivy.ivy.process.element.rule.resource.RuleResolver;
 import com.axonivy.ivy.process.element.rule.ui.RuleConfigEditor;
 
 import ch.ivyteam.awt.swt.SwtRunnable;
+import ch.ivyteam.ivy.bpm.exec.restricted.acl.scripting.IvyScriptCodeBuilder;
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.tabs.helper.ProcessExtensionConfigurationEditorEnvironment;
 import ch.ivyteam.ivy.process.engine.IRequestId;
 import ch.ivyteam.ivy.process.extension.IProcessExtensionConfigurationEditorEnvironment;
@@ -36,12 +38,11 @@ public class RuleActivity extends AbstractUserProcessExtension
   {
     String namespace = getConfigurationProperty(RULE_NAMESPACE);
     String outData = getConfigurationProperty(INPUT_DATA_MAPPING);
-    StringBuilder script = new StringBuilder();
+    
+    IvyScriptCodeBuilder script = new IvyScriptCodeBuilder();
     script.append("IRuleBase ruleBase = ivy.rules.engine.createRuleBase();");
-    script.append("\n");
     script.append("ruleBase.loadRulesFromNamespace(\"" + namespace + "\");");
-    script.append("\n");
-    script.append("ruleBase.createSession().execute(" + outData + ");");
+    script.append("ruleBase.createSession().execute(" + outData + ");");    
     return script.toString();
   }
 
@@ -66,7 +67,6 @@ public class RuleActivity extends AbstractUserProcessExtension
       if (ruleConfigEditor == null)
       {
         List<String> availableRuleNamespaces = new RuleResolver(env.getIvyProject()).findAvailableRulenamespaces();
-         
         ruleConfigEditor = new RuleConfigEditor(parent, SWT.NONE);
         GridLayout gridLayout = (GridLayout) ruleConfigEditor.getLayout();
         gridLayout.marginHeight = 0;
@@ -102,8 +102,8 @@ public class RuleActivity extends AbstractUserProcessExtension
           @Override
           public void run()
           {
-            setBeanConfigurationProperty(RULE_NAMESPACE, ruleConfigEditor.getRuleNamespace());
-            setBeanConfigurationProperty(INPUT_DATA_MAPPING, ruleConfigEditor.getInputData());
+            setBeanConfigurationProperty(RULE_NAMESPACE, StringUtils.trimToEmpty(ruleConfigEditor.getRuleNamespace()));
+            setBeanConfigurationProperty(INPUT_DATA_MAPPING, StringUtils.trimToEmpty(ruleConfigEditor.getInputData()));
           }
         }.syncExec();
       return true;
