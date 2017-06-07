@@ -10,7 +10,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -20,41 +19,32 @@ import ch.ivyteam.ivy.scripting.language.IvyScriptContextFactory;
 import ch.ivyteam.ivy.scripting.types.IVariable;
 import ch.ivyteam.ivy.scripting.util.IvyScriptProcessVariables;
 import ch.ivyteam.ivy.scripting.util.Variable;
-import ch.ivyteam.swt.icons.IconFactory;
 
 public class RuleConfigEditor extends Composite
 {
   private Text txtRuleNamespace;
-  private Text txtInputData;
   
   private IVariable[] dataVars = new IVariable[0];
-  private Button btnNewButton;
+  private DataMappingComposite dataMappingComposite;
 
   public RuleConfigEditor(Composite parent, int style)
   {
     super(parent, style);
 
-    setLayout(new GridLayout(3, false));
+    setLayout(new GridLayout(1, false));
 
     Label lblRule = new Label(this, SWT.NONE);
-    lblRule.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
     lblRule.setText("Rule");
 
     txtRuleNamespace = new Text(this, SWT.BORDER);
     txtRuleNamespace.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-    new Label(this, SWT.NONE);
 
     Label lblData = new Label(this, SWT.NONE);
-    lblData.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
     lblData.setText("Data");
 
-    txtInputData = new Text(this, SWT.BORDER);
-    txtInputData.setEnabled(false);
-    txtInputData.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-    
-    btnNewButton = new Button(this, SWT.NONE);
-    btnNewButton.setImage(IconFactory.get().getAttribute12());
-    
+    dataMappingComposite = new DataMappingComposite(this, SWT.NONE);
+    dataMappingComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+
     addDataChooser();
   }
 
@@ -70,12 +60,12 @@ public class RuleConfigEditor extends Composite
 
   public void setInputData(String inputData)
   {
-    txtInputData.setText(StringUtils.stripToEmpty(inputData));
+    dataMappingComposite.text.setText(StringUtils.stripToEmpty(inputData));
   }
   
   public String getInputData()
   {
-    return txtInputData.getText();
+    return dataMappingComposite.text.getText();
   }
   
   public void setDataVariables(IVariable[] vars)
@@ -85,10 +75,10 @@ public class RuleConfigEditor extends Composite
             .flatMap(in -> Arrays.stream(new IVariable[]{in, new Variable(IvyScriptProcessVariables.OUT.getVariableName(), in.getType())})) // duplicate in as out
             .toArray(IVariable[]::new);
   }
-  
+
   private void addDataChooser()
   {
-    btnNewButton.addSelectionListener(new SelectionAdapter()
+    dataMappingComposite.btnAttributeBrowser.addSelectionListener(new SelectionAdapter()
     {
       @Override
       public void widgetSelected(SelectionEvent e)
