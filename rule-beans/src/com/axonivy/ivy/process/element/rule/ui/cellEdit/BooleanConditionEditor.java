@@ -14,11 +14,11 @@ import com.axonivy.ivy.process.element.rule.model.Operator;
 
 import ch.ivyteam.swt.SwtSelectionUtil;
 
-public class StringConditionEditor extends CellEditor
+public class BooleanConditionEditor extends CellEditor
 {
-  private StringConditionComposite composite;
+  private ComboConditionComposite composite;
 
-  public StringConditionEditor(Composite parent, int style)
+  public BooleanConditionEditor(Composite parent, int style)
   {
     super(parent, style);
   }
@@ -26,17 +26,21 @@ public class StringConditionEditor extends CellEditor
   @Override
   protected Control createControl(Composite parent)
   {
-    composite = new StringConditionComposite(parent, SWT.NONE);
+    composite = new ComboConditionComposite(parent, SWT.NONE);
     composite.operation.setContentProvider(ArrayContentProvider.getInstance());
-    composite.operation.setInput(Arrays.asList(Operator.NO_CONDITION, Operator.EQUAL, Operator.UNEQUAL));
+    composite.operation.setInput(Arrays.asList(Operator.NO_CONDITION, 
+            Operator.EQUAL, Operator.UNEQUAL));
     composite.operation.setLabelProvider(new OperatorLabelProvider());
+    
+    composite.value.setContentProvider(ArrayContentProvider.getInstance());
+    composite.value.setInput(Arrays.asList(Boolean.TRUE, Boolean.FALSE));
     return composite;
   }
   
   @Override
   protected void doSetFocus()
   {
-    composite.text.setFocus();
+    composite.value.getCombo().setFocus();
   }
 
   @Override
@@ -47,7 +51,8 @@ public class StringConditionEditor extends CellEditor
     {
       return new ConditionCell(Operator.NO_CONDITION);
     }
-    return new ConditionCell(op, composite.text.getText());
+    Boolean value = SwtSelectionUtil.getFirstElement(composite.value.getSelection());
+    return new ConditionCell(op, value.toString());
   }
 
   @Override
@@ -57,7 +62,7 @@ public class StringConditionEditor extends CellEditor
     {
       ConditionCell cell = (ConditionCell) value;
       composite.operation.setSelection(new StructuredSelection(cell.getOperator()));
-      composite.text.setText(cell.getFirstArgument());
+      composite.value.setSelection(new StructuredSelection(Boolean.valueOf(cell.getFirstArgument())));
     }
   }
 

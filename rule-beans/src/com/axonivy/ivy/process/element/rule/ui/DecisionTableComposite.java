@@ -1,5 +1,8 @@
 package com.axonivy.ivy.process.element.rule.ui;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.swt.SWT;
@@ -19,6 +22,7 @@ import com.axonivy.ivy.process.element.rule.model.Operator;
 import com.axonivy.ivy.process.element.rule.model.Row;
 import com.axonivy.ivy.process.element.rule.model.RulesModel;
 import com.axonivy.ivy.process.element.rule.model.ValueCell;
+import com.axonivy.ivy.process.element.rule.ui.cellEdit.BooleanConditionEditor;
 import com.axonivy.ivy.process.element.rule.ui.cellEdit.NumberConditionEditor;
 import com.axonivy.ivy.process.element.rule.ui.cellEdit.StringConditionEditor;
 
@@ -28,6 +32,7 @@ import ch.ivyteam.swt.editors.FastTextCellEditor;
 import ch.ivyteam.swt.icons.IconFactory;
 import ch.ivyteam.swt.table.TableComposite;
 import ch.ivyteam.swt.table.TypedViewerColumn;
+import ch.ivyteam.swt.table.TypedViewerColumn.Edited;
 
 public class DecisionTableComposite extends TableComposite<Row>
 {
@@ -117,17 +122,22 @@ public class DecisionTableComposite extends TableComposite<Row>
   {
     if (column instanceof ConditionColumn)
     {
+      Function<Row, Object> conditionValueReader = row -> row.getCells().get(columnIndex);
+      Consumer<Edited<Row>> conditionValueApplier = edit -> edit.element.getCells().set(columnIndex, (ConditionCell)edit.value);
       if (column.getType() == ColumnType.String)
       {
         tableCol.withEditingSupport(new StringConditionEditor(viewer.getTable(), SWT.NONE), 
-                row -> row.getCells().get(columnIndex), 
-                edit -> edit.element.getCells().set(columnIndex, (ConditionCell)edit.value));
+                conditionValueReader, conditionValueApplier);
       }
       else if (column.getType() == ColumnType.Number)
       {
         tableCol.withEditingSupport(new NumberConditionEditor(viewer.getTable(), SWT.NONE), 
-                row -> row.getCells().get(columnIndex), 
-                edit -> edit.element.getCells().set(columnIndex, (ConditionCell)edit.value));
+                conditionValueReader, conditionValueApplier);
+      }
+      else if (column.getType() == ColumnType.Boolean)
+      {
+        tableCol.withEditingSupport(new BooleanConditionEditor(viewer.getTable(), SWT.NONE), 
+                conditionValueReader, conditionValueApplier);
       }
     }
     if (column instanceof ActionColumn)
