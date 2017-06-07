@@ -45,7 +45,7 @@ public class DecisionTableComposite extends TableComposite<Row>
     withActionBar();
     
     
-    addColumn("#", new ColumnWeightData(1))
+    addColumn("#", new ColumnWeightData(1), 0)
       .withTextProvider(row -> String.valueOf(model.getRows().indexOf(row)+1));
   }
 
@@ -83,17 +83,16 @@ public class DecisionTableComposite extends TableComposite<Row>
 
   public void addConditionColumn(ConditionColumn column)
   {
+    int indexOf = this.model.getConditionColumns().size();
     this.model.addColumn(column);
-    int indexOf = this.model.getConditionColumns().indexOf(column);
     addUiColumn(indexOf, column);
   }
   
   public void addActionColumn(ActionColumn column)
   {
+    int indexOf = this.model.getColumns().size();
     this.model.addColumn(column);
-    int indexOf = this.model.getActionColumns().indexOf(column);
     addUiColumn(indexOf, column);
-    
   }
   
   private void attachModelRows()
@@ -108,7 +107,7 @@ public class DecisionTableComposite extends TableComposite<Row>
   private void addUiColumn(int i, Column column)
   {
     final int t = i;
-    TypedViewerColumn<Row> tableCol = addColumn(column.getAttributeName(), new ColumnWeightData(4))
+    TypedViewerColumn<Row> tableCol = addColumn(column.getAttributeName(), new ColumnWeightData(4), i+1)
             .withTextProvider(row -> row.getCells().get(t).getText());
     tableCol.getColumn().setImage(getColumnImage(column));
     provideEditSupport(column, i, tableCol);
