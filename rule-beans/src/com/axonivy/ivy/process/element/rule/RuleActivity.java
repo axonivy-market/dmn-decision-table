@@ -20,27 +20,20 @@ import ch.ivyteam.ivy.scripting.objects.CompositeObject;
 public class RuleActivity extends AbstractUserProcessExtension 
 {
   private static final String RULE_NAMESPACE = "RULE_NAMESPACE";
-  private static final String INPUT_DATA = "INPUT_DATA";
-  
-  @SuppressWarnings("restriction")
+  private static final String INPUT_DATA_MAPPING = "INPUT_DATA_MAPPING";
+
   @Override
-  public CompositeObject perform(IRequestId requestId, CompositeObject in, IIvyScriptContext context) throws Exception
+  public CompositeObject perform(IRequestId requestId, CompositeObject in, IIvyScriptContext context)
+          throws Exception
   {
     executeIvyScript(context, createIvyScript());
-//    Rules.getInstance().engine.createRuleBase()
-//    RuleEngine ruleEngine = new RuleEngine();
-//    IRuleBase ruleBase = ruleEngine.createRuleBase();
-//    ruleBase.loadRulesFromNamespace(getConfigurationProperty(RULE_NAMESPACE));
-//    String property = getConfigurationProperty(INPUT_DATA);
-//    ruleBase.createSession().execute(in.get(property));
     return in;
   }
-  
+
   private String createIvyScript() throws IOException
   {
-    
     String namespace = getConfigurationProperty(RULE_NAMESPACE);
-    String outData = getConfigurationProperty(INPUT_DATA);
+    String outData = getConfigurationProperty(INPUT_DATA_MAPPING);
     StringBuilder script = new StringBuilder();
     script.append("IRuleBase ruleBase = ivy.rules.engine.createRuleBase();");
     script.append("\n");
@@ -74,16 +67,9 @@ public class RuleActivity extends AbstractUserProcessExtension
         GridLayout gridLayout = (GridLayout) ruleConfigEditor.getLayout();
         gridLayout.marginHeight = 0;
         gridLayout.marginWidth = 0;
-<<<<<<< HEAD
         ruleConfigEditor.setRuleNamespace(ruleNamespace);
         ruleConfigEditor.setInputData(inputData);
         ruleConfigEditor.setDataVariables(env.getDataInputVariables());
-=======
-        decisionEditor.table.setModel(model);
-        decisionEditor.setDataVariables(env.getDataInputVariables());
-        decisionEditor.setScriptEngine(env.getIvyProject().getIvyScriptEngine());
-        decisionEditor.tabs.setSelection(0); // select table mode
->>>>>>> branch 'master' of https://github.com/ivy-supplements/bpm-beans
       }
       return ruleConfigEditor;
     }
@@ -97,7 +83,7 @@ public class RuleActivity extends AbstractUserProcessExtension
           public void run()
           {
             ruleNamespace = getBeanConfigurationProperty(RULE_NAMESPACE);
-            inputData = getBeanConfigurationProperty(INPUT_DATA);
+            inputData = getBeanConfigurationProperty(INPUT_DATA_MAPPING);
           }
         }.syncExec();
     }
@@ -112,7 +98,7 @@ public class RuleActivity extends AbstractUserProcessExtension
           public void run()
           {
             setBeanConfigurationProperty(RULE_NAMESPACE, ruleConfigEditor.getRuleNamespace());
-            setBeanConfigurationProperty(INPUT_DATA, ruleConfigEditor.getInputData());
+            setBeanConfigurationProperty(INPUT_DATA_MAPPING, ruleConfigEditor.getInputData());
           }
         }.syncExec();
       return true;
