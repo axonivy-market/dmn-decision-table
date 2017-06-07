@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<restClients>
+    <restClient>
+        <uuid>9b19d52e-3e7a-4bec-9fae-9fdeee8b2535</uuid>
+        <name>genderize.io</name>
+        <configuration>
+            <uri>https://api.genderize.io/</uri>
+            <property>
+                <name>jersey.config.client.followRedirects</name>
+                <value>true</value>
+                <password>false</password>
+            </property>
+            <feature>
+                <class>ch.ivyteam.ivy.rest.client.mapper.JsonFeature</class>
+            </feature>
+        </configuration>
+    </restClient>
+</restClients>
