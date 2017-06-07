@@ -39,7 +39,7 @@ public class RuleResolver
   {
     List<IIvyProject> projects = new ArrayList<>();
     projects.add(ivyProject);
-    projects.addAll(ivyProject.getAllDependentProjects());
+    projects.addAll(ivyProject.getAllRequiredProjects());
     return projects;
   }
 
