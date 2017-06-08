@@ -15,5 +15,16 @@
         <extensions>true</extensions>
       </plugin>
     </plugins>
+    
+    <pluginManagement>
+    	<plugins>
+    		<plugin>
+    			<artifactId>maven-deploy-plugin</artifactId>
+    			<configuration>
+	    			<skip>true</skip>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
   </build>
 </project>
