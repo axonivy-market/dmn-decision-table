@@ -20,5 +20,6 @@ Bundle-ClassPath: lib/camunda-commons-logging-1.4.0.jar,
  lib/juel-impl-2.2.7.jar,
  lib/juel-spi-2.2.7.jar,
  lib/slf4j-api-1.7.7.jar,
+ lib/jaxb-core-2.2.4-1.jar,
  .
 Bundle-ActivationPolicy: lazy
