@@ -1,5 +1,6 @@
 package com.axonivy.ivy.process.element.rule.dmn;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import org.camunda.bpm.dmn.engine.impl.DmnDecisionRuleResultImpl;
@@ -51,7 +52,11 @@ public class TestOutputMappingScriptGenerator
     result.putValue("out.person.cost", new DoubleValueImpl(-684.7897));
     result.putValue("out.person.gender", new BooleanValueImpl(false));
 
-    assertIvyScript(result, "in.person.gender = false;in.person.cost = -684.7897;in.person.name = \"Peter Hochstrasser\";");
+    String ivyScript = OutputMappingScriptGenerator.create(result);
+    assertThat(ivyScript)
+      .contains("in.person.gender = false;")
+      .contains("in.person.cost = -684.7897;")
+      .contains("in.person.name = \"Peter Hochstrasser\";");
   }
 
   private void assertIvyScript(DmnDecisionRuleResultImpl result, String expectedIvyScript)
