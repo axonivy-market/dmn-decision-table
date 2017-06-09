@@ -1,5 +1,7 @@
 package com.axonivy.ivy.process.element.rule.dmn;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 public class FeelBuilder
 {
   private boolean cdata = false;
@@ -19,13 +21,13 @@ public class FeelBuilder
 
   public FeelBuilder appendText(String txt)
   {
-    this.text += txt;
+    this.text += StringEscapeUtils.escapeJava(txt);
     return this;
   }
 
   public FeelBuilder appendEscapedText(String txt)
   {
-    this.text += escape(txt);
+    this.text += escape(StringEscapeUtils.escapeJava(txt));
     return this;
   }
 
