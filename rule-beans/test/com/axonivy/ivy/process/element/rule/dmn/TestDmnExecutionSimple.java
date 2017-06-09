@@ -5,9 +5,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Optional;
+import java.util.Map;
 
-import org.camunda.bpm.dmn.engine.DmnDecisionRuleResult;
 import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.Variables;
 import org.junit.Before;
@@ -83,11 +82,11 @@ public class TestDmnExecutionSimple
   public void execute()
   {
     VariableMap variables = Variables.putValue("person", person);
-    DmnDecisionRuleResult result = decide(variables).get();
+    Map<String, Object> result = decide(variables);
     assertEquals(result.get("tax.rate"), taxRate);
   }
 
-  private Optional<DmnDecisionRuleResult> decide(VariableMap variables)
+  private Map<String, Object> decide(VariableMap variables)
   {
     InputStream dmnInputStream = new DmnSerializer(model).serialize();
     DmnExecutor dmnExecution = new DmnExecutor(dmnInputStream, variables);

@@ -1,9 +1,8 @@
 package com.axonivy.ivy.process.element.rule;
 
 import java.io.InputStream;
-import java.util.Optional;
+import java.util.Map;
 
-import org.camunda.bpm.dmn.engine.DmnDecisionRuleResult;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -36,14 +35,15 @@ public class DecisionActivity extends AbstractUserProcessExtension
     String ruleModelJson = getConfiguration();
     RulesModel model = RulesModelSerialization.deserialize(ruleModelJson);
     InputStream dmnInputStream = new DmnSerializer(model).serialize();
-    Optional<DmnDecisionRuleResult> result = new DmnExecutor(dmnInputStream, in).execute();
-    if (result.isPresent()) {
-      mapResultToOutput(context, result.get());
+    Map<String, Object> result = new DmnExecutor(dmnInputStream, in).execute();
+    if (!result.isEmpty()) 
+    {
+      mapResultToOutput(context, result);
     }
     return in;
   }
 
-  private void mapResultToOutput(IIvyScriptContext context, DmnDecisionRuleResult result) throws IvyScriptException
+  private void mapResultToOutput(IIvyScriptContext context, Map<String, Object> result) throws IvyScriptException
   {
     String ivyScript = OutputMappingScriptGenerator.create(result);
     executeIvyScript(context, ivyScript);

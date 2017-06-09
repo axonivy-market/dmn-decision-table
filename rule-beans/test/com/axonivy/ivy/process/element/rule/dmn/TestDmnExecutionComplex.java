@@ -1,14 +1,13 @@
 package com.axonivy.ivy.process.element.rule.dmn;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Optional;
+import java.util.Map;
 
-import org.camunda.bpm.dmn.engine.DmnDecisionRuleResult;
 import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.Variables;
 import org.junit.Before;
@@ -124,18 +123,17 @@ public class TestDmnExecutionComplex
   public void execute()
   {
     VariableMap variables = Variables.putValue("person", person);
-    Optional<DmnDecisionRuleResult> result = decide(variables);
+    Map<String, Object> r = decide(variables);
     if (match) {
-      DmnDecisionRuleResult r = result.get();
       assertEquals(r.get("dish.starter"), starter);
       assertEquals(r.get("dish.mainCourse"), mainCourse);
       assertEquals(r.get("dish.glaceBalls"), glaceBalls);
     } else {
-      assertFalse(result.isPresent());
+      assertTrue(r.isEmpty());
     }
   }
 
-  private Optional<DmnDecisionRuleResult> decide(VariableMap variables)
+  private Map<String, Object> decide(VariableMap variables)
   {
     InputStream dmnInputStream = new DmnSerializer(model).serialize();
     DmnExecutor dmnExecution = new DmnExecutor(dmnInputStream, variables);

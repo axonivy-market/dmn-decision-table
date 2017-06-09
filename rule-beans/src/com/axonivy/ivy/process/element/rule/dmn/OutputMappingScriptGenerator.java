@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.camunda.bpm.dmn.engine.DmnDecisionRuleResult;
 
 public class OutputMappingScriptGenerator
 {
@@ -12,9 +11,8 @@ public class OutputMappingScriptGenerator
   {
   }
 
-  public static String create(DmnDecisionRuleResult result)
+  public static String create(Map<String, Object> entryMap)
   {
-    Map<String, Object> entryMap = result.getEntryMap();
     StringBuilder ivyScript = new StringBuilder();
     for (Map.Entry<String, Object> entry : entryMap.entrySet())
     {

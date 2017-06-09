@@ -51,7 +51,7 @@ public class TestOutputMappingScriptGenerator
     result.putValue("out.person.cost", new DoubleValueImpl(-684.7897));
     result.putValue("out.person.gender", new BooleanValueImpl(false));
 
-    assertIvyScript(result, "in.person.gender = false;in.person.name = \"Peter Hochstrasser\";in.person.cost = -684.7897;");
+    assertIvyScript(result, "in.person.gender = false;in.person.cost = -684.7897;in.person.name = \"Peter Hochstrasser\";");
   }
 
   private void assertIvyScript(DmnDecisionRuleResultImpl result, String expectedIvyScript)

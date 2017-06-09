@@ -2,10 +2,10 @@ package com.axonivy.ivy.process.element.rule.dmn;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Optional;
+import java.util.Collections;
+import java.util.Map;
 
 import org.camunda.bpm.dmn.engine.DmnDecision;
-import org.camunda.bpm.dmn.engine.DmnDecisionRuleResult;
 import org.camunda.bpm.dmn.engine.DmnDecisionTableResult;
 import org.camunda.bpm.dmn.engine.DmnEngine;
 import org.camunda.bpm.dmn.engine.DmnEngineConfiguration;
@@ -30,14 +30,18 @@ public class DmnExecutor
     this(dmnInputStream, Variables.putValue("in", in));
   }
 
-  public Optional<DmnDecisionRuleResult> execute()
+  public Map<String, Object> execute()
   {
     DmnEngine dmnEngine = DmnEngineConfiguration.createDefaultDmnEngineConfiguration().buildEngine();
     try
     {
       DmnDecision decision = dmnEngine.parseDecision("decision", dmnInputStream);
       DmnDecisionTableResult result = dmnEngine.evaluateDecisionTable(decision, variables);
-      return Optional.ofNullable(result.getFirstResult());
+      if (result.getFirstResult() == null)
+      {
+        return Collections.emptyMap();
+      }
+      return result.getFirstResult().getEntryMap();
     }
     finally
     {
