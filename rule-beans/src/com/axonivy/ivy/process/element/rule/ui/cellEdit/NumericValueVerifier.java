@@ -19,6 +19,10 @@ public class NumericValueVerifier implements VerifyListener
     {
       final String old = ((Text)e.getSource()).getText();
       String current = old.substring(0, e.start) + e.text + old.substring(e.end);
+      if (current.isEmpty())
+      {
+        return current;
+      }
       if (current.indexOf(".") == current.length()-1 || current.indexOf(",") == current.length()-1)
       { // allow one decimal separator at the end
         return current.substring(0, current.length()-1);
