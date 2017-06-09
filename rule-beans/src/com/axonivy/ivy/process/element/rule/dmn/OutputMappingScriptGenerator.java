@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 
 public class OutputMappingScriptGenerator
 {
@@ -38,15 +37,10 @@ public class OutputMappingScriptGenerator
   private static String valueToIvyScript(Object value)
   {
     String v = value.toString();
-    if ("true".equals(v) || "false".equals(v))
-    {
-      return v;
+    if (value.getClass() == String.class) {
+      return "\"" + StringEscapeUtils.escapeJava(v) + "\"";
     }
-    if (NumberUtils.isNumber(v))
-    {
-      return v;
-    }
-    return "\"" + StringEscapeUtils.escapeJava(v) + "\"";
+    return v;
   }
 
 }

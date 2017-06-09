@@ -19,6 +19,14 @@ public class TestOutputMappingScriptGenerator
     result.putValue("out.person.name", new StringValueImpl("Alex"));
     assertIvyScript(result, "in.person.name = \"Alex\";");
   }
+  
+  @Test
+  public void mapStringProperty_whichCouldBeABoolean()
+  {
+    DmnDecisionRuleResultImpl result = new DmnDecisionRuleResultImpl();
+    result.putValue("out.person.name", new StringValueImpl("56"));
+    assertIvyScript(result, "in.person.name = \"56\";");
+  }
 
   @Test
   public void mapBooelanProperty()
