@@ -2,6 +2,7 @@ package com.axonivy.ivy.process.element.rule.dmn;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -45,12 +46,7 @@ public class OutputMappingScriptGenerator
     {
       return v;
     }
-    return "\"" + quote(v) + "\"";
-  }
-
-  private static String quote(String value)
-  {
-    return value.replaceAll("\"", "\\\"");
+    return "\"" + StringEscapeUtils.escapeJava(v) + "\"";
   }
 
 }
