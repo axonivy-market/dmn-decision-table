@@ -41,7 +41,7 @@ public class RuleConfigEditor extends Composite
     setLayout(new GridLayout(1, false));
 
     Label lblRule = new Label(this, SWT.NONE);
-    lblRule.setText("Rule");
+    lblRule.setText("Rule Namespace");
     
     extendableComboViewer = new ExtendableComboViewer(this, SWT.NONE).withUserInput();
     extendableComboViewer.setContentProvider(ArrayContentProvider.getInstance());

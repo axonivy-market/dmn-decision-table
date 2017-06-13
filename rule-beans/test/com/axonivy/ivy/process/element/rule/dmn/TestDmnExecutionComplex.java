@@ -38,7 +38,7 @@ public class TestDmnExecutionComplex
         {new Person(13.2d, "female", true), true, "spezialmen", 2d, true},
         {new Person(65d, "female", true), true, "fitnessmen", 2d, false},
         {new Person(64d, "male", true), false, "chabis", 1d, true},
-        {new Person(80d, "male", true), true, "gummelstungis", 1.5d, true},
+        {new Person(80d, "male", true), true, "\"gummelst\"ungis\"", 1.5d, true},
     });
   }
 
@@ -105,7 +105,7 @@ public class TestDmnExecutionComplex
     rowModel.addCell(ConditionCell.NO_CONDITION);
     rowModel.addCell(ConditionCell.NO_CONDITION);
     rowModel.addCell(new ValueCell("true"));
-    rowModel.addCell(new ValueCell("gummelstungis"));
+    rowModel.addCell(new ValueCell("\"gummelst\"ungis\""));
     rowModel.addCell(new ValueCell("1.5"));
     model.addRow(rowModel);
     
