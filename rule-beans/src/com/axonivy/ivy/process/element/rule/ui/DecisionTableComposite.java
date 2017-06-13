@@ -159,11 +159,11 @@ public class DecisionTableComposite extends TableComposite<Row>
   {
     if (column instanceof ConditionColumn)
     {
-      return IconFactory.get(this).getArrowRightGreen(Size.SIZE_16);
+      return RuleBeansIcons.CONDITION_COLUMN.createImage();
     }
     else if (column instanceof ActionColumn)
     {
-      return IconFactory.get(this).getArrowRightBlue(Size.SIZE_16);
+      return RuleBeansIcons.OUTPUT_COLUMN.createImage();
     }
     return null;
   }
