@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Label;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import ch.ivyteam.ivy.environment.Ivy;
@@ -16,11 +17,11 @@ import ch.ivyteam.ivy.process.extension.IIvyScriptEditor;
 import ch.ivyteam.ivy.process.extension.IProcessExtensionConfigurationEditorEnvironment;
 import ch.ivyteam.ivy.process.extension.impl.AbstractProcessExtensionConfigurationEditor;
 import ch.ivyteam.ivy.process.extension.impl.AbstractUserProcessExtension;
+import ch.ivyteam.ivy.scripting.exceptions.IvyScriptException;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptContext;
 import ch.ivyteam.ivy.scripting.objects.CompositeObject;
 import ch.ivyteam.ivy.scripting.objects.Recordset;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.poi.hssf.usermodel.*;
 
 
@@ -41,37 +42,19 @@ public class WriteExcelBean extends AbstractUserProcessExtension {
 	public CompositeObject perform(IRequestId requestId, CompositeObject in,
 			IIvyScriptContext context) throws Exception 
 	{
-		
 		// configuration
-		String rsParam = null;
-		String filepathParam = null;
+		String rsParam = getConfigurationProperty("rs");
+		String filepathParam = getConfigurationProperty("filepath").replace("\"", "");
 
-		Recordset rs = null;		
-		String filePath = null;
+		Recordset rs = (Recordset) getProcessDataField(context, rsParam);		
+		String filePath = getFilePath(context, filepathParam);
 
-		FileOutputStream out=null;
-		HSSFWorkbook wb=null;
-		
-		try 
+		try (OutputStream out = new FileOutputStream(filePath))
 		{
 			// Evaluate call parameter
-			rsParam = getConfigurationProperty("rs");
-			rs = (Recordset) getProcessDataField(context, rsParam);
-			
-			filepathParam = getConfigurationProperty("filepath").replace("\"", "");
-			if(filepathParam.startsWith("in."))
-			{	
-				filePath = (String) getProcessDataField(context, filepathParam);
-			}
-			else
-			{
-				filePath = filepathParam;
-			}
-			
-			// create a new file
-			out = new FileOutputStream(filePath);
 			// create a new workbook
-			wb = new HSSFWorkbook();
+			@SuppressWarnings("resource")
+			HSSFWorkbook wb = new HSSFWorkbook();
 			// create a new sheet
 			HSSFSheet s = wb.createSheet();
 			// declare a row object reference
@@ -139,11 +122,21 @@ public class WriteExcelBean extends AbstractUserProcessExtension {
 			ex.printStackTrace();
 			throw ex;
 		}
-		finally
-		{
-			IOUtils.closeQuietly(out);		
-		}
 		return in;
+	}
+
+	private String getFilePath(IIvyScriptContext context, String filepathParam)
+			throws IvyScriptException {
+		String filePath;
+		if(filepathParam.startsWith("in."))
+		{	
+			filePath = (String) getProcessDataField(context, filepathParam);
+		}
+		else
+		{
+			filePath = filepathParam;
+		}
+		return filePath;
 	}
 
 	/**

@@ -1,6 +1,6 @@
 [Ivy]
-[>Created: Thu Sep 29 15:11:31 CEST 2016]
-14E1BDB6375A93CE 3.18 #module
+[>Created: Thu Jul 06 16:26:16 CEST 2017]
+14E1BDB6375A93CE 3.20 #module
 >Proto >Proto Collection #zClass
 Es0 ExcelBeans Big #zClass
 Es0 B #cInfo
@@ -34,7 +34,7 @@ Es0 @PushWFArc f17 '' #zField
 Es0 @PushWFArc f18 '' #zField
 Es0 @PushWFArc f19 '' #zField
 >Proto Es0 Es0 ExcelBeans #zField
-Es0 f0 outLink start.ivp #txt
+Es0 f0 outLink writeExcel.ivp #txt
 Es0 f0 type p.Data #txt
 Es0 f0 inParamDecl '<> param;' #txt
 Es0 f0 actionDecl 'p.Data out;
@@ -42,29 +42,22 @@ Es0 f0 actionDecl 'p.Data out;
 Es0 f0 guid 14E1AD2A75A11DB6 #txt
 Es0 f0 requestEnabled true #txt
 Es0 f0 triggerEnabled false #txt
-Es0 f0 callSignature start() #txt
+Es0 f0 callSignature writeExcel() #txt
 Es0 f0 persist false #txt
+Es0 f0 startName 'writes a Recordset into an Excel file' #txt
 Es0 f0 taskData 'TaskTriggered.ROL=Everybody
 TaskTriggered.EXTYPE=0
 TaskTriggered.EXPRI=2
 TaskTriggered.TYPE=0
 TaskTriggered.PRI=2
 TaskTriggered.EXROL=Everybody' #txt
+Es0 f0 caseData businessCase.attach=false #txt
 Es0 f0 showInStartList 1 #txt
-Es0 f0 taskAndCaseSetupAction 'import ch.ivyteam.ivy.workflow.TaskUpdateDefinition;
-ch.ivyteam.ivy.workflow.TaskUpdateDefinition taskUpdDef = new ch.ivyteam.ivy.workflow.TaskUpdateDefinition();
-import ch.ivyteam.ivy.request.impl.DefaultCalendarProxy;
-DefaultCalendarProxy calendarProxy = ivy.cal as DefaultCalendarProxy;
-taskUpdDef.setPriority(ch.ivyteam.ivy.workflow.WorkflowPriority.valueOf(2));
-taskUpdDef.setExpiryActivator("Everybody");
-taskUpdDef.setExpiryPriority(ch.ivyteam.ivy.workflow.WorkflowPriority.valueOf(2));
-engine.updateCurrentTask(taskUpdDef);
-' #txt
 Es0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
     <language>
-        <name>start.ivp</name>
-        <nameStyle>9,5,7
+        <name>writeExcel.ivp</name>
+        <nameStyle>14,5,7
 </nameStyle>
     </language>
 </elementInfo>
@@ -220,7 +213,7 @@ Es0 f14 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Es0 f14 369 305 30 30 -9 17 #rect
 Es0 f14 @|ExceptionIcon #fIcon
-Es0 f15 outLink start2.ivp #txt
+Es0 f15 outLink readExcel.ivp #txt
 Es0 f15 type p.Data #txt
 Es0 f15 inParamDecl '<> param;' #txt
 Es0 f15 actionDecl 'p.Data out;
@@ -228,28 +221,23 @@ Es0 f15 actionDecl 'p.Data out;
 Es0 f15 guid 14E1B9278A7BA6CD #txt
 Es0 f15 requestEnabled true #txt
 Es0 f15 triggerEnabled false #txt
-Es0 f15 callSignature start2() #txt
+Es0 f15 callSignature readExcel() #txt
 Es0 f15 persist false #txt
+Es0 f15 startName 'reads a Recordset from an Excel file' #txt
 Es0 f15 taskData 'TaskTriggered.ROL=Everybody
 TaskTriggered.EXTYPE=0
 TaskTriggered.EXPRI=2
 TaskTriggered.TYPE=0
 TaskTriggered.PRI=2
 TaskTriggered.EXROL=Everybody' #txt
+Es0 f15 caseData businessCase.attach=false #txt
 Es0 f15 showInStartList 1 #txt
-Es0 f15 taskAndCaseSetupAction 'import ch.ivyteam.ivy.workflow.TaskUpdateDefinition;
-ch.ivyteam.ivy.workflow.TaskUpdateDefinition taskUpdDef = new ch.ivyteam.ivy.workflow.TaskUpdateDefinition();
-import ch.ivyteam.ivy.request.impl.DefaultCalendarProxy;
-DefaultCalendarProxy calendarProxy = ivy.cal as DefaultCalendarProxy;
-taskUpdDef.setPriority(ch.ivyteam.ivy.workflow.WorkflowPriority.valueOf(2));
-taskUpdDef.setExpiryActivator("Everybody");
-taskUpdDef.setExpiryPriority(ch.ivyteam.ivy.workflow.WorkflowPriority.valueOf(2));
-engine.updateCurrentTask(taskUpdDef);
-' #txt
 Es0 f15 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
     <language>
-        <name>start2.ivp</name>
+        <name>readExcel.ivp</name>
+        <nameStyle>13,5,7
+</nameStyle>
     </language>
 </elementInfo>
 ' #txt

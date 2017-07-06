@@ -8,9 +8,9 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Label;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Iterator;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -25,6 +25,7 @@ import ch.ivyteam.ivy.process.extension.IIvyScriptEditor;
 import ch.ivyteam.ivy.process.extension.IProcessExtensionConfigurationEditorEnvironment;
 import ch.ivyteam.ivy.process.extension.impl.AbstractProcessExtensionConfigurationEditor;
 import ch.ivyteam.ivy.process.extension.impl.AbstractUserProcessExtension;
+import ch.ivyteam.ivy.scripting.exceptions.IvyScriptException;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptContext;
 import ch.ivyteam.ivy.scripting.objects.CompositeObject;
 import ch.ivyteam.ivy.scripting.objects.Record;
@@ -51,36 +52,18 @@ public class ReadExcelBean extends AbstractUserProcessExtension {
 			IIvyScriptContext context) throws Exception 
 	{
 		// configuration
-		String rsParam = null;
-		String filepathParam = null;
+		String rsParam = getConfigurationProperty("rs");
+		String filepathParam = getConfigurationProperty("filepath").replace("\"", "");
 
-		Recordset rs = null;
-		String filePath = null;
+		Recordset rs = (Recordset) getProcessDataField(context, rsParam);
+		String filePath = getFilePath(context, filepathParam);
 
-		FileInputStream input = null;
-		POIFSFileSystem fs = null;
-		HSSFWorkbook wb = null;
-
-		try {
-			// Evaluate call parameter
-			rsParam = getConfigurationProperty("rs");
-			rs = (Recordset) getProcessDataField(context, rsParam);
-
-			filepathParam = getConfigurationProperty("filepath").replace("\"",
-					"");
-			if (filepathParam.startsWith("in.")) 
-			{
-				filePath = (String) getProcessDataField(context, filepathParam);
-			} 
-			else 
-			{
-				filePath = filepathParam;
-			}
-			
+		try (InputStream input = new FileInputStream(filePath)) 
+		{
 			// read excel file
-		    input = new FileInputStream(filePath);
-			fs = new POIFSFileSystem(input);
-			wb = new HSSFWorkbook(fs); 
+			POIFSFileSystem fs = new POIFSFileSystem(input);
+			@SuppressWarnings("resource")
+			HSSFWorkbook wb = new HSSFWorkbook(fs); 
 			HSSFSheet sheet = wb.getSheetAt(0);
 
 			// Iterate over each row in the sheet
@@ -142,14 +125,26 @@ public class ReadExcelBean extends AbstractUserProcessExtension {
 							+ ". Target recordset =" + rsParam + ".");
 			ex.printStackTrace(); 
 			throw ex;
-		} finally 
-		{
-			IOUtils.closeQuietly(input);
-		}
+		} 
 
 		// Store result in process data
 		setProcessDataField(context, rsParam, rs);
 		return in;
+	}
+
+	private String getFilePath(IIvyScriptContext context, String filepathParam)
+			throws IvyScriptException {
+		String filePath;
+		// Evaluate call parameter
+		if (filepathParam.startsWith("in.")) 
+		{
+			filePath = (String) getProcessDataField(context, filepathParam);
+		} 
+		else 
+		{
+			filePath = filepathParam;
+		}
+		return filePath;
 	}
 
 	private String[] createColumnTitles(int numberOfColumns, Iterator<Row> rows) 
