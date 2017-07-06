@@ -17,7 +17,7 @@ In this case we filter for users
 ![QueryFilterDefinition](samples/screenshots/queryBean_queryDefinition.png)
 
 ### Map the data back to process data
-
+![ResultMapping](samples/screenshots/queryBean_resultMapping.png)
 
 ### Full example
 Rough overview over the LDAP organisation unit. We have three users that own a 'mail' attribute.
