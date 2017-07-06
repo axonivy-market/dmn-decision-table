@@ -26,7 +26,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Vector;
@@ -40,6 +39,7 @@ import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -47,6 +47,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableModel;
@@ -114,6 +115,20 @@ public class LdapQueryBean extends AbstractUserProcessExtension
    */
   public static class Editor extends AbstractProcessExtensionConfigurationEditor
   {
+    public static void main(String args[])
+    {
+      try
+      {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+      }
+      catch(Throwable th)
+      {}
+      JFrame dialog = new JFrame();
+      dialog.getContentPane().add(new Editor().tabbedPanel);
+      dialog.pack();
+      dialog.setVisible(true);
+    }
+    
     /**
      * The configuration panel
      */
@@ -170,15 +185,10 @@ public class LdapQueryBean extends AbstractUserProcessExtension
     /** Jndi config panel */
     JndiConfigPanel jndiConfigPanel;
 
-    /**
-     * Constructor for the Editor object
-     */
+    private ResourceBundle resBun = ResourceUtil.getBundle("TextResource");
+
     public Editor()
     {
-
-      ResourceBundle resBun = ResourceBundle.getBundle("TextResource",
-              new Locale("de"));
-
       jndiConfig = new JndiConfig(JndiProvider.NOVELL_E_DIRECTORY,
               "ldap://", JndiConfig.AUTH_KIND_SIMPLE, "", "", false,
               false, "");
@@ -324,7 +334,7 @@ public class LdapQueryBean extends AbstractUserProcessExtension
 
       tfIvyGridAttribute = new JTextField(30);
       AWTUtil.constrain(allResultPanel, tfIvyGridAttribute, 1, 0, 1, 1,
-              GridBagConstraints.NONE, GridBagConstraints.WEST, 0.0, 0.0,
+              GridBagConstraints.BOTH, GridBagConstraints.WEST, 0.0, 0.0,
               0, 0, 0, 0);
 
       rbIncludeName2 = new JCheckBox(resBun

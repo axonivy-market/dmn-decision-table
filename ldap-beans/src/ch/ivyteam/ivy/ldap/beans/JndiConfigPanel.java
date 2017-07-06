@@ -20,7 +20,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.JCheckBox;
@@ -45,16 +44,13 @@ import ch.ivyteam.naming.JndiProvider;
 
 public class JndiConfigPanel extends JPanel
 {
-  /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
 /** JNDI environment properties */
   private JndiConfig config;
 
   /** Resource Bundle */
-  private ResourceBundle resBun;
+  private ResourceBundle resBun = ResourceUtil.getBundle("TextResConfigPanel");
   
   /** Provider combo box */
   private JComboBox<JndiProvider> cbProvider;
@@ -112,7 +108,6 @@ public class JndiConfigPanel extends JPanel
    */
   private void createGui(boolean isDefaultContextVisible)
   {
-    resBun = ResourceBundle.getBundle("TextResConfigPanel", new Locale("de"));   
     int ypos=0;
     setLayout(new GridBagLayout());
 
