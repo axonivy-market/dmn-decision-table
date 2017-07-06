@@ -5,7 +5,6 @@ Provides simple Axon.ivy process element extensions that allow to write or query
 Allows to query LDAP objects. In this example we query all mail adresses of users within our organisation unit.
 
 ### Add a Program Element and select the PI class `ch.ivyteam.ivy.ldap.beans.LdapQueryBean`
-
 ![PiClassSelection](samples/screenshots/queryBean_piClass.png)
 
 ### Define the connection to your LDAP server
@@ -13,6 +12,7 @@ Allows to query LDAP objects. In this example we query all mail adresses of user
 
 ### Setup the filter criteria
 In this case we filter for users
+
 ![QueryFilterDefinition](samples/screenshots/queryBean_queryDefinition.png)
 
 ### Map the data back to process data
