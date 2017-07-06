@@ -4,7 +4,8 @@ Provides simple Axon.ivy process element extensions that allow to write or query
 ## Query Bean
 Allows to query LDAP objects. In this example we query all mail adresses of users within our organisation unit.
 
-### Add a Program Element and select the PI class `ch.ivyteam.ivy.ldap.beans.LdapQueryBean`
+### Add a Program Element and select the PI class 
+`ch.ivyteam.ivy.ldap.beans.LdapQueryBean`
 ![PiClassSelection](samples/screenshots/queryBean_piClass.png)
 
 ### Define the connection to your LDAP server
