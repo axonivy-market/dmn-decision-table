@@ -13,6 +13,9 @@
         <artifactId>project-build-plugin</artifactId>
         <version>6.5.0</version>
         <extensions>true</extensions>
+        <configuration>
+          <ivyVersion>[6.6.2,]</ivyVersion>
+        </configuration>
       </plugin>
     </plugins>
   </build>
