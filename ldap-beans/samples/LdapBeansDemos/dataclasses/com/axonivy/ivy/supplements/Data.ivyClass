@@ -1,2 +1,4 @@
 Data #class
 com.axonivy.ivy.supplements #namespace
+result Recordset #field
+result PERSISTENT #fieldModifier
