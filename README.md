@@ -1,5 +1,10 @@
-# ldap-beans
+# BPM Beans
+A collection of free Axon.ivy process extensions. 
+
+## [LDAP](ldap-beans/README.MD)
 Utility classes to query and modify Active Directory with ivy Program Interface activities.
+![LDAP BEAN SAMPLE](ldap-beans/samples/screenshots/queryBean_serverDefinition.png)
 
-If you want to use the PI-bean in your ivy project just download and add the LdapBeans.jar to the class path of your project.
-
+## [RULE](rule-beans/README.MD)
+Decision and Rule step in your process with zero coding effort.
+![DECISION SAMPLE](rule-beans/samples/screenshots/decisionTableInAction.png)
