@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.axonivy.ivy.supplements</groupId>
-  <artifactId>timed-start-event-beans-demos</artifactId>
+  <artifactId>timedStartEvent-beans-demos</artifactId>
   <version>6.6.0-SNAPSHOT</version>
   <packaging>iar</packaging>
   <build>
@@ -13,7 +13,21 @@
         <artifactId>project-build-plugin</artifactId>
         <version>6.5.0</version>
         <extensions>true</extensions>
+        <configuration>
+          <ivyVersion>[6.6.2,]</ivyVersion>
+        </configuration>
       </plugin>
     </plugins>
+
+    <pluginManagement>
+    	<plugins>
+    		<plugin>
+    			<artifactId>maven-deploy-plugin</artifactId>
+    			<configuration>
+	    			<skip>true</skip>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
   </build>
 </project>
