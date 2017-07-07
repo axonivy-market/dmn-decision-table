@@ -1,4 +1,5 @@
 # Rule Beans
+Enables you to apply rules and decisions on your data without scripting effort.
 
 ## Decision Table Activity
 Simple and expressive decision table element. 
