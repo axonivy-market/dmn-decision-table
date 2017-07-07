@@ -42,33 +42,20 @@ import ch.ivyteam.ivy.service.ServiceException;
  */
 public class TimedStartEventBean implements IProcessStartEventBean
 {
-
-  /** Property Key for the start Day */
-  private final static String START_DAY_OF_WEEK = "day";
-
-  /** Property Key for the start hour */
-  private final static String START_HOUR_OF_DAY = "hour";
-
-  /** Property Key for the start minute */
-  private final static String START_MINUTE_OF_HOUR = "minute";
-
-  /** Property Key for immediately */
-  private final static String START_IMMEDIATELY = "immediately";
-
-  /** Property Key for the interval */
-  private final static String INTERVAL_IN_SECONDS = "interval";
-
-  /** Reference to the eventRuntime */
+  private static interface Property
+  {
+    String START_DAY_OF_WEEK = "day";
+    String START_HOUR_OF_DAY = "hour";
+    String START_MINUTE_OF_HOUR = "minute";
+    String START_IMMEDIATELY = "immediately";
+    String INTERVAL_IN_SECONDS = "interval";
+  }
+  
   public IProcessStartEventBeanRuntime eventRuntime = null;
 
-  /** Configuration */
-  private Properties properties = new Properties();
-
-  /** description of this bean instance */
-  private String fDescr;
-
-  /** name of this bean */
-  private String fBeanName;
+  private final Properties properties = new Properties();
+  private final String fDescr;
+  private final String fBeanName;
 
   private Boolean immediate;
   private Boolean started;
@@ -78,7 +65,7 @@ public class TimedStartEventBean implements IProcessStartEventBean
   public TimedStartEventBean()
   {
     fBeanName = "ch.ivy.beans.TimedStarteEventBean";
-    fDescr = "Version AxonIvy6.3 2016-09-29";
+    fDescr = "Version AxonIvy 6.3 2016-09-29";
   }
 
   @Override
@@ -244,7 +231,7 @@ public class TimedStartEventBean implements IProcessStartEventBean
   {
     try
     {
-      String value = prop.getProperty(START_DAY_OF_WEEK).trim();
+      String value = prop.getProperty(Property.START_DAY_OF_WEEK).trim();
       return Integer.parseInt(value);
     }
     catch (Exception e)
@@ -263,7 +250,7 @@ public class TimedStartEventBean implements IProcessStartEventBean
   {
     try
     {
-      String value = prop.getProperty(START_HOUR_OF_DAY).trim();
+      String value = prop.getProperty(Property.START_HOUR_OF_DAY).trim();
       return Integer.parseInt(value);
     }
     catch (Exception e)
@@ -282,7 +269,7 @@ public class TimedStartEventBean implements IProcessStartEventBean
   {
     try
     {
-      String value = prop.getProperty(START_MINUTE_OF_HOUR).trim();
+      String value = prop.getProperty(Property.START_MINUTE_OF_HOUR).trim();
       return Integer.parseInt(value);
     }
     catch (Exception e)
@@ -301,7 +288,7 @@ public class TimedStartEventBean implements IProcessStartEventBean
   {
     try
     {
-      String value = prop.getProperty(START_IMMEDIATELY);
+      String value = prop.getProperty(Property.START_IMMEDIATELY);
       return Boolean.valueOf(value).booleanValue();
     }
     catch (Exception e)
@@ -320,7 +307,7 @@ public class TimedStartEventBean implements IProcessStartEventBean
   {
     try
     {
-      String value = prop.getProperty(INTERVAL_IN_SECONDS);
+      String value = prop.getProperty(Property.INTERVAL_IN_SECONDS);
       return Integer.parseInt(value);
     }
     catch (Exception e)
@@ -544,13 +531,13 @@ public class TimedStartEventBean implements IProcessStartEventBean
 
     private void saveConfiguration()
     {
-      properties.put(START_DAY_OF_WEEK,
+      properties.put(Property.START_DAY_OF_WEEK,
               String.valueOf(dayComboBox.getSelectedIndex()));
-      properties.put(START_HOUR_OF_DAY, hourField.getText());
-      properties.put(START_MINUTE_OF_HOUR, minuteField.getText());
-      properties.put(START_IMMEDIATELY,
+      properties.put(Property.START_HOUR_OF_DAY, hourField.getText());
+      properties.put(Property.START_MINUTE_OF_HOUR, minuteField.getText());
+      properties.put(Property.START_IMMEDIATELY,
               new Boolean(immediatelyCheckBox.isSelected()).toString());
-      properties.put(INTERVAL_IN_SECONDS,
+      properties.put(Property.INTERVAL_IN_SECONDS,
               String.valueOf(getIntervalSeconds()));
     }
 
