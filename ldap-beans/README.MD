@@ -26,5 +26,10 @@ Rough overview over the LDAP organisation unit. We have three users that own a '
 We're able to log and display the users mail adresses:
 ![AccessResult](samples/screenshots/queryBean_accessResultInProcess.png)
 
-
+## Installation
+1. Download the `supplement.ldap.beans-X.Y.Z-SNAPSHOT.jar` from the [latest release](https://github.com/ivy-supplements/bpm-beans/releases/latest)
+2. Copy the downloaded JAR into a directory in our project (e.g. `myProject/lib/supplement.ldap.beans-X.Y.Z-SNAPSHOT.jar`)
+3. Add the JAR to the classpath: Switch to the `Java perspective`. Right click on the JAR and select `Build Path` > `Add to Build path`
+4. Select and LDAP-bean in the PI tab of `Program Start` element
+![PiClassSelection](samples/screenshots/ldapBeans_availablePiBeans.png)
 
