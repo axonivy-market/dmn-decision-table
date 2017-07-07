@@ -9,6 +9,6 @@ Utility classes to query and modify Active Directory with ivy Program Interface 
 Decision and Rule step in your process with zero coding effort.
 ![DECISION SAMPLE](rule-beans/samples/screenshots/decisionTableInAction.png)
 
-## [TIMED START](timedStartEvents-beans/README.MD)
+## [TIMED START](timedStartEvent-beans/README.md)
 A timed start event bean with weekday, time and interval parameters.
 ![TIMED BEAN EDITOR](timedStartEvent-beans/samples/screenshots/timedStartEventBean_editorMask.png)
