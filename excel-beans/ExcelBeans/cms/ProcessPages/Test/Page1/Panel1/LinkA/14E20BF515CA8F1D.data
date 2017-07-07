@@ -1,0 +1,17 @@
+<FORM NAME="formLinkA" METHOD="POST" ACTION='<%=ivy.html.ref("LinkA.ivp")%>'  >
+<!--ivyform--><table BORDER="0">
+<tr>
+<td>
+<!--i.tx-->x</td>
+<td>
+<!--i.ax--><input type="text" name="x" id="formLinkA_x" value="<%=ivy.html.getDate("in.x")%>"><%=ivy.html.datepicker("formLinkA_x")%></td>
+</tr>
+<tr>
+<td>
+</td>
+<td>
+<!--i.submit-->
+<INPUT  TYPE="SUBMIT" NAME="Submit" VALUE="Submit"></td>
+</tr>
+</table>
+</FORM>
