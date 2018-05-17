@@ -12,6 +12,7 @@
 		<module>rule-beans</module>
 		<module>rule-beans/samples/RuleBeansDemos</module>
         <module>timedStartEvent-beans</module>
+        <module>excel-beans/ExcelBeans</module>
 		<module>build.maven/central.deploy</module>
 		<module>build.maven/ivy.bundle</module>
 	</modules>

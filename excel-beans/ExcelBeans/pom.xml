@@ -2,16 +2,16 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>p1</groupId>
-  <artifactId>p1</artifactId>
-  <version>6.3-SNAPSHOT</version>
+  <groupId>com.axonivy.ivy.supplements</groupId>
+  <artifactId>supplement.excel.beans</artifactId>
+  <version>7.0.0-SNAPSHOT</version>
   <packaging>iar</packaging>
   <build>
     <plugins>
       <plugin>
         <groupId>com.axonivy.ivy.ci</groupId>
         <artifactId>project-build-plugin</artifactId>
-        <version>6.3.0</version>
+        <version>7.0.0</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>
