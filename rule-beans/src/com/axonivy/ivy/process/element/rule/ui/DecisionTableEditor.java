@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import org.apache.commons.io.IOUtils;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.window.Window;
@@ -31,6 +32,7 @@ import com.axonivy.ivy.process.element.rule.model.RulesModel;
 
 import ch.ivyteam.icons.Size;
 import ch.ivyteam.ivy.designer.richdialog.ui.configeditors.SelectAttributeDialog;
+import ch.ivyteam.ivy.project.IIvyProject;
 import ch.ivyteam.ivy.scripting.IvyScriptManagerFactory;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptContext;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptEngine;
@@ -51,6 +53,7 @@ public class DecisionTableEditor extends Composite
 
   private IVariable[] dataVars = new IVariable[0];
   private IIvyScriptEngine scriptEngine;
+private IProject project;
   
   public DecisionTableEditor(Composite parent, int style)
   {
@@ -121,11 +124,6 @@ public class DecisionTableEditor extends Composite
     }
   }
   
-  public void setScriptEngine(IIvyScriptEngine ivyScriptEngine)
-  {
-    this.scriptEngine = ivyScriptEngine;
-  }
-  
   public void setDataVariables(IVariable[] vars)
   {
     this.dataVars = Arrays.stream(vars)
@@ -170,7 +168,7 @@ public class DecisionTableEditor extends Composite
   
   private Optional<String> attributeSelectionDialog(String variableFilter)
   {
-    SelectAttributeDialog dialog = SelectAttributeDialog.createAttributeBrowserDialog(this.getShell());
+    SelectAttributeDialog dialog = SelectAttributeDialog.createAttributeBrowserDialog(this.getShell(), project);
     dialog.create();
     try
     {
@@ -256,6 +254,11 @@ public class DecisionTableEditor extends Composite
             (ch.ivyteam.ivy.scripting.internal.IvyScriptManager) IvyScriptManagerFactory.createIvyScriptManager());
     Variable in = new Variable(IvyScriptProcessVariables.IN.getVariableName(), tmpRepo.getAnyCompositeObjectClass());
     return new IVariable[]{in};
+  }
+
+  public void setProject(IIvyProject ivyProject) {
+    scriptEngine = ivyProject.getIvyScriptEngine();
+    project = ivyProject.getProject();
   }
 
 }

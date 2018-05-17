@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
@@ -33,6 +34,8 @@ public class RuleConfigEditor extends Composite
   private IVariable[] dataVars = new IVariable[0];
   private DataMappingComposite dataMappingComposite;
   private ExtendableComboViewer extendableComboViewer;
+
+private IProject project;
 
   public RuleConfigEditor(Composite parent, int style)
   {
@@ -111,7 +114,7 @@ public class RuleConfigEditor extends Composite
 
   private Optional<String> attributeSelectionDialog()
   {
-    SelectAttributeDialog dialog = SelectAttributeDialog.createAttributeBrowserDialog(this.getShell());
+    SelectAttributeDialog dialog = SelectAttributeDialog.createAttributeBrowserDialog(this.getShell(), project);
     dialog.create();
     try
     {
@@ -127,6 +130,10 @@ public class RuleConfigEditor extends Composite
       return Optional.of(attribute);
     }
     return Optional.empty();
+  }
+
+  public void setProject(IProject project) {
+    this.project = project;
   }
 
 }

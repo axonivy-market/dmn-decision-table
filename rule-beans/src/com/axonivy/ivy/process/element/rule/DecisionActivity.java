@@ -72,7 +72,7 @@ public class DecisionActivity extends AbstractUserProcessExtension
         gridLayout.marginWidth = 0;
         decisionEditor.table.setModel(model);
         decisionEditor.setDataVariables(env.getDataInputVariables());
-        decisionEditor.setScriptEngine(env.getIvyProject().getIvyScriptEngine());
+        decisionEditor.setProject(env.getIvyProject());
         decisionEditor.tabs.setSelection(0); // select table mode
       }
       return decisionEditor;

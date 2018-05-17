@@ -75,6 +75,7 @@ public class RuleActivity extends AbstractUserProcessExtension
         ruleConfigEditor.setRuleNamespace(ruleNamespace);
         ruleConfigEditor.setInputData(inputData);
         ruleConfigEditor.setDataVariables(env.getDataInputVariables());
+        ruleConfigEditor.setProject(env.getIvyProject().getProject());
       }
       return ruleConfigEditor;
     }

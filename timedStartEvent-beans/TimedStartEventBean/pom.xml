@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.axonivy.ivy.supplements</groupId>
 		<artifactId>ivy-bundle</artifactId>
-		<version>7.0.0-SNAPSHOT</version>
+		<version>7.1.0-SNAPSHOT</version>
 		<relativePath>../../build.maven/ivy.bundle</relativePath>
 	</parent>
 	<packaging>eclipse-plugin</packaging>

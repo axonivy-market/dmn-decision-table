@@ -29,12 +29,12 @@ import com.axonivy.ivy.process.element.rule.ui.cellEdit.NumericValueVerifier;
 import com.axonivy.ivy.process.element.rule.ui.cellEdit.StringConditionEditor;
 
 import ch.ivyteam.icons.Size;
-import ch.ivyteam.swt.editors.AbstractTableViewerNavigator.Cell;
+import ch.ivyteam.swt.editors.AbstractColumnViewerCellNavigator.Cell;
 import ch.ivyteam.swt.editors.FastTextCellEditor;
 import ch.ivyteam.swt.icons.IconFactory;
+import ch.ivyteam.swt.table.AbstractTypedViewerColumn.Edited;
 import ch.ivyteam.swt.table.TableComposite;
-import ch.ivyteam.swt.table.TypedViewerColumn;
-import ch.ivyteam.swt.table.TypedViewerColumn.Edited;
+import ch.ivyteam.swt.table.TypedTableViewerColumn;
 
 public class DecisionTableComposite extends TableComposite<Row>
 {
@@ -114,13 +114,13 @@ public class DecisionTableComposite extends TableComposite<Row>
   private void addUiColumn(int i, Column column)
   {
     final int t = i;
-    TypedViewerColumn<Row> tableCol = addColumn(column.getAttributeName(), new ColumnWeightData(4), i+1)
+    TypedTableViewerColumn<Row> tableCol = addColumn(column.getAttributeName(), new ColumnWeightData(4), i+1)
             .withTextProvider(row -> row.getCells().get(t).getText());
     tableCol.getColumn().setImage(getColumnImage(column));
     provideEditSupport(column, i, tableCol);
   }
 
-  private void provideEditSupport(Column column, final int columnIndex, TypedViewerColumn<Row> tableCol)
+  private void provideEditSupport(Column column, final int columnIndex, TypedTableViewerColumn<Row> tableCol)
   {
     if (column instanceof ConditionColumn)
     {
@@ -194,7 +194,7 @@ public class DecisionTableComposite extends TableComposite<Row>
         int selectionIndex = viewer.getTable().getSelectionIndex();
         model.rows.add(selectionIndex-1, model.rows.remove(selectionIndex));
         viewer.refresh();
-        tableCursor.setEditCell(new Cell(selectionIndex-1, 0));
+        cellNavigator.setEditCell(new Cell(selectionIndex-1, 0));
       }
     });
   }
@@ -212,7 +212,7 @@ public class DecisionTableComposite extends TableComposite<Row>
         int selectionIndex = viewer.getTable().getSelectionIndex();
         model.rows.add(selectionIndex, model.rows.remove(selectionIndex+1));
         viewer.refresh();
-        tableCursor.setEditCell(new Cell(selectionIndex+1, 0));
+        cellNavigator.setEditCell(new Cell(selectionIndex+1, 0));
       }
     });
   }
