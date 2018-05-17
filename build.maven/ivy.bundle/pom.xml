@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.axonivy.ivy.supplements</groupId>
 	<artifactId>ivy-bundle</artifactId>
-	<version>6.4.1-SNAPSHOT</version>
+	<version>7.0.0-SNAPSHOT</version>
 	<parent>
 		<groupId>com.axonivy.ivy.supplements</groupId>
 		<artifactId>maven-deploy</artifactId>
-		<version>6.4.1-SNAPSHOT</version>
+		<version>7.0.0-SNAPSHOT</version>
 		<relativePath>../central.deploy</relativePath>
 	</parent>
 	<packaging>pom</packaging>
@@ -81,6 +81,41 @@
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+		<profile>
+			<id>axon</id>
+			<repositories>
+				<repository>
+					<id>ivy.nightly.release</id>
+					<layout>p2</layout>
+					<url>http://zugprodrone/p2/trunk.ivy.core/</url>
+				</repository>
+				<repository>
+					<id>thirdparty.libs</id>
+					<layout>p2</layout>
+					<url>http://zugprodrone/p2/thirdparty.lib/</url>
+				</repository>
+				<repository>
+					<id>luna</id>
+					<layout>p2</layout>
+					<url>http://zugprorepo/p2_repositories/eclipseSimReleases/luna/SR2</url>
+				</repository>
+				<repository>
+					<id>thirdpary.integration.luna</id>
+					<layout>p2</layout>
+					<url>http://zugprodrone/p2/thirdparty.integration.luna/</url>
+				</repository>
+				<repository>
+					<id>vn.integartion</id>
+					<layout>p2</layout>
+					<url>http://zugprodrone/p2/vn.integration/</url>
+				</repository>
+				<repository>
+					<id>static.integartion</id>
+					<layout>p2</layout>
+					<url>http://zugprodrone/p2/static.integration.luna/</url>
+				</repository>
+			</repositories>
 		</profile>
 	</profiles>
 </project>
