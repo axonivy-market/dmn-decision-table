@@ -64,7 +64,7 @@ import ch.ivyteam.naming.JndiUtil;
 
 /**
  * PI-Element to query LDAP-Servers Copies an LDAP object.
- * @author Bruno Bütler
+ * @author Bruno Buetler
  * @version MarcWillaredt August2009 Updated to Ivy 4.1
  * @version bb 24.05.2006 created.
  */

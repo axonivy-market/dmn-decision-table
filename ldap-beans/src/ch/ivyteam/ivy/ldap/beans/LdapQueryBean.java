@@ -1306,7 +1306,7 @@ public class LdapQueryBean extends AbstractUserProcessExtension
     {
       ivyError(
               "Ein Attribut ist entweder nicht vorhanden oder nicht initialisiert. Bitte dieses erstellen bzw. initialisieren. Das betroffene Attribut heisst: "
-                      + name + ".\n\nFreundliche Grüsse\nIhre LdapQueryBean", cont);
+                      + name + ".\n\nFreundliche Gruesse\nIhre LdapQueryBean", cont);
     }
   }
 

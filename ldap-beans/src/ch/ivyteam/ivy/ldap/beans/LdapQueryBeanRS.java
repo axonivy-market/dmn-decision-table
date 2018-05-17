@@ -70,7 +70,7 @@ import ch.ivyteam.naming.JndiUtil;
  * PI-Element to query LDAP-Servers A variant from LdapQueryBean that returns
  * the values as Recordset
  * 
- * @author Bruno Bütler
+ * @author Bruno Buetler
  * @version MarcWillaredt August2009 Updated to Ivy 4.1
  * @version bb 16.11.2005 improved (allow "in.x" as ivy attribute names) and
  *          extended (anyFilter)

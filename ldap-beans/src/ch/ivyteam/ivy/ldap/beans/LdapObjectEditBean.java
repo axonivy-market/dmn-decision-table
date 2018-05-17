@@ -65,7 +65,7 @@ import ch.ivyteam.naming.JndiUtil;
 /**
  * PI-Element to edit (add/remove) objects on LDAP-Servers.
  * @version Marc Willaredt August2009 Updated to Ivy 4.1
- * @version Bruno Bütler 82.11.2005 created
+ * @version Bruno Buetler 82.11.2005 created
  */
 public class LdapObjectEditBean extends AbstractUserProcessExtension
 {
