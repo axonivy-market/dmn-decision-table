@@ -651,117 +651,121 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
           SearchResult searchResult,
           Vector<Object> row) throws NoSuchFieldException, NamingException
   {
-    Enumeration<String> attrEnum;
-    String attribute;
-    Attributes jndiAttributes;
-    Attribute jndiAttribute;
-    if (searchResult != null)
+    if (searchResult == null)
     {
-      if (ivyGridAttribute != null)
+      return;
+    }
+    
+    if (ivyGridAttribute != null)
+    {
+      row = new Vector<>();
+    }
+
+    // include jndi name in result if it is selected
+    if (includeName)
+    {
+      addJndiName(argument, objectName, searchResult, row);
+    }
+    
+    Attributes jndiAttributes = searchResult.getAttributes();
+    Attribute jndiAttribute;
+    Enumeration<String> attrEnum = resultAttributesKeys.elements();
+    while (attrEnum.hasMoreElements())
+    {
+      String attribute = attrEnum.nextElement();
+      if (jndiAttributes != null)
       {
-        row = new Vector<>();
+        jndiAttribute = jndiAttributes.get(attribute);
       }
-
-      // include jndi name in result if it is selected
-      if (includeName)
+      else
       {
-        String resultObjectName = searchResult.getName();
-        if (resultObjectName != null)
+        jndiAttribute = null;
+      }
+      if (jndiAttribute != null)
+      {
+        if (jndiAttribute.size() == 1)
         {
-          resultObjectName = resultObjectName.replaceAll(
-                  "/", "\\\\/");
-          if (resultObjectName.startsWith("\"")
-                  && resultObjectName.endsWith("\""))
+          if (ivyGridAttribute != null)
           {
-            resultObjectName = resultObjectName
-                    .substring(1, resultObjectName
-                            .length() - 1);
-          }
-        }
-
-        if (ivyGridAttribute != null)
-        {
-          if (objectName.trim().equals(""))
-          {
-            row.add(resultObjectName);
+            row.add(jndiAttribute.get());
           }
           else
           {
-            row.add(resultObjectName + ","
-                    + objectName);
+            setVariable(
+              resultAttributesHashtable.get(attribute),
+              jndiAttribute.get(), argument);
           }
         }
-        else
+        else if (jndiAttribute.size() > 1)
         {
-          if (objectName.trim().equals(""))
+          if (ivyGridAttribute != null)
           {
-            setVariable(ivyGridNameAttribute,
-                    resultObjectName, argument);
+            NamingEnumeration<?> tmpEnum = jndiAttribute.getAll();
+            List<String> l = List.create(String.class);
+            while (tmpEnum.hasMoreElements())
+            {
+              String tmpStr = (String) tmpEnum.nextElement();
+              l.add(tmpStr);
+            }
+            row.add(l);
           }
           else
           {
-            setVariable(ivyGridNameAttribute,
-                    resultObjectName + ","
-                            + objectName, argument);
+            setVariable(
+                    resultAttributesHashtable
+                            .get(attribute),
+                    jndiAttribute.getAll(), argument);
           }
         }
       }
-      jndiAttributes = searchResult.getAttributes();
-
-      attrEnum = resultAttributesKeys.elements();
-      while (attrEnum.hasMoreElements())
+      else if (ivyGridAttribute != null)
       {
-        attribute = attrEnum.nextElement();
-        if (jndiAttributes != null)
-        {
-          jndiAttribute = jndiAttributes.get(attribute);
-        }
-        else
-        {
-          jndiAttribute = null;
-        }
-        if (jndiAttribute != null)
-        {
-          if (jndiAttribute.size() == 1)
-          {
-            if (ivyGridAttribute != null)
-            {
-              row.add(jndiAttribute.get());
-            }
-            else
-            {
-              setVariable(
-                      resultAttributesHashtable
-                              .get(attribute),
-                      jndiAttribute.get(), argument);
-            }
-          }
-          else if (jndiAttribute.size() > 1)
-          {
-            if (ivyGridAttribute != null)
-            {
-              NamingEnumeration<?> tmpEnum = jndiAttribute.getAll();
-              List<String> l = List.create(String.class);
-              while (tmpEnum.hasMoreElements())
-              {
-                String tmpStr = (String) tmpEnum.nextElement();
-                l.add(tmpStr);
-              }
-              row.add(l);
-            }
-            else
-            {
-              setVariable(
-                      resultAttributesHashtable
-                              .get(attribute),
-                      jndiAttribute.getAll(), argument);
-            }
-          }
-        }
-        else if (ivyGridAttribute != null)
-        {
-          row.add("");
-        }
+        row.add("");
+      }
+    }
+  }
+
+  private void addJndiName(CompositeObject argument, String objectName, SearchResult searchResult,
+          Vector<Object> row) throws NoSuchFieldException
+  {
+    String resultObjectName = searchResult.getName();
+    if (resultObjectName != null)
+    {
+      resultObjectName = resultObjectName.replaceAll(
+              "/", "\\\\/");
+      if (resultObjectName.startsWith("\"")
+              && resultObjectName.endsWith("\""))
+      {
+        resultObjectName = resultObjectName
+                .substring(1, resultObjectName
+                        .length() - 1);
+      }
+    }
+
+    if (ivyGridAttribute != null)
+    {
+      if (objectName.trim().equals(""))
+      {
+        row.add(resultObjectName);
+      }
+      else
+      {
+        row.add(resultObjectName + ","
+                + objectName);
+      }
+    }
+    else
+    {
+      if (objectName.trim().equals(""))
+      {
+        setVariable(ivyGridNameAttribute,
+                resultObjectName, argument);
+      }
+      else
+      {
+        setVariable(ivyGridNameAttribute,
+                resultObjectName + ","
+                        + objectName, argument);
       }
     }
   }
