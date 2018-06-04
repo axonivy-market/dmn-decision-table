@@ -115,11 +115,6 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
   /** sort the result descending (and not ascending) */
   private boolean descendingSort;
 
-  /**
-   * Constructor
-   * 
-   * @exception Exception Exception
-   */
   public LdapQueryBeanRS() throws Exception
   {
     jndiConfig = new JndiConfig(JndiProvider.NOVELL_E_DIRECTORY, "ldap://",
@@ -387,8 +382,8 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
       {
         if (Recordset.class.equals(getVariable(ivyGridAttribute, cont).getClass()))
         {
-          Vector<String> colNames = readColumnNames();
-          mapToRecordsetAttribute(argument, cont, result, colNames);
+          Recordset recordset = mapToRecordsetAttribute(cont, result);
+          setVariable(ivyGridAttribute, recordset, argument);
         }
         else
         { // return as list[list]
@@ -559,92 +554,91 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
     return colNames;
   }
 
-  private void mapToRecordsetAttribute(CompositeObject argument, IIvyScriptContext cont,
-          Vector<Vector<Object>> result, Vector<String> colNames) throws NoSuchFieldException
+  private Recordset mapToRecordsetAttribute(IIvyScriptContext cont, Vector<Vector<Object>> result)
   {
     if (result == null || result.size() == 0)
     {
-      setVariable(ivyGridAttribute, null, argument);
+      return null;
     }
-    else
+    
+    Vector<String> colNames = readColumnNames();
+    int sortCol = 0;
+    if (getVariable(sortByAttribute, cont) != null)
     {
-      int sortCol = 0;
-      if (getVariable(sortByAttribute, cont) != null)
-      {
-        sortByAttribute = getVariable(sortByAttribute, cont).toString();
-      }
-      if (sortByAttribute != null)
-      {
-        for (int c = 0; c < colNames.size(); c++)
-        {
-          if (sortByAttribute.equals(colNames.elementAt(c)))
-          {
-            sortCol = c;
-            break;
-          }
-        }
-      }
-      Object[][] data = new Object[result.size()][colNames.size()];
-      for (int r = 0; r < result.size(); r++)
-      {
-        Vector<Object> aRow = result.elementAt(r);
-        int insertAt = 0;
-        if (sortByAttribute == null)
-        {
-          insertAt = r;
-        }
-        else if (descendingSort)
-        {
-          while (insertAt < r
-                  && aRow.elementAt(sortCol) != null
-                  && data[insertAt][sortCol].toString()
-                          .compareToIgnoreCase(
-                                  aRow.elementAt(sortCol)
-                                          .toString()) > 0)
-          {
-            insertAt++;
-          }
-        }
-        else
-        { // ascending
-          while (insertAt < r
-                  && aRow.elementAt(sortCol) != null
-                  && data[insertAt][sortCol].toString()
-                          .compareToIgnoreCase(
-                                  aRow.elementAt(sortCol)
-                                          .toString()) < 0)
-          {
-            insertAt++;
-          }
-        }
-        for (int c = 0; c < colNames.size(); c++)
-        {
-          for (int shift = 0; insertAt < (r - shift); shift++)
-          {
-            data[r - shift][c] = data[r - shift - 1][c];
-          }
-          data[insertAt][c] = aRow.elementAt(c);
-        }
-      }
-
-      List<String> keyList = List.create(String.class);
-      for (String object : colNames)
-      {
-        keyList.add(object);
-      }
-      Recordset returnRS = new Recordset(keyList);
-      for (int j = 0; j < data.length; j++)
-      {
-        List<Object> valueList = List.create();
-        for (Object val : data[j])
-        {
-          if (val != null)
-            valueList.add(val);
-        }
-        returnRS.add(valueList);
-      }
-      setVariable(ivyGridAttribute, returnRS, argument);
+      sortByAttribute = getVariable(sortByAttribute, cont).toString();
     }
+    if (sortByAttribute != null)
+    {
+      for (int c = 0; c < colNames.size(); c++)
+      {
+        if (sortByAttribute.equals(colNames.elementAt(c)))
+        {
+          sortCol = c;
+          break;
+        }
+      }
+    }
+    Object[][] data = new Object[result.size()][colNames.size()];
+    for (int r = 0; r < result.size(); r++)
+    {
+      Vector<Object> aRow = result.elementAt(r);
+      int insertAt = 0;
+      if (sortByAttribute == null)
+      {
+        insertAt = r;
+      }
+      else if (descendingSort)
+      {
+        while (insertAt < r
+                && aRow.elementAt(sortCol) != null
+                && data[insertAt][sortCol].toString()
+                        .compareToIgnoreCase(
+                                aRow.elementAt(sortCol)
+                                        .toString()) > 0)
+        {
+          insertAt++;
+        }
+      }
+      else
+      { // ascending
+        while (insertAt < r
+                && aRow.elementAt(sortCol) != null
+                && data[insertAt][sortCol].toString()
+                        .compareToIgnoreCase(
+                                aRow.elementAt(sortCol)
+                                        .toString()) < 0)
+        {
+          insertAt++;
+        }
+      }
+      for (int c = 0; c < colNames.size(); c++)
+      {
+        for (int shift = 0; insertAt < (r - shift); shift++)
+        {
+          data[r - shift][c] = data[r - shift - 1][c];
+        }
+        data[insertAt][c] = aRow.elementAt(c);
+      }
+    }
+
+    List<String> keyList = List.create(String.class);
+    for (String object : colNames)
+    {
+      keyList.add(object);
+    }
+    Recordset returnRS = new Recordset(keyList);
+    for (int j = 0; j < data.length; j++)
+    {
+      List<Object> valueList = List.create();
+      for (Object val : data[j])
+      {
+        if (val != null)
+          valueList.add(val);
+      }
+      returnRS.add(valueList);
+    }
+    
+    return returnRS;
   }
 
   private void appendSearchResultToRow(CompositeObject argument, String objectName,
