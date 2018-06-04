@@ -339,130 +339,14 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
   public CompositeObject perform(IRequestId reqID, CompositeObject argument,
           IIvyScriptContext cont) throws Exception
   {
-    NamingEnumeration<SearchResult> resultEnum = null;
+    
+
+    final String filter = buildSearchFilter(cont);
+    final String objectName = getRootObjectName(cont);
+    final JndiConfig expandedJndiConfig = createJndiConfig(cont);
+
     DirContext dirContext = null;
-    Enumeration<String> attrEnum;
-    String attribute, value;
-    String filter = "";
-    String objectName;
-    Vector<Vector<Object>> result = null;
-    Vector<Object> row = null;
-    Vector<String> colNames = new Vector<>();
-
-    // Build search filter
-    if (anyFilterText != null)
-    {
-      // expand ivy attributtes "in.x.." in the filter string
-      StringBuffer sb = new StringBuffer();
-      int at = anyFilterText.indexOf("in.");
-      int to = 0;
-      while (at >= 0)
-      {
-        sb.append(anyFilterText.substring(to, at));
-        to = anyFilterText.indexOf(")", at);
-        String attr = anyFilterText.substring(at + 3, to);
-        if (getVariable(attr, cont) != null)
-        {
-          // ivyGrid argument found. Get it an make string out of it
-          sb.append(getVariable(attr, cont).toString());
-        }
-        at = anyFilterText.indexOf("in.", to);
-      }
-      sb.append(anyFilterText.substring(to));
-      filter = sb.toString();
-    }
-    else
-    {
-      attrEnum = filterAttributesHashtable.keys();
-      while (attrEnum.hasMoreElements())
-      {
-        String oldAttribute = attrEnum.nextElement();
-        String newAttribute = (String) getVariable(oldAttribute, cont);
-        value = filterAttributesHashtable.get(oldAttribute);
-        value = (String) getVariable(value, cont);
-        value = value.trim();
-        // if the filter value starts and ends with " I assume that this
-        // is a constant string
-        if (value.startsWith("\"") && value.endsWith("\""))
-        {
-          value = value.substring(1, value.length() - 1);
-        }
-        else
-        {
-          // if the filter value does not start and ends with " I
-          // assume that this is the name of a
-          // ivyGrid argument -> try to resBunolve the value as
-          // ivyGrid
-          // argument
-          if (getVariable(value, cont) != null)
-          {
-            // ivyGrid argument found. Get it an make string out of
-            // it
-            value = getVariable(value, cont).toString();
-          }
-          // no ivyGrid argument found with the value as name --> use
-          // the value string itself
-        }
-        if (filter.length() == 0)
-        {
-          filter += "(&";
-        }
-        filter += "(";
-        filter += newAttribute + "=" + value;
-        filter += ")";
-      }
-
-      if (filter.length() > 0)
-      {
-        filter += ")";
-      }
-    }
-
-    if (rootObjectName.trim().startsWith("\"")
-            && (rootObjectName.trim().endsWith("\"")))
-    {
-      objectName = rootObjectName.substring(1,
-              rootObjectName.length() - 1);
-    }
-    else
-    {
-      objectName = (String) getVariable(rootObjectName, cont);
-      if (objectName == null)
-      {
-        objectName = rootObjectName;
-      }
-    }
-
-    JndiConfig expandedJndiConfig = (JndiConfig) jndiConfig.clone();
-    // try to expand url, name and password fields
-    String propStr = expandedJndiConfig.getUrl();
-    if (propStr != null)
-    {
-      if (getVariable(propStr, cont) != null)
-      {
-        propStr = (String) getVariable(propStr, cont);
-        expandedJndiConfig.setUrl(propStr);
-      }
-    }
-    propStr = expandedJndiConfig.getUserName();
-    if (propStr != null)
-    {
-      if (getVariable(propStr, cont) != null)
-      {
-        propStr = (String) getVariable(propStr, cont);
-        expandedJndiConfig.setUserName(propStr);
-      }
-    }
-    propStr = expandedJndiConfig.getPassword();
-    if (propStr != null)
-    {
-      if (getVariable(propStr, cont) != null)
-      {
-        propStr = (String) getVariable(propStr, cont);
-        expandedJndiConfig.setPassword(propStr);
-      }
-    }
-
+    NamingEnumeration<SearchResult> resultEnum = null;
     try
     {
       // query the naming and directory service
@@ -472,11 +356,16 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
       dirContext = JndiUtil.openDirContext(expandedJndiConfig);
       resultEnum = dirContext.search(objectName, filter, searchControl);
 
+      Vector<Vector<Object>> result = null;
+      Vector<Object> row = null;
+      Vector<String> colNames = new Vector<>();
       if (ivyGridAttribute != null)
       {
         result = new Vector<>();
       }
 
+      Enumeration<String> attrEnum;
+      String attribute;
       // read the result and assign them to the ivyGrid arguments
       if (resultEnum == null || !resultEnum.hasMoreElements())
       {
@@ -642,6 +531,129 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
     }
 
     return argument;
+  }
+  
+  
+
+  private JndiConfig createJndiConfig(IIvyScriptContext cont)
+  {
+    JndiConfig expandedJndiConfig = (JndiConfig) jndiConfig.clone();
+    // try to expand url, name and password fields
+    String propStr = expandedJndiConfig.getUrl();
+    if (propStr != null)
+    {
+      if (getVariable(propStr, cont) != null)
+      {
+        propStr = (String) getVariable(propStr, cont);
+        expandedJndiConfig.setUrl(propStr);
+      }
+    }
+    propStr = expandedJndiConfig.getUserName();
+    if (propStr != null)
+    {
+      if (getVariable(propStr, cont) != null)
+      {
+        propStr = (String) getVariable(propStr, cont);
+        expandedJndiConfig.setUserName(propStr);
+      }
+    }
+    propStr = expandedJndiConfig.getPassword();
+    if (propStr != null)
+    {
+      if (getVariable(propStr, cont) != null)
+      {
+        propStr = (String) getVariable(propStr, cont);
+        expandedJndiConfig.setPassword(propStr);
+      }
+    }
+    return expandedJndiConfig;
+  }
+
+  private String getRootObjectName(IIvyScriptContext cont)
+  {
+    if (rootObjectName.trim().startsWith("\"") && (rootObjectName.trim().endsWith("\"")))
+    {
+      return rootObjectName.substring(1, rootObjectName.length() - 1);
+    }
+    else
+    {
+      String objectName = (String) getVariable(rootObjectName, cont);
+      if (objectName == null)
+      {
+        objectName = rootObjectName;
+      }
+      return objectName;
+    }
+  }
+
+  private String buildSearchFilter(IIvyScriptContext cont)
+  {
+    if (anyFilterText != null)
+    {
+      // expand ivy attributtes "in.x.." in the filter string
+      StringBuffer sb = new StringBuffer();
+      int at = anyFilterText.indexOf("in.");
+      int to = 0;
+      while (at >= 0)
+      {
+        sb.append(anyFilterText.substring(to, at));
+        to = anyFilterText.indexOf(")", at);
+        String attr = anyFilterText.substring(at + 3, to);
+        if (getVariable(attr, cont) != null)
+        {
+          // ivyGrid argument found. Get it an make string out of it
+          sb.append(getVariable(attr, cont).toString());
+        }
+        at = anyFilterText.indexOf("in.", to);
+      }
+      sb.append(anyFilterText.substring(to));
+      return sb.toString();
+    }
+    else
+    {
+      String filter = "";
+      Enumeration<String> attrEnum = filterAttributesHashtable.keys();
+      while (attrEnum.hasMoreElements())
+      {
+        String oldAttribute = attrEnum.nextElement();
+        String newAttribute = (String) getVariable(oldAttribute, cont);
+        String value = filterAttributesHashtable.get(oldAttribute);
+        value = (String) getVariable(value, cont);
+        value = value.trim();
+        // if the filter value starts and ends with " I assume that this is a constant string
+        if (value.startsWith("\"") && value.endsWith("\""))
+        {
+          value = value.substring(1, value.length() - 1);
+        }
+        else
+        {
+          // if the filter value does not start and ends with " I
+          // assume that this is the name of a
+          // ivyGrid argument -> try to resBunolve the value as ivyGrid argument
+          if (getVariable(value, cont) != null)
+          {
+            // ivyGrid argument found. Get it an make string out of
+            // it
+            value = getVariable(value, cont).toString();
+          }
+          // no ivyGrid argument found with the value as name --> use
+          // the value string itself
+        }
+        if (filter.length() == 0)
+        {
+          filter += "(&";
+        }
+        filter += "(";
+        filter += newAttribute + "=" + value;
+        filter += ")";
+      }
+
+      if (filter.length() > 0)
+      {
+        filter += ")";
+      }
+      return filter;
+    }
   }
 
   private void appendSearchResultToRow(CompositeObject argument, String objectName,
