@@ -398,7 +398,7 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
     }
     finally
     {
-      closeHandles(dirContext, resultEnum);
+      closeHandlesSilently(dirContext, resultEnum);
     }
 
     return argument;
@@ -668,60 +668,12 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
     }
     
     Attributes jndiAttributes = searchResult.getAttributes();
-    Attribute jndiAttribute;
     Enumeration<String> attrEnum = resultAttributesKeys.elements();
     while (attrEnum.hasMoreElements())
     {
-      String attribute = attrEnum.nextElement();
-      if (jndiAttributes != null)
-      {
-        jndiAttribute = jndiAttributes.get(attribute);
-      }
-      else
-      {
-        jndiAttribute = null;
-      }
-      if (jndiAttribute != null)
-      {
-        if (jndiAttribute.size() == 1)
-        {
-          if (ivyGridAttribute != null)
-          {
-            row.add(jndiAttribute.get());
-          }
-          else
-          {
-            setVariable(
-              resultAttributesHashtable.get(attribute),
-              jndiAttribute.get(), argument);
-          }
-        }
-        else if (jndiAttribute.size() > 1)
-        {
-          if (ivyGridAttribute != null)
-          {
-            NamingEnumeration<?> tmpEnum = jndiAttribute.getAll();
-            List<String> l = List.create(String.class);
-            while (tmpEnum.hasMoreElements())
-            {
-              String tmpStr = (String) tmpEnum.nextElement();
-              l.add(tmpStr);
-            }
-            row.add(l);
-          }
-          else
-          {
-            setVariable(
-                    resultAttributesHashtable
-                            .get(attribute),
-                    jndiAttribute.getAll(), argument);
-          }
-        }
-      }
-      else if (ivyGridAttribute != null)
-      {
-        row.add("");
-      }
+      String resultAttrName = attrEnum.nextElement();
+      Attribute jndiAttribute = getJndiAttribute(jndiAttributes, resultAttrName);
+      appendAttributeEntry(argument, row, resultAttrName, jndiAttribute);
     }
   }
 
@@ -741,7 +693,7 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
                         .length() - 1);
       }
     }
-
+  
     if (ivyGridAttribute != null)
     {
       if (objectName.trim().equals(""))
@@ -770,7 +722,66 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
     }
   }
 
-  private void closeHandles(DirContext dirContext, NamingEnumeration<SearchResult> resultEnum)
+  private static Attribute getJndiAttribute(Attributes jndiAttributes, String resultAttrName)
+  {
+    if (jndiAttributes == null)
+    {
+      return null;
+    }
+    return jndiAttributes.get(resultAttrName);
+  }
+
+  private void appendAttributeEntry(CompositeObject argument, Vector<Object> row, String resultAttrName,
+          Attribute jndiAttribute) throws NamingException, NoSuchFieldException
+  {
+    if (jndiAttribute == null)
+    {
+      // none
+      if (ivyGridAttribute != null)
+      {
+        row.add("");
+      }
+      return;
+    }
+    
+    if (jndiAttribute.size() == 1)
+    {
+      // single
+      if (ivyGridAttribute != null)
+      {
+        row.add(jndiAttribute.get());
+      }
+      else
+      {
+        setVariable(
+          resultAttributesHashtable.get(resultAttrName),
+          jndiAttribute.get(), argument);
+      }
+    }
+    else if (jndiAttribute.size() > 1)
+    {
+      // multiple
+      if (ivyGridAttribute != null)
+      {
+        NamingEnumeration<?> tmpEnum = jndiAttribute.getAll();
+        List<String> l = List.create(String.class);
+        while (tmpEnum.hasMoreElements())
+        {
+          String tmpStr = (String) tmpEnum.nextElement();
+          l.add(tmpStr);
+        }
+        row.add(l);
+      }
+      else
+      {
+        setVariable(
+          resultAttributesHashtable.get(resultAttrName),
+          jndiAttribute.getAll(), argument);
+      }
+    }
+  }
+
+  private static void closeHandlesSilently(DirContext dirContext, NamingEnumeration<SearchResult> resultEnum)
   {
     if (resultEnum != null)
     {
