@@ -339,8 +339,6 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
   public CompositeObject perform(IRequestId reqID, CompositeObject argument,
           IIvyScriptContext cont) throws Exception
   {
-    
-
     final String filter = buildSearchFilter(cont);
     final String objectName = getRootObjectName(cont);
     final JndiConfig expandedJndiConfig = createJndiConfig(cont);
@@ -357,47 +355,19 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
       resultEnum = dirContext.search(objectName, filter, searchControl);
 
       Vector<Vector<Object>> result = null;
-      Vector<Object> row = null;
-      Vector<String> colNames = new Vector<>();
       if (ivyGridAttribute != null)
       {
         result = new Vector<>();
       }
 
-      Enumeration<String> attrEnum;
-      String attribute;
       // read the result and assign them to the ivyGrid arguments
       if (resultEnum == null || !resultEnum.hasMoreElements())
       {
-        // no result found! --> set output to null
-        if (ivyGridAttribute == null)
-        {
-          attrEnum = resultAttributesKeys.elements();
-          while (attrEnum.hasMoreElements())
-          {
-            attribute = attrEnum.nextElement();
-            setVariable(resultAttributesHashtable
-                    .get(attribute), null, argument);
-          }
-          if (includeName)
-          {
-            setVariable(ivyGridNameAttribute, null, argument);
-          }
-        }
+        setNoResult(argument);
       }
       else
       {
-        if (includeName)
-        {
-          colNames.add("JNDIName");
-        }
-        attrEnum = resultAttributesKeys.elements();
-        while (attrEnum.hasMoreElements())
-        {
-          attribute = attrEnum.nextElement();
-          colNames.add(attribute);
-        }
-
+        Vector<Object> row = null;
         while (resultEnum.hasMoreElements())
         {
           SearchResult searchResult = resultEnum.nextElement();
@@ -413,177 +383,25 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
         }
       }
 
-      if (ivyGridAttribute != null
-              && Recordset.class.equals(getVariable(ivyGridAttribute,
-                      cont).getClass()))
+      if (ivyGridAttribute != null)
       {
-        if (result == null || result.size() == 0)
+        if (Recordset.class.equals(getVariable(ivyGridAttribute, cont).getClass()))
         {
-          setVariable(ivyGridAttribute, null, argument);
+          Vector<String> colNames = readColumnNames();
+          mapToRecordsetAttribute(argument, cont, result, colNames);
         }
         else
-        {
-          int sortCol = 0;
-          if (getVariable(sortByAttribute, cont) != null)
-          {
-            sortByAttribute = getVariable(sortByAttribute, cont).toString();
-          }
-          if (sortByAttribute != null)
-          {
-            for (int c = 0; c < colNames.size(); c++)
-            {
-              if (sortByAttribute.equals(colNames.elementAt(c)))
-              {
-                sortCol = c;
-                break;
-              }
-            }
-          }
-          Object[][] data = new Object[result.size()][colNames.size()];
-          for (int r = 0; r < result.size(); r++)
-          {
-            Vector<Object> aRow = result.elementAt(r);
-            int insertAt = 0;
-            if (sortByAttribute == null)
-            {
-              insertAt = r;
-            }
-            else if (descendingSort)
-            {
-              while (insertAt < r
-                      && aRow.elementAt(sortCol) != null
-                      && data[insertAt][sortCol].toString()
-                              .compareToIgnoreCase(
-                                      aRow.elementAt(sortCol)
-                                              .toString()) > 0)
-              {
-                insertAt++;
-              }
-            }
-            else
-            { // ascending
-              while (insertAt < r
-                      && aRow.elementAt(sortCol) != null
-                      && data[insertAt][sortCol].toString()
-                              .compareToIgnoreCase(
-                                      aRow.elementAt(sortCol)
-                                              .toString()) < 0)
-              {
-                insertAt++;
-              }
-            }
-            for (int c = 0; c < colNames.size(); c++)
-            {
-              for (int shift = 0; insertAt < (r - shift); shift++)
-              {
-                data[r - shift][c] = data[r - shift - 1][c];
-              }
-              data[insertAt][c] = aRow.elementAt(c);
-            }
-          }
-
-          List<String> keyList = List.create(String.class);
-          for (String object : colNames)
-          {
-            keyList.add(object);
-          }
-          Recordset returnRS = new Recordset(keyList);
-          for (int j = 0; j < data.length; j++)
-          {
-            List<Object> valueList = List.create();
-            for (Object val : data[j])
-            {
-              if (val != null)
-                valueList.add(val);
-            }
-            returnRS.add(valueList);
-          }
-          setVariable(ivyGridAttribute, returnRS, argument);
+        { // return as list[list]
+          setVariable(ivyGridAttribute, result, argument);
         }
-      }
-      else if (ivyGridAttribute != null)
-      { // return as list[list]
-        setVariable(ivyGridAttribute, result, argument);
       }
     }
     finally
     {
-      if (resultEnum != null)
-      {
-        try
-        {
-          resultEnum.close();
-        }
-        catch (NamingException ex)
-        {
-        }
-      }
-      if (dirContext != null)
-      {
-        try
-        {
-          dirContext.close();
-        }
-        catch (NamingException ex)
-        {
-        }
-      }
+      closeHandles(dirContext, resultEnum);
     }
 
     return argument;
-  }
-  
-  
-
-  private JndiConfig createJndiConfig(IIvyScriptContext cont)
-  {
-    JndiConfig expandedJndiConfig = (JndiConfig) jndiConfig.clone();
-    // try to expand url, name and password fields
-    String propStr = expandedJndiConfig.getUrl();
-    if (propStr != null)
-    {
-      if (getVariable(propStr, cont) != null)
-      {
-        propStr = (String) getVariable(propStr, cont);
-        expandedJndiConfig.setUrl(propStr);
-      }
-    }
-    propStr = expandedJndiConfig.getUserName();
-    if (propStr != null)
-    {
-      if (getVariable(propStr, cont) != null)
-      {
-        propStr = (String) getVariable(propStr, cont);
-        expandedJndiConfig.setUserName(propStr);
-      }
-    }
-    propStr = expandedJndiConfig.getPassword();
-    if (propStr != null)
-    {
-      if (getVariable(propStr, cont) != null)
-      {
-        propStr = (String) getVariable(propStr, cont);
-        expandedJndiConfig.setPassword(propStr);
-      }
-    }
-    return expandedJndiConfig;
-  }
-
-  private String getRootObjectName(IIvyScriptContext cont)
-  {
-    if (rootObjectName.trim().startsWith("\"") && (rootObjectName.trim().endsWith("\"")))
-    {
-      return rootObjectName.substring(1, rootObjectName.length() - 1);
-    }
-    else
-    {
-      String objectName = (String) getVariable(rootObjectName, cont);
-      if (objectName == null)
-      {
-        objectName = rootObjectName;
-      }
-      return objectName;
-    }
   }
 
   private String buildSearchFilter(IIvyScriptContext cont)
@@ -647,12 +465,185 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
         filter += newAttribute + "=" + value;
         filter += ")";
       }
-
+  
       if (filter.length() > 0)
       {
         filter += ")";
       }
       return filter;
+    }
+  }
+
+  private String getRootObjectName(IIvyScriptContext cont)
+  {
+    if (rootObjectName.trim().startsWith("\"") && (rootObjectName.trim().endsWith("\"")))
+    {
+      return rootObjectName.substring(1, rootObjectName.length() - 1);
+    }
+    else
+    {
+      String objectName = (String) getVariable(rootObjectName, cont);
+      if (objectName == null)
+      {
+        objectName = rootObjectName;
+      }
+      return objectName;
+    }
+  }
+
+  private JndiConfig createJndiConfig(IIvyScriptContext cont)
+  {
+    JndiConfig expandedJndiConfig = (JndiConfig) jndiConfig.clone();
+    // try to expand url, name and password fields
+    String propStr = expandedJndiConfig.getUrl();
+    if (propStr != null)
+    {
+      if (getVariable(propStr, cont) != null)
+      {
+        propStr = (String) getVariable(propStr, cont);
+        expandedJndiConfig.setUrl(propStr);
+      }
+    }
+    propStr = expandedJndiConfig.getUserName();
+    if (propStr != null)
+    {
+      if (getVariable(propStr, cont) != null)
+      {
+        propStr = (String) getVariable(propStr, cont);
+        expandedJndiConfig.setUserName(propStr);
+      }
+    }
+    propStr = expandedJndiConfig.getPassword();
+    if (propStr != null)
+    {
+      if (getVariable(propStr, cont) != null)
+      {
+        propStr = (String) getVariable(propStr, cont);
+        expandedJndiConfig.setPassword(propStr);
+      }
+    }
+    return expandedJndiConfig;
+  }
+
+  private void setNoResult(CompositeObject argument) throws NoSuchFieldException
+  {
+    // no result found! --> set output to null
+    if (ivyGridAttribute == null)
+    {
+      Enumeration<String> attrEnum = resultAttributesKeys.elements();
+      while (attrEnum.hasMoreElements())
+      {
+        String attribute = attrEnum.nextElement();
+        setVariable(resultAttributesHashtable.get(attribute), null, argument);
+      }
+      if (includeName)
+      {
+        setVariable(ivyGridNameAttribute, null, argument);
+      }
+    }
+  }
+
+  private Vector<String> readColumnNames()
+  {
+    Vector<String> colNames = new Vector<>();
+    if (includeName)
+    {
+      colNames.add("JNDIName");
+    }
+    Enumeration<String> attrEnum = resultAttributesKeys.elements();
+    while (attrEnum.hasMoreElements())
+    {
+      String attribute = attrEnum.nextElement();
+      colNames.add(attribute);
+    }
+    return colNames;
+  }
+
+  private void mapToRecordsetAttribute(CompositeObject argument, IIvyScriptContext cont,
+          Vector<Vector<Object>> result, Vector<String> colNames) throws NoSuchFieldException
+  {
+    if (result == null || result.size() == 0)
+    {
+      setVariable(ivyGridAttribute, null, argument);
+    }
+    else
+    {
+      int sortCol = 0;
+      if (getVariable(sortByAttribute, cont) != null)
+      {
+        sortByAttribute = getVariable(sortByAttribute, cont).toString();
+      }
+      if (sortByAttribute != null)
+      {
+        for (int c = 0; c < colNames.size(); c++)
+        {
+          if (sortByAttribute.equals(colNames.elementAt(c)))
+          {
+            sortCol = c;
+            break;
+          }
+        }
+      }
+      Object[][] data = new Object[result.size()][colNames.size()];
+      for (int r = 0; r < result.size(); r++)
+      {
+        Vector<Object> aRow = result.elementAt(r);
+        int insertAt = 0;
+        if (sortByAttribute == null)
+        {
+          insertAt = r;
+        }
+        else if (descendingSort)
+        {
+          while (insertAt < r
+                  && aRow.elementAt(sortCol) != null
+                  && data[insertAt][sortCol].toString()
+                          .compareToIgnoreCase(
+                                  aRow.elementAt(sortCol)
+                                          .toString()) > 0)
+          {
+            insertAt++;
+          }
+        }
+        else
+        { // ascending
+          while (insertAt < r
+                  && aRow.elementAt(sortCol) != null
+                  && data[insertAt][sortCol].toString()
+                          .compareToIgnoreCase(
+                                  aRow.elementAt(sortCol)
+                                          .toString()) < 0)
+          {
+            insertAt++;
+          }
+        }
+        for (int c = 0; c < colNames.size(); c++)
+        {
+          for (int shift = 0; insertAt < (r - shift); shift++)
+          {
+            data[r - shift][c] = data[r - shift - 1][c];
+          }
+          data[insertAt][c] = aRow.elementAt(c);
+        }
+      }
+
+      List<String> keyList = List.create(String.class);
+      for (String object : colNames)
+      {
+        keyList.add(object);
+      }
+      Recordset returnRS = new Recordset(keyList);
+      for (int j = 0; j < data.length; j++)
+      {
+        List<Object> valueList = List.create();
+        for (Object val : data[j])
+        {
+          if (val != null)
+            valueList.add(val);
+        }
+        returnRS.add(valueList);
+      }
+      setVariable(ivyGridAttribute, returnRS, argument);
     }
   }
 
@@ -771,6 +762,30 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
         {
           row.add("");
         }
+      }
+    }
+  }
+
+  private void closeHandles(DirContext dirContext, NamingEnumeration<SearchResult> resultEnum)
+  {
+    if (resultEnum != null)
+    {
+      try
+      {
+        resultEnum.close();
+      }
+      catch (NamingException ex)
+      {
+      }
+    }
+    if (dirContext != null)
+    {
+      try
+      {
+        dirContext.close();
+      }
+      catch (NamingException ex)
+      {
       }
     }
   }
