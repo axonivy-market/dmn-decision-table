@@ -67,19 +67,10 @@ public class BlockchainRequestComposite extends SharedScrolledComposite
     Shell shell = new Shell();
 
     new BlockchainRequestComposite(shell);
-    /*
-    MappingTable restParamTable = new MappingTable(shell, SWT.DROP_DOWN);
-    List<Row> params = new ArrayList<>();
-    params.add(new Row("api.version", "1.1"));
-    params.add(new Row("screen_name", "AxonIvy"));
-    restParamTable.setItems(params);
-
-    restParamTable.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
-    */
 
     shell.setLayout(new FillLayout());
-    shell.setSize(400,400);
-    shell.setText("Test Blockchain ui");
+    shell.setSize(600,600);
+    shell.setText("Test Blockchain Request UI");
     shell.layout();
     shell.open();
     while(!shell.isDisposed())

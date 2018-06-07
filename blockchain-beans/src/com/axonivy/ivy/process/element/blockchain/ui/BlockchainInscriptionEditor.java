@@ -23,7 +23,6 @@ public class BlockchainInscriptionEditor implements BpmnInscriptionEditor
   {
     BlockchainRequestConfigurator configurator = new BlockchainRequestConfigurator(ctxt.project, (ThirdPartyElement) ctxt.element);
     BlockchainRequestUiModel uiModel = new BlockchainRequestUiModel(configurator);
-    return Arrays.asList(new BlockchainRequestTab(uiModel));
+    return Arrays.asList(new BlockchainRequestTab(uiModel), new BlockchainResponseTab(uiModel));
   }
-
 }
