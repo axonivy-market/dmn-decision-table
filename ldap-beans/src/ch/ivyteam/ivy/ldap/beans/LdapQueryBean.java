@@ -24,6 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
@@ -761,12 +762,11 @@ public class LdapQueryBean extends AbstractUserProcessExtension
     NamingEnumeration<SearchResult> resultEnum = null;
     DirContext dirContext = null;
     Enumeration<String> attrEnum;
-    String attribute, value;
+    String value;
     String filter = "";
     String objectName;
     SearchResult searchResult;
     Vector<Vector<Object>> result = null;
-    Vector<Object> row = null;
 
     // Build search filter
     attrEnum = filterAttributesHashtable.keys();
@@ -881,18 +881,17 @@ public class LdapQueryBean extends AbstractUserProcessExtension
       else
       {
         List<String> tableKeys = List.create(String.class);
-        attrEnum = resultAttributesKeys.elements();
-        while (attrEnum.hasMoreElements())
+        if (includeName)
         {
-          attribute = attrEnum.nextElement();
-          tableKeys.add(attribute);
+          tableKeys.add("JNDIName");
         }
+        tableKeys.addAll(Collections.list(resultAttributesKeys.elements()));
 
         boolean onlyOneDone = false;
         while (resultEnum.hasMoreElements() && !onlyOneDone)
         {
           searchResult = resultEnum.nextElement();
-          onlyOneDone = handleResult(searchResult, result, row, objectName, argument, cont);
+          onlyOneDone = handleResult(searchResult, result, tableKeys, objectName, argument, cont);
         }
         Recordset resultRS = toRecordset(result, tableKeys);
         if (ivyGridAttribute != null)
@@ -927,33 +926,40 @@ public class LdapQueryBean extends AbstractUserProcessExtension
     return argument;
   }
 
-  private boolean handleResult(SearchResult searchResult, Vector<Vector<Object>> result, Vector<Object> row,
-          String objectName, CompositeObject argument, IIvyScriptContext cont) throws PersistencyException,
-          NoSuchFieldException, IvyScriptException, NamingException
+  private boolean handleResult(SearchResult searchResult,
+          Vector<Vector<Object>> result, List<String> tableKeys,
+          String objectName, CompositeObject argument, IIvyScriptContext cont)
+          throws PersistencyException, NoSuchFieldException,
+          IvyScriptException, NamingException
   {
-    Attributes jndiAttributes;
-    Attribute jndiAttribute;
+    Vector<Object> row = new Vector<>(tableKeys.size());
+    for(int i=0; i<tableKeys.size(); i++)
+    { // fill with nulls
+      row.add(i, null);
+    }
+    
     if (searchResult != null)
     {
       if (ivyGridAttribute != null)
       {
-        row = new Vector<>();
         result.add(row);
       }
 
       // include jndi name in result if it is selected
+
       if (includeName)
       {
         if (ivyGridAttribute != null)
         {
           if (rootObjectName.trim().equals(""))
           {
-            row.add(searchResult.getName());
+            row.set(0, searchResult.getName());
           }
           else
           {
-            row.add(searchResult.getName() + "," + objectName);
+            row.set(0, searchResult.getName() + "," + objectName);
           }
+
         }
         else
         {
@@ -967,12 +973,13 @@ public class LdapQueryBean extends AbstractUserProcessExtension
           }
         }
       }
-      jndiAttributes = searchResult.getAttributes();
+      Attributes jndiAttributes = searchResult.getAttributes();
       Enumeration<String> attrEnum = resultAttributesHashtable.keys();
 
       while (attrEnum.hasMoreElements())
       {
         String attribute = attrEnum.nextElement();
+        Attribute jndiAttribute;
         if (jndiAttributes != null)
         {
           jndiAttribute = jndiAttributes.get(attribute);
@@ -987,14 +994,16 @@ public class LdapQueryBean extends AbstractUserProcessExtension
           {
             if (ivyGridAttribute != null)
             {
-              row.add(jndiAttribute.get());
+              int pos = tableKeys.indexOf(attribute);
+              if (pos != -1)
+              {
+                row.set(pos, jndiAttribute.get());
+              }
             }
             else
             {
-              // argument.set((String) resultAttributesHashtable.get(attribute),
-              // jndiAttribute.get());
-              setVariable(resultAttributesHashtable.get(attribute).toString(), jndiAttribute.get(), argument,
-                      cont);
+              setVariable(resultAttributesHashtable.get(attribute).toString(),
+                      jndiAttribute.get(), argument, cont);
               return true;
             }
           }
@@ -1002,14 +1011,16 @@ public class LdapQueryBean extends AbstractUserProcessExtension
           {
             if (ivyGridAttribute != null)
             {
-              row.add(jndiAttribute.getAll());
+              int pos = tableKeys.indexOf(attribute);
+              if (pos != -1)
+              {
+                row.set(pos, jndiAttribute.getAll());
+              }
             }
             else
             {
-              // argument.set((String) resultAttributesHashtable.get(attribute),
-              // jndiAttribute.getAll());
-              setVariable(resultAttributesHashtable.get(attribute).toString(), jndiAttribute.getAll(),
-                      argument, cont);
+              setVariable(resultAttributesHashtable.get(attribute).toString(),
+                      jndiAttribute.getAll(), argument, cont);
             }
           }
         }
@@ -1020,16 +1031,7 @@ public class LdapQueryBean extends AbstractUserProcessExtension
 
   private Recordset toRecordset(Vector<Vector<Object>> result, List<String> tableKeys)
   {
-    List<String> tmpList = List.create(String.class);
-    if (includeName)
-    {
-      tmpList.add("JNDIName");
-    }
-    for (int i = tableKeys.size() - 1; i >= 0; i--)
-    {
-      tmpList.add(tableKeys.get(i));
-    }
-    Recordset resultRS = new Recordset(tmpList);
+    Recordset resultRS = new Recordset(tableKeys);
     result = result != null ? result : new Vector<>();
     for (int i = 0; i < result.size(); i++)
     {
