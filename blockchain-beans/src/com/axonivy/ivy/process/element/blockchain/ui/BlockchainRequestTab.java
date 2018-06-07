@@ -1,6 +1,5 @@
 package com.axonivy.ivy.process.element.blockchain.ui;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.fw.AbstractUiModelSwtInscriptionTab;
@@ -24,11 +23,6 @@ public class BlockchainRequestTab extends AbstractUiModelSwtInscriptionTab<Block
   @Override
   protected Composite createUiAndBindToModel(Composite parent, IvySwtBinder ivySwtBinder)
   {
-    BlockchainRequestComposite composite = new BlockchainRequestComposite(parent, SWT.NONE);
-    //ivySwtBinder.bind(model.GEt)
-    //composite.label.
-    return composite;
+    return new BlockchainRequestComposite(parent);
   }
-
-
 }
