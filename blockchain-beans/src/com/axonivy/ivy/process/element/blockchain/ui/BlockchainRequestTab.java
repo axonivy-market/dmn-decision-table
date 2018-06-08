@@ -20,9 +20,19 @@ public class BlockchainRequestTab extends AbstractUiModelSwtInscriptionTab<Block
     return "Request";
   }
 
+  BlockchainRequestUiModel getRequestTabUiModel()
+  {
+    return model;
+  }
+
   @Override
   protected Composite createUiAndBindToModel(Composite parent, IvySwtBinder ivySwtBinder)
   {
-    return new BlockchainRequestComposite(parent);
+    BlockchainRequestComposite composite = new BlockchainRequestComposite(parent);
+    ivySwtBinder.bind(model.contracts).to(composite.contractCombo);
+    ivySwtBinder.bind(model.functions).to(composite.functionCombo);
+    ivySwtBinder.bind(model.properties).to(composite.propertiesTable);
+    composite.propertySelector.setExpanded(!model.properties.isDefault());
+    return composite;
   }
 }

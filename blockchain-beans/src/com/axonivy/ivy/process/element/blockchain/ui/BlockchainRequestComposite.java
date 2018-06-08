@@ -1,10 +1,10 @@
 package com.axonivy.ivy.process.element.blockchain.ui;
 
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -15,11 +15,15 @@ import org.eclipse.ui.forms.widgets.SharedScrolledComposite;
 import ch.ivyteam.ivy.awtGuiComponents.ivvScriptTrees.IvyClassIconProvider.Mode;
 import ch.ivyteam.ivy.guiComponents.swt.restricted.mapping.MappingTreeTable;
 import ch.ivyteam.ivy.guiComponents.swt.tables.MappingTable;
+import ch.ivyteam.swt.table.ExpandableCompositeUtil;
 
 public class BlockchainRequestComposite extends SharedScrolledComposite
 {
-  private MappingTable propertiesTable;
+  final MappingTable propertiesTable;
   final MappingTreeTable parameterMapping;
+  final ComboViewer contractCombo;
+  final ComboViewer functionCombo;
+  final ExpandableComposite propertySelector;
 
   public BlockchainRequestComposite(Composite parent)
   {
@@ -41,20 +45,21 @@ public class BlockchainRequestComposite extends SharedScrolledComposite
     Label contractLabel = new Label(callSelector, SWT.NONE);
     contractLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
     contractLabel.setText("Contract");
-    Combo contractCombo = new Combo(callSelector, SWT.NONE);
-    contractCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+    contractCombo = new ComboViewer(callSelector, SWT.NONE);
+    contractCombo.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
     Label functionLabel = new Label(callSelector, SWT.NONE);
     functionLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
     functionLabel.setText("Function");
-    Combo functionCombo = new Combo(callSelector, SWT.NONE);
-    functionCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+    functionCombo = new ComboViewer(callSelector, SWT.NONE);
+    functionCombo.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
-    ExpandableComposite propertySelector = new ExpandableComposite(scrollContent, SWT.NONE);
+    propertySelector = new ExpandableComposite(scrollContent, SWT.NONE);
     propertySelector.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
     propertySelector.setText("Properties");
     propertiesTable = new MappingTable(propertySelector, SWT.DROP_DOWN);
     propertySelector.setClient(propertiesTable);
+    ExpandableCompositeUtil.wireSizeUpdates(this, propertySelector, propertiesTable);
 
     parameterMapping = new MappingTreeTable(scrollContent, SWT.NONE);
     parameterMapping.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

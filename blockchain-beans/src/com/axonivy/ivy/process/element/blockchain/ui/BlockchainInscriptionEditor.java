@@ -7,7 +7,7 @@ import com.axonivy.ivy.process.element.blockchain.ProcessElementExtension;
 
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.BpmnInscriptionEditor;
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.fw.IInscriptionEditorTab;
-import ch.ivyteam.ivy.process.model.element.ThirdPartyElement;
+import ch.ivyteam.ivy.process.config.element.pi.ThirdPartyProgramInterfaceConfigurator;
 
 public class BlockchainInscriptionEditor implements BpmnInscriptionEditor
 {
@@ -19,10 +19,11 @@ public class BlockchainInscriptionEditor implements BpmnInscriptionEditor
   }
 
   @Override
-  public List<IInscriptionEditorTab> getTabs(TabContext ctxt)
+  public List<IInscriptionEditorTab> getTabs(ThirdPartyProgramInterfaceConfigurator configurator)
   {
-    BlockchainRequestConfigurator configurator = new BlockchainRequestConfigurator(ctxt.project, (ThirdPartyElement) ctxt.element);
-    BlockchainRequestUiModel uiModel = new BlockchainRequestUiModel(configurator);
-    return Arrays.asList(new BlockchainRequestTab(uiModel), new BlockchainResponseTab(uiModel));
+    //BlockchainRequestConfigurator configurator = new BlockchainRequestConfigurator(ctxt.project, (ThirdPartyElement) ctxt.element);
+    BlockchainRequestUiModel requestUiModel = new BlockchainRequestUiModel(configurator);
+    BlockchainRequestUiModel responseUiModel = new BlockchainRequestUiModel(configurator);
+    return Arrays.asList(new BlockchainRequestTab(requestUiModel), new BlockchainResponseTab(responseUiModel));
   }
 }
