@@ -946,36 +946,21 @@ public class LdapQueryBean extends AbstractUserProcessExtension
       }
 
       // include jndi name in result if it is selected
-
       if (includeName)
       {
+        String jndiName = getJndiName(searchResult, objectName);
         if (ivyGridAttribute != null)
         {
-          if (rootObjectName.trim().equals(""))
-          {
-            row.set(0, searchResult.getName());
-          }
-          else
-          {
-            row.set(0, searchResult.getName() + "," + objectName);
-          }
-
+          row.set(0, jndiName);
         }
         else
         {
-          if (rootObjectName.trim().equals(""))
-          {
-            setVariable(ivyGridNameAttribute, searchResult.getName(), argument, cont);
-          }
-          else
-          {
-            setVariable(ivyGridNameAttribute, searchResult.getName() + "," + objectName, argument, cont);
-          }
+          setVariable(ivyGridNameAttribute, jndiName, argument, cont);
         }
       }
+      
       Attributes jndiAttributes = searchResult.getAttributes();
       Enumeration<String> attrEnum = resultAttributesHashtable.keys();
-
       while (attrEnum.hasMoreElements())
       {
         String attribute = attrEnum.nextElement();
@@ -1027,6 +1012,18 @@ public class LdapQueryBean extends AbstractUserProcessExtension
       }
     }
     return false;
+  }
+  
+  private String getJndiName(SearchResult result, String objectName)
+  {
+    if (rootObjectName.trim().equals(""))
+    {
+      return result.getName();
+    }
+    else
+    {
+      return result.getName() + "," + objectName;
+    }
   }
 
   private Recordset toRecordset(Vector<Vector<Object>> result, List<String> tableKeys)
