@@ -32,6 +32,7 @@ public class BlockchainRequestTab extends AbstractUiModelSwtInscriptionTab<Block
     ivySwtBinder.bind(model.contracts).to(composite.contractCombo);
     ivySwtBinder.bind(model.functions).to(composite.functionCombo);
     ivySwtBinder.bind(model.properties).to(composite.propertiesTable);
+    ivySwtBinder.bind(model.parameters).to(composite.parameterMapping);
     composite.propertySelector.setExpanded(!model.properties.isDefault());
     return composite;
   }

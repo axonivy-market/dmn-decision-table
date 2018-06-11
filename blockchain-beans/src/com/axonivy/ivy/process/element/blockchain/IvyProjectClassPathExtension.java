@@ -13,7 +13,7 @@ public class IvyProjectClassPathExtension implements IIvyProjectClassPathExtensi
   @Override
   public List<String> getCompileClassPathContributingBundles()
   {
-    return Collections.emptyList();
+    return getClassLoaderContributingBundles();
   }
 
   @Override

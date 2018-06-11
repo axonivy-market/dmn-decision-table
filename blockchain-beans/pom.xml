@@ -39,6 +39,29 @@
 	</dependencies>
 
 	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.basedir}/lib</outputDirectory>
+							<includeGroupIds>
+								org.web3j,
+								io.reactivex,
+							</includeGroupIds>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 		<pluginManagement>
 			<plugins>
 

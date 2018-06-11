@@ -1,8 +1,11 @@
 package com.axonivy.ivy.process.element.blockchain.ui;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,19 +13,23 @@ import java.util.Map.Entry;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import com.fasterxml.jackson.core.JsonGenerator;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.util.StdConverter;
 
 import ch.ivyteam.ivy.datawrapper.scripting.IvyScriptInscriptionModel;
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.model.UiModel;
 import ch.ivyteam.ivy.process.config.element.pi.ThirdPartyProgramInterfaceConfigurator;
 import ch.ivyteam.ivy.process.model.element.activity.ThirdPartyProgramInterface;
+import ch.ivyteam.ivy.process.model.element.value.Mapping;
 import ch.ivyteam.ivy.process.model.element.value.Mappings;
 import ch.ivyteam.ivy.process.model.element.value.bean.UserConfig;
+import ch.ivyteam.ivy.scripting.types.IIvyClass;
+import ch.ivyteam.ivy.scripting.util.Variable;
 import ch.ivyteam.ivy.ui.model.UiMappingTableModel;
 import ch.ivyteam.ivy.ui.model.UiMappingTreeTableModel;
 import ch.ivyteam.swt.table.Row;
@@ -31,10 +38,11 @@ import ch.ivyteam.ui.model.UiComboModel;
 public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface, ThirdPartyProgramInterfaceConfigurator>
 {
   public final IvyScriptInscriptionModel propertiesMappingScriptModel;
+  public final IvyScriptInscriptionModel parameterMappingScriptModel;
 
   public final UiComboModel<String> contracts;
   public final UiComboModel<String> functions;
-  public  UiMappingTableModel<Row> properties;
+  public final UiMappingTableModel<Row> properties;
   public  UiMappingTreeTableModel parameters;
 
   public BlockchainRequestUiModel(ThirdPartyProgramInterfaceConfigurator configurator)
@@ -44,7 +52,7 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
     contracts = create().combo(
               ()->getEtherumModel().contract,
               this::setContract,
-              new String[] {"aSolidity", "anotherSolidity"})
+              this::getContracts)
               .withDefaultValue(null)
               .withDisplayTextProvider(config -> config == null ? "<no blockchain contract>" : config);
     tab.addChild(contracts);
@@ -52,12 +60,12 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
     functions = create().combo(
               ()->getEtherumModel().function,
               this::setFunction,
-              new String[] {"aFunction", "anotherFunction"})
+              this::getFunctions)
+            .withDefaultValue(null)
             .withDisplayTextProvider(function -> function)
             .withEnabler(this::isContractSelected)
             .dependsOnValueOf(contracts);
     tab.addChild(functions);
-
 
     propertiesMappingScriptModel = IvyScriptInscriptionModel
             .create(configurator.project, configurator.processElement)
@@ -71,12 +79,35 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
             .withDefaultValue(Arrays.asList(new Row()));
     tab.addChild(properties);
 
-//    parameters = create().mappingTreeTable(
-//              this::getParameterMappings,
-//              this::setParameterMappings,
-//              configurator.parameterMappingScriptModel)
-//            .dependsOnValueOf(contracts)
-//            .dependsOnValueOf(operations);
+    parameterMappingScriptModel = IvyScriptInscriptionModel
+            .create(configurator.project, configurator.processElement)
+            .outputVariablesSupplier(this::getParameterVariables)
+            .toModel();
+    parameters = create().mappingTreeTable(
+              this::getParameterMappings,
+              this::setParameterMappings,
+              parameterMappingScriptModel)
+            .dependsOnValueOf(contracts)
+            .dependsOnValueOf(functions);
+    tab.addChild(parameters);
+  }
+
+  private String[] getContracts()
+  {
+    List<String> contractNames = new ArrayList<>();
+    String superclass = "org.web3j.tx.Contract";
+    IJavaProject javaProject = JavaCore.create(configurator.project.getProject());
+    try
+    {
+      IType type = javaProject.findType(superclass);
+      List<IType> subTypes = Arrays.asList(type.newTypeHierarchy(null).getAllSubtypes(type));
+      subTypes.forEach(subType -> contractNames.add(subType.getFullyQualifiedName()));
+      return contractNames.toArray(new String[contractNames.size()]);
+    }
+    catch (JavaModelException ex)
+    {
+      return null;
+    }
   }
 
   private EthereumModel getEtherumModel()
@@ -103,6 +134,18 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
     setEtherumModel(etherumModel);
   }
 
+  private List<String> getFunctions()
+  {
+    if (!isContractSelected())
+    {
+      return Collections.emptyList();
+    }
+    List<String> result = new ArrayList<>();
+    String contract = contracts.getSelection();
+    loadDeclaredMethods(contract).forEach(method -> result.add(method.toString()));
+    return result;
+  }
+
   private List<Row> getProperties()
   {
     EthereumModel ethereum = getEtherumModel();
@@ -115,54 +158,104 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
     {
       rows.add(new Row(entry.getKey(), entry.getValue()));
     }
-    System.out.println("get props:"+rows);
+    System.err.println("get props:"+rows);
     return rows;
   }
 
   private void setProperties(List<Row> rows)
   {
-    EthereumModel etherum = getEtherumModel();
-    etherum.properties = new HashMap<>();
-    rows.stream().forEach(row -> etherum.properties.put(row.name, row.value));
-    System.err.println("set props: "+etherum.properties);
-    setEtherumModel(etherum);
+    EthereumModel ethereum = getEtherumModel();
+    ethereum.properties = new HashMap<>();
+    rows.stream().forEach(row -> ethereum.properties.put(row.name, row.value));
+    System.err.println("set props: "+ethereum.properties);
+    setEtherumModel(ethereum);
+  }
+
+  private List<Variable> getParameterVariables()
+  {
+    Method chosenMethod = loadMethod();
+    if (chosenMethod == null)
+    {
+      return Collections.emptyList();
+    }
+    List<Variable> parameterVariables = new ArrayList<>();
+    Parameter[] methodParams = chosenMethod.getParameters();
+    for (Parameter parameter : methodParams)
+    {
+      IIvyClass<?> ivyClass = configurator.project.getIvyScriptClassRepository().getIvyClassForName(parameter.getType().getName());
+      parameterVariables.add(new Variable(parameter.getName(), ivyClass));
+    }
+
+    return parameterVariables;
+  }
+
+  private Method loadMethod()
+  {
+    String contract = contracts.getSelection();
+    String function = functions.getSelection();
+    if (contract != null && function != null)
+    {
+      List<Method> methods = loadDeclaredMethods(contract);
+      for (Method method : methods)
+      {
+        if (method.toString().equals(function))
+        {
+          return method;
+        }
+      }
+    }
+    return null;
+  }
+
+  private List<Method> loadDeclaredMethods(String className)
+  {
+    Class<?> clazz;
+    try
+    {
+      clazz = configurator.project.getProjectClassLoader().loadClass(className);
+    }
+    catch (ClassNotFoundException ex)
+    {
+      throw new RuntimeException(ex);
+    }
+    Method[] methods = clazz.getDeclaredMethods();
+    return Arrays.asList(methods);
   }
 
   private Mappings getParameterMappings()
   {
-//    Mappings rawMappings = model.getOperation().getParameters();
-//    Mappings uiMappings = configurator.fromRawToUiMappings(rawMappings);
-//    return uiMappings;
-    return new Mappings();
+    EthereumModel ethereum = getEtherumModel();
+    if (ethereum.attributes == null)
+    {
+      return new Mappings();
+    }
+    List<Mapping> mappings = new ArrayList<>();
+    for(Entry<String, String> entry : ethereum.attributes.entrySet())
+    {
+      mappings.add(new Mapping(entry.getKey(), entry.getValue()));
+    }
+    System.out.println("get attr:"+mappings);
+    return new Mappings(mappings);
   }
 
   private void setParameterMappings(Mappings uiMappings)
   {
-//    Mappings rawMappings = configurator.fromUiToRawMappings(uiMappings);
-//    Operation operation = model.getOperation();
-//    operation = operation.setParameters(rawMappings);
-//    model.setOperation(operation);
+    EthereumModel ethereum = getEtherumModel();
+    ethereum.attributes = new HashMap<>();
+    uiMappings.forEach(mapping -> ethereum.attributes.put(mapping.getLeftSide(), mapping.getRightSide()));
+    System.err.println("set attr: "+ethereum.attributes);
+    setEtherumModel(ethereum);
   }
 
   private SortedSet<String> getPropertyNames()
   {
-
     SortedSet<String> allProps = new TreeSet<>();
     getProperties().stream().forEach(row -> allProps.add(row.name));
-
     return allProps;
-    /*Set<String> alreadySetProps = model.getProperties().asList().stream()
-            .map(mapping -> mapping.getLeftSide())
-            .collect(Collectors.toSet());
-    */
-    //allProps.addAll(alreadySetProps);
-    //EtherumModel model = EtherumModel.load(model.getUserConfig());
-    //return allProps;
   }
 
   public static class EthereumModel
   {
-
     public static final ObjectMapper mapper = new ObjectMapper();
 
     public static EthereumModel load(UserConfig config)
@@ -194,31 +287,10 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
       }
     }
 
+    public Map<String, String> attributes;
     public Map<String, String> properties;
-    public String contract = "";
-    public String function = "";
-  }
-
-  public static class MappingsToMap2 extends StdConverter<Mappings, Map<String, String>>
-  {
-    @Override
-    public Map<String, String> convert(Mappings mappings)
-    {
-      Map<String, String> map = new HashMap<>();
-      mappings.asList().stream().forEach(mapping -> map.put(mapping.getLeftSide(), mapping.getRightSide()));
-      return map;
-    }
-  }
-
-  public static class MappingsToMap extends JsonSerializer<Map> {
-
-    @Override
-    public void serialize(Map tmpInt,
-                          JsonGenerator jsonGenerator,
-                          SerializerProvider serializerProvider)
-                          throws IOException, JsonProcessingException {
-        jsonGenerator.writeObject(tmpInt.toString());
-    }
+    public String contract = null;
+    public String function = null;
   }
 
   private boolean isContractSelected()
