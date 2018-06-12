@@ -14,7 +14,6 @@ import ch.ivyteam.swt.layout.GridDataBuilder;
 public class BlockchainResponseComposite extends SharedScrolledComposite
 {
   final MappingTreeAndCodeGroup responseGroup;
-  final BlockchainErrorGroup errorGroup;
 
   public BlockchainResponseComposite(Composite parent)
   {
@@ -31,9 +30,6 @@ public class BlockchainResponseComposite extends SharedScrolledComposite
     responseGroup = new MappingTreeAndCodeGroup(scrollContent, SWT.NONE);
     responseGroup.setText("Body");
     responseGroup.setLayoutData(GridDataBuilder.create().horizontalFill().verticalFill().toGridData());
-
-    errorGroup = new BlockchainErrorGroup(scrollContent, SWT.NONE);
-    errorGroup.setLayoutData(GridDataBuilder.create().horizontalFill().toGridData());
   }
 
   public static void main(String[] args)

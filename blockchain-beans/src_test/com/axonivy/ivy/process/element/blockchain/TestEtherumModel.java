@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-import com.axonivy.ivy.process.element.blockchain.ui.BlockchainRequestUiModel.EthereumModel;
+import com.axonivy.ivy.process.element.blockchain.ui.EthereumModel;
 
 import ch.ivyteam.ivy.process.model.element.value.bean.UserConfig;
 

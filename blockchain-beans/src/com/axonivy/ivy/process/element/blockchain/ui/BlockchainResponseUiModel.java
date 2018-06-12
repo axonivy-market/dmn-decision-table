@@ -1,162 +1,97 @@
 package com.axonivy.ivy.process.element.blockchain.ui;
 
-import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.util.StdConverter;
-
-import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.error.IgnoreableExceptionConfigDisplayTextProvider;
-import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.error.IgnoreableExceptionConfigListFactory;
+import ch.ivyteam.ivy.datawrapper.scripting.IvyScriptInscriptionModel;
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.model.UiModel;
-import ch.ivyteam.ivy.process.model.element.ThirdPartyElement;
-import ch.ivyteam.ivy.process.model.element.value.IgnoreableExceptionConfig;
+import ch.ivyteam.ivy.process.config.element.pi.ThirdPartyProgramInterfaceConfigurator;
+import ch.ivyteam.ivy.process.model.element.activity.ThirdPartyProgramInterface;
 import ch.ivyteam.ivy.process.model.element.value.Mapping;
 import ch.ivyteam.ivy.process.model.element.value.Mappings;
-import ch.ivyteam.ivy.process.model.element.value.bean.UserConfig;
-import ch.ivyteam.ivy.process.model.value.ErrorCode;
 import ch.ivyteam.ivy.process.model.value.MappingCode;
 import ch.ivyteam.ivy.resource.validation.restricted.IvyValidationMessage;
+import ch.ivyteam.ivy.scripting.types.IIvyClass;
+import ch.ivyteam.ivy.scripting.util.Variable;
 import ch.ivyteam.ivy.ui.model.UiMappingCodeModel;
-import ch.ivyteam.ui.model.UiComboModel;
 import ch.ivyteam.ui.model.validation.ValidationState;
 
-public class BlockchainResponseUiModel extends UiModel<ThirdPartyElement, BlockchainRequestConfigurator>
+public class BlockchainResponseUiModel extends UiModel<ThirdPartyProgramInterface, ThirdPartyProgramInterfaceConfigurator>
 {
+  public final IvyScriptInscriptionModel responseScriptModel;
   public final UiMappingCodeModel response;
-  public final UiComboModel<IgnoreableExceptionConfig> webServiceError;
 
-  public BlockchainResponseUiModel(BlockchainRequestConfigurator configurator, BlockchainRequestUiModel requestModel)
+  public BlockchainResponseUiModel(ThirdPartyProgramInterfaceConfigurator configurator, BlockchainRequestUiModel requestModel)
   {
     super(configurator);
 
+    responseScriptModel = IvyScriptInscriptionModel
+            .create(configurator.project, configurator.processElement)
+            .addDefaultOutputVariables()
+            .additionalInputVariablesSupplier(this::getResponseVariables)
+            .toModel();
     response = create().mappingCode(
               this::getOutput,
               this::setOutput,
-              configurator.responseScriptModel)
+              responseScriptModel)
             .withValidator(this::validateResponseMappingCode)
             .withDefaultValue(new MappingCode(new Mappings(new Mapping("out", "in"))))
             .dependsOnValueOf(requestModel.functions);
-
-    webServiceError = create().combo(
-              this::getBlockchainException,
-              this::setBlockchainException,
-              this::getBlockchainErrors)
-            .withValidator(this::validateBlockchainError)
-            .withDefaultValue(IgnoreableExceptionConfig.createDefault(ErrorCode.IVY_ERROR_PROGRAM_EXCEPTION))
-            .withDisplayTextProvider(new IgnoreableExceptionConfigDisplayTextProvider(model));
-
-    tab.addChild(response)
-       .addChild(webServiceError);
-  }
-
-  public static class EthereumModel
-  {
-    public static final ObjectMapper mapper = new ObjectMapper();
-
-    public static EthereumModel load(UserConfig config)
-    {
-      if (config.isEmpty())
-      {
-        return new EthereumModel();
-      }
-      try
-      {
-        return mapper.readerFor(EthereumModel.class).readValue(config.getRawValue());
-      }
-      catch (IOException ex)
-      {
-       return new EthereumModel();
-      }
-    }
-
-    public static UserConfig store(EthereumModel model)
-    {
-      try
-      {
-        String json = mapper.writerFor(EthereumModel.class).writeValueAsString(model);
-        return new UserConfig(json);
-      }
-      catch (JsonProcessingException ex)
-      {
-        return new UserConfig("");
-      }
-    }
-
-    //@JsonSerialize(converter=MappingsToMap2.class)
-    //@JsonSerialize(using = MappingsToMap.class, as=Map.class)
-    public Map<String, String> properties;
-  }
-
-  public static class MappingsToMap2 extends StdConverter<Mappings, Map<String, String>>
-  {
-
-    @Override
-    public Map<String, String> convert(Mappings mappings)
-    {
-      Map<String, String> map = new HashMap<>();
-      mappings.asList().stream().forEach(mapping -> map.put(mapping.getLeftSide(), mapping.getRightSide()));
-      return map;
-    }
-
-  }
-
-  public static class MappingsToMap extends JsonSerializer<Map> {
-
-    @Override
-    public void serialize(Map tmpInt,
-                          JsonGenerator jsonGenerator,
-                          SerializerProvider serializerProvider)
-                          throws IOException, JsonProcessingException {
-        jsonGenerator.writeObject(tmpInt.toString());
-    }
+    tab.addChild(response);
   }
 
   private MappingCode getOutput()
   {
-//    return ((BlockchainClientCall) model).getOutput();
-    return new MappingCode();
+    EthereumModel ethereum = getEthereumModel();
+    Mappings mappings = BlockchainHelper.getMappings(ethereum.outputMappings);
+    return new MappingCode(mappings, ethereum.outputCode);
   }
 
   private void setOutput(MappingCode output)
   {
-//    ((BlockchainClientCall) model).setOutput(output);
+    EthereumModel ethereum = getEthereumModel();
+    ethereum.outputMappings = new HashMap<>();
+    output.getMappings().forEach(mapping -> ethereum.outputMappings.put(mapping.getLeftSide(), mapping.getRightSide()));
+    ethereum.outputCode = output.getCode();
+    setEthereumModel(ethereum);
   }
 
-  private IgnoreableExceptionConfig getBlockchainException()
+  private List<Variable> getResponseVariables()
   {
-//    return ((BlockchainClientCall) model).getBlockchainException();
-    return IgnoreableExceptionConfig.createDefault(ErrorCode.IVY_ERROR_PROGRAM_EXCEPTION);
-  }
+    EthereumModel ethereum = getEthereumModel();
+    Method chosenMethod = BlockchainHelper.loadMethod(configurator.project, ethereum.contract, ethereum.function);
+    if (chosenMethod == null)
+    {
+      return Collections.emptyList();
+    }
+    List<Variable> parameterVariables = new ArrayList<>();
+    Parameter[] methodParams = chosenMethod.getParameters();
+    for (Parameter parameter : methodParams)
+    {
+      IIvyClass<?> ivyClass = configurator.project.getIvyScriptClassRepository().getIvyClassForName(parameter.getType().getName());
+      parameterVariables.add(new Variable(parameter.getName(), ivyClass));
+    }
 
-  private void setBlockchainException(IgnoreableExceptionConfig blockchainException)
-  {
-//    ((BlockchainClientCall) model).setBlockchainException(blockchainException);
+    return parameterVariables;
   }
 
   private ValidationState validateResponseMappingCode()
   {
-    return new ValidationState(new IvyValidationMessage(0, "bla"));
+    return new ValidationState(new IvyValidationMessage(0, ""));
 //    return modelValidation.validateWith(validator -> validator.validateResponseMappingCode());
   }
 
-  private IgnoreableExceptionConfig[] getBlockchainErrors()
+  private EthereumModel getEthereumModel()
   {
-    return IgnoreableExceptionConfigListFactory.withErrorCode(ErrorCode.IVY_ERROR_SCRIPT)
-            .withIgnoreError()
-            .withLegacyErrors(model)
-            .toIgnoreableExceptionConfigs()
-            .stream().toArray(IgnoreableExceptionConfig[]::new);
+    return EthereumModel.load(model.getUserConfig());
   }
 
-  private ValidationState validateBlockchainError()
+  private void setEthereumModel(EthereumModel etherum)
   {
-    return new ValidationState(new IvyValidationMessage(0, "bla"));
-    //return modelValidation.validateWith(validator -> validator.validateWebServiceError());
+    model.setUserConfig(EthereumModel.store(etherum));
   }
 }

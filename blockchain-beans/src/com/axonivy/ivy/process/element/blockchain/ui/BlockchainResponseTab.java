@@ -6,10 +6,10 @@ import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.fw.AbstractUiModelSwt
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.fw.IInscriptionEditorTab;
 import ch.ivyteam.ivy.ui.model.swt.IvySwtBinder;
 
-public class BlockchainResponseTab extends AbstractUiModelSwtInscriptionTab<BlockchainRequestUiModel> implements IInscriptionEditorTab
+public class BlockchainResponseTab extends AbstractUiModelSwtInscriptionTab<BlockchainResponseUiModel> implements IInscriptionEditorTab
 {
 
-  public BlockchainResponseTab(BlockchainRequestUiModel model)
+  public BlockchainResponseTab(BlockchainResponseUiModel model)
   {
     super(model);
   }
@@ -23,6 +23,8 @@ public class BlockchainResponseTab extends AbstractUiModelSwtInscriptionTab<Bloc
   @Override
   protected Composite createUiAndBindToModel(Composite parent, IvySwtBinder ivySwtBinder)
   {
-    return new BlockchainResponseComposite(parent);
+    BlockchainResponseComposite composite = new BlockchainResponseComposite(parent);
+    ivySwtBinder.bind(model.response).to(composite.responseGroup);
+    return composite;
   }
 }
