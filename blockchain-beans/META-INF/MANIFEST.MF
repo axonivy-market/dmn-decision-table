@@ -16,8 +16,12 @@ Bundle-ClassPath: lib/abi-3.3.1.jar,
  lib/tuples-3.3.1.jar,
  lib/utils-3.0.2.jar,
  lib/web3j-maven-plugin-0.1.4.jar,
- .,
- lib/rxjava-1.2.4.jar
+ lib/rxjava-1.2.4.jar,
+ lib/logging-interceptor-3.8.1.jar,
+ lib/okhttp-3.8.1.jar,
+ lib/okio-1.13.0.jar,
+ lib/bcprov-jdk15on-1.54.jar,
+ .
 Bundle-ActivationPolicy: lazy
 Export-Package: com.axonivy.ivy.process.element.blockchain,
  com.axonivy.ivy.process.element.blockchain.ui

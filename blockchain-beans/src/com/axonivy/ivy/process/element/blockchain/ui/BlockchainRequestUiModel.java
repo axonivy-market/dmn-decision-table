@@ -16,6 +16,8 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 
+import com.axonivy.ivy.process.element.blockchain.EthereumProperties;
+
 import ch.ivyteam.ivy.datawrapper.scripting.IvyScriptInscriptionModel;
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.model.UiModel;
 import ch.ivyteam.ivy.process.config.element.pi.ThirdPartyProgramInterfaceConfigurator;
@@ -68,7 +70,6 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
             this::getProperties,
             this::setProperties,
             propertiesMappingScriptModel)
-       //     .dependsOnValueOf(contracts)
             .withNameValuesSupplier(this::getPropertyNames)
             .withDefaultValue(Arrays.asList(new Row()));
     tab.addChild(properties);
@@ -198,6 +199,7 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
   {
     SortedSet<String> allProps = new TreeSet<>();
     getProperties().stream().forEach(row -> allProps.add(row.name));
+    allProps.addAll(EthereumProperties.ALL_PROPERTIES);
     return allProps;
   }
 

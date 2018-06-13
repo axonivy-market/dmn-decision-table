@@ -1,11 +1,13 @@
 package com.axonivy.ivy.process.element.blockchain.ui;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import ch.ivyteam.ivy.process.model.element.value.Mapping;
 import ch.ivyteam.ivy.process.model.element.value.Mappings;
@@ -57,6 +59,9 @@ public class BlockchainHelper
       throw new RuntimeException(ex);
     }
     Method[] methods = clazz.getDeclaredMethods();
-    return Arrays.asList(methods);
+    return Arrays.asList(methods)
+            .stream()
+            .filter(method -> !Modifier.isStatic(method.getModifiers()))
+            .collect(Collectors.toList());
   }
 }

@@ -21,7 +21,6 @@ public class BlockchainInscriptionEditor implements BpmnInscriptionEditor
   @Override
   public List<IInscriptionEditorTab> getTabs(ThirdPartyProgramInterfaceConfigurator configurator)
   {
-    //BlockchainRequestConfigurator configurator = new BlockchainRequestConfigurator(ctxt.project, (ThirdPartyElement) ctxt.element);
     BlockchainRequestUiModel requestUiModel = new BlockchainRequestUiModel(configurator);
     BlockchainResponseUiModel responseUiModel = new BlockchainResponseUiModel(configurator, requestUiModel);
     return Arrays.asList(new BlockchainRequestTab(requestUiModel), new BlockchainResponseTab(responseUiModel));
