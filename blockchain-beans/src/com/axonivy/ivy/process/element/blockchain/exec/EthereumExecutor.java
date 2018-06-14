@@ -21,12 +21,15 @@ import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.project.IvyProjectNavigationUtil;
 import ch.ivyteam.ivy.security.exec.Sudo;
+import ch.ivyteam.log.Logger;
 import ch.ivyteam.util.IvyRuntimeException;
 
 public final class EthereumExecutor
 {
   private static final BigInteger DEFAULT_GAS_PRIZE = BigInteger.valueOf(40000000000l);
   private static final BigInteger DEFAULT_GAS_LIMIT = BigInteger.valueOf(150000l);
+
+  private static final Logger LOGGER = Logger.getLogger(EthereumExecutor.class);
 
   Contract ethContract;
   Method contractMethod;
@@ -98,7 +101,7 @@ public final class EthereumExecutor
       {
         accessMethod = contractClass.getMethod("deploy", Web3j.class, Credentials.class, BigInteger.class, BigInteger.class);
         Contract contract = (Contract) ((RemoteCall<?>) accessMethod.invoke(null, web3, credentials, DEFAULT_GAS_PRIZE, DEFAULT_GAS_LIMIT)).send();
-
+        LOGGER.info("Deployed new contract " + contractClass.getName() + " to address " + contract.getContractAddress());
         return contract;
       }
       accessMethod = contractClass.getMethod("load", String.class, Web3j.class, Credentials.class, BigInteger.class, BigInteger.class);
