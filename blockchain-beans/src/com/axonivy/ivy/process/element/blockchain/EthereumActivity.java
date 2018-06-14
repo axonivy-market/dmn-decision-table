@@ -1,6 +1,8 @@
 package com.axonivy.ivy.process.element.blockchain;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.axonivy.ivy.process.element.blockchain.exec.EthereumExecutor;
@@ -11,11 +13,13 @@ import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.ivy.bpm.exec.restricted.acl.scripting.IvyScriptCodeBuilder;
 import ch.ivyteam.ivy.bpm.exec.restricted.scripting.BpmIvyScriptExecutor;
 import ch.ivyteam.ivy.bpm.exec.restricted.scripting.BpmIvyScriptResult;
+import ch.ivyteam.ivy.persistence.PersistencyException;
 import ch.ivyteam.ivy.process.engine.IRequestId;
 import ch.ivyteam.ivy.process.extension.impl.AbstractUserProcessExtension;
 import ch.ivyteam.ivy.process.model.element.value.Mapping;
 import ch.ivyteam.ivy.process.model.element.value.Mappings;
 import ch.ivyteam.ivy.process.model.value.MappingCode;
+import ch.ivyteam.ivy.scripting.exceptions.IvyScriptException;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptContext;
 import ch.ivyteam.ivy.scripting.objects.CompositeObject;
 import ch.ivyteam.ivy.scripting.restricted.execution.IvyScriptCode;
@@ -30,13 +34,29 @@ public class EthereumActivity extends AbstractUserProcessExtension
   {
     String configuration = getConfiguration();
     EthereumModel model = EthereumModel.load(configuration);
-    EthereumExecutor executor = new EthereumExecutor(model.contract, model.function, model.properties);
+    EthereumExecutor executor = new EthereumExecutor(model.contract, model.function, mapRequestProperties(model, context));
 
     Injector injector  = DiCore.getGlobalInjector().getInstance(Injector.class);
 
     Object[] callParams = mapRequestParameters(model, executor, injector);
     Object callResult = executor.execute(callParams).send();
     return mapResponseParams(in, model, injector, callResult);
+  }
+
+  private Map<String, String> mapRequestProperties(EthereumModel model, IIvyScriptContext context)
+  {
+    Map<String, String> propMappings = new HashMap<>();
+    EthereumProperties.ALL_PROPERTIES.forEach(key -> {
+        try
+        {
+          propMappings.put(key, executeIvyScript(context, model.properties.getOrDefault(key, "")).toString());
+        }
+        catch (PersistencyException | IvyScriptException ex)
+        {
+          propMappings.put(key, "");
+        }
+      });
+    return propMappings;
   }
 
   private Object[] mapRequestParameters(EthereumModel model, EthereumExecutor executor, Injector injector)
