@@ -27,7 +27,7 @@ import ch.ivyteam.util.IvyRuntimeException;
 public final class EthereumExecutor
 {
   private static final BigInteger DEFAULT_GAS_PRIZE = BigInteger.valueOf(40000000000l);
-  private static final BigInteger DEFAULT_GAS_LIMIT = BigInteger.valueOf(150000l);
+  private static final BigInteger DEFAULT_GAS_LIMIT = BigInteger.valueOf(1500000l);
 
   private static final Logger LOGGER = Logger.getLogger(EthereumExecutor.class);
 
@@ -101,6 +101,10 @@ public final class EthereumExecutor
       {
         accessMethod = contractClass.getMethod("deploy", Web3j.class, Credentials.class, BigInteger.class, BigInteger.class);
         Contract contract = (Contract) ((RemoteCall<?>) accessMethod.invoke(null, web3, credentials, DEFAULT_GAS_PRIZE, DEFAULT_GAS_LIMIT)).send();
+        if(!"0x1".equals(contract.getTransactionReceipt().get().getStatus()))
+        {
+          LOGGER.error("Could not deploy contract of class " + clazz + "; TxReceipt=" + contract.getTransactionReceipt().get());
+        }
         LOGGER.info("Deployed new contract " + contractClass.getName() + " to address " + contract.getContractAddress());
         return contract;
       }
@@ -109,7 +113,7 @@ public final class EthereumExecutor
     }
     catch (Exception ex)
     {
-      throw new IvyRuntimeException("Could not find invoke method load() on class " + clazz, ex);
+      throw new IvyRuntimeException("Could not get contract of class " + clazz, ex);
     }
   }
 
