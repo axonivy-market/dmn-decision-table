@@ -49,9 +49,10 @@ public class EthereumActivity extends AbstractUserProcessExtension
     EthereumProperties.ALL_PROPERTIES.forEach(key -> {
         try
         {
-          propMappings.put(key, executeIvyScript(context, model.properties.getOrDefault(key, "")).toString());
+          Object value = executeIvyScript(context, model.properties.getOrDefault(key, ""));
+          propMappings.put(key, value.toString());
         }
-        catch (PersistencyException | IvyScriptException ex)
+        catch (PersistencyException | IvyScriptException | NullPointerException ex)
         {
           propMappings.put(key, "");
         }
