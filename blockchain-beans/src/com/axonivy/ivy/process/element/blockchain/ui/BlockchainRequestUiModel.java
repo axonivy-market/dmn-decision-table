@@ -50,7 +50,7 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
               this::setContract,
               this::getContracts)
               .withDefaultValue(null)
-              .withDisplayTextProvider(config -> config == null ? "<no blockchain contract>" : config);
+              .withDisplayTextProvider(config -> getContractDisplayText(config));
     tab.addChild(contracts);
 
     functions = create().combo(
@@ -102,6 +102,16 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
     {
       return null;
     }
+  }
+
+  String getContractDisplayText(String config)
+  {
+    if (config == null)
+    {
+      return "<no blockchain contract>";
+    }
+    String[] parts = config.split("\\.");
+    return parts[parts.length - 1];
   }
 
   private EthereumModel getEthereumModel()
