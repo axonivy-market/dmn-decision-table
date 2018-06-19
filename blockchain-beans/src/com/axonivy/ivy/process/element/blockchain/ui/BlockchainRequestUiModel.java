@@ -94,13 +94,17 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
     try
     {
       IType type = javaProject.findType(BASE_CONTRACT_CLASS);
+      if (type == null)
+      {
+        return new String[0];
+      }
       List<IType> subTypes = Arrays.asList(type.newTypeHierarchy(null).getAllSubtypes(type));
       subTypes.forEach(subType -> contractNames.add(subType.getFullyQualifiedName()));
       return contractNames.toArray(new String[contractNames.size()]);
     }
     catch (JavaModelException ex)
     {
-      return null;
+      return new String[0];
     }
   }
 
