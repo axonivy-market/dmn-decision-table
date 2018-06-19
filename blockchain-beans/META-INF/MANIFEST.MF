@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
+Bundle-Vendor: AXON IVY AG
 Bundle-Name: Blockchain
 Bundle-SymbolicName: supplement.blockchain.beans;singleton:=true
 Bundle-Version: 7.1.0.qualifier
