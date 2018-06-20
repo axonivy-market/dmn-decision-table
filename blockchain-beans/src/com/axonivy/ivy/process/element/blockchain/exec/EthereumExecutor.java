@@ -46,9 +46,11 @@ public final class EthereumExecutor
     String url = properties.get(EthereumProperties.NETWORK_URL);
     String contractAddress = properties.get(EthereumProperties.CONTRACT_ADDRESS);
 
-    if (StringUtils.isEmpty(credentialsFile) || StringUtils.isEmpty(password) || StringUtils.isEmpty(url))
+    if (StringUtils.isEmpty(contract) || StringUtils.isEmpty(function) || StringUtils.isEmpty(credentialsFile)
+            || StringUtils.isEmpty(password) || StringUtils.isEmpty(url))
     {
-      throw new IvyRuntimeException("Credentials, password and network URL are mandatory parameters.");
+      throw new IvyRuntimeException(
+              "Contract class, function name, Credentials, password and network URL are mandatory parameters.");
     }
 
     ethContract = loadOrDeployContract(contract, url, contractAddress, credentialsFile, password);
