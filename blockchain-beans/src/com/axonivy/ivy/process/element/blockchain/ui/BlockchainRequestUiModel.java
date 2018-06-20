@@ -49,7 +49,7 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
               ()->getEthereumModel().contract,
               this::setContract,
               this::getContracts)
-              .withDefaultValue(null)
+              .withDefaultValue("")
               .withDisplayTextProvider(config -> getContractDisplayText(config));
     tab.addChild(contracts);
 

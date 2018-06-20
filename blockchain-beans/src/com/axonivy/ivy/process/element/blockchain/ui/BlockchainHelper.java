@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.ivy.process.model.element.value.Mapping;
 import ch.ivyteam.ivy.process.model.element.value.Mappings;
 import ch.ivyteam.ivy.project.IIvyProject;
@@ -33,7 +35,7 @@ public class BlockchainHelper
 
   static Method loadMethod(IIvyProject project, String contract, String function)
   {
-    if (contract != null && function != null)
+    if (!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(function))
     {
       List<Method> methods = loadDeclaredMethods(project, contract);
       for (Method method : methods)
