@@ -10,6 +10,8 @@ import ch.ivyteam.ivy.java.IIvyProjectClassPathExtension;
 
 public class IvyProjectClassPathExtension implements IIvyProjectClassPathExtension
 {
+  private static final String BUNDLE_ID = "supplement.blockchain.beans";
+
   @Override
   public List<String> getCompileClassPathContributingBundles()
   {
@@ -31,6 +33,6 @@ public class IvyProjectClassPathExtension implements IIvyProjectClassPathExtensi
   @Override
   public List<String> getClassLoaderContributingBundles()
   {
-    return Arrays.asList("supplement.blockchain.beans");
+    return Arrays.asList(BUNDLE_ID);
   }
 }
