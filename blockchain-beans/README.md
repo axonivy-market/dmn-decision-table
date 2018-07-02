@@ -37,6 +37,6 @@ The `Attributes` table in the `Response` tab shows the output data structure.
 The values in the Expression column can be scripted, the method return parameter will always be mapped to the variable `result`.
 
 ## Installation
-1. Download the latest `supplement.blockchain.beans-X.Y.Z-SNAPSHOT.jar` from the [latest release](https://github.com/ivy-supplements/blockchain-beans/releases/latest).
+1. Download the latest `supplement.blockchain.beans-X.Y.Z-SNAPSHOT.jar` from the [latest release](https://github.com/ivy-supplements/bpm-beans/releases/latest).
 2. Copy the generated JAR into the 'plugins' directory of your Axon.ivy Designer (7.2.0.58791 or later).
 3. Open a process and use the additional Ethereum bean provided in the `Blockchain` drawer of Process Editor palette.
