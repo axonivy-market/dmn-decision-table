@@ -8,12 +8,6 @@
       </extensibleStandardProcessElementExtension>
    </extension>
    <extension
-         point="ch.ivyteam.ivy.java.IIvyProjectClassPathExtension">
-      <ivyProjectClassPathExtension
-            class="com.axonivy.ivy.process.element.blockchain.IvyProjectClassPathExtension">
-      </ivyProjectClassPathExtension>
-   </extension>
-   <extension
          point="ch.ivyteam.ivy.designer.process.ui.IProcessElementUiInformationExtension">
       <processElementUiInformationExtension
             class="com.axonivy.ivy.process.element.blockchain.ProcessElementUiInformationExtension">
