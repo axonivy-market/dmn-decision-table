@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.axonivy.ivy.supplements</groupId>
 	<artifactId>ivy-bundle</artifactId>
-	<version>7.1.0-SNAPSHOT</version>
+	<version>7.2.0-SNAPSHOT</version>
 	<parent>
 		<groupId>com.axonivy.ivy.supplements</groupId>
 		<artifactId>maven-deploy</artifactId>
@@ -13,14 +13,14 @@
 	<packaging>pom</packaging>
 	
 	<properties>
-		<tycho.version>0.23.1</tycho.version>
+		<tycho.version>1.2.0</tycho.version>
 	</properties>
 
 	<repositories>
 		<repository>
 			<id>ivy.nightly.release</id>
 			<layout>p2</layout>
-			<url>https://file.axonivy.rocks/p2/nightly/</url>
+			<url>https://download.axonivy.rocks/p2/nightly/</url>
 		</repository>
 	</repositories>
 
@@ -81,41 +81,6 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
-		<profile>
-			<id>axon</id>
-			<repositories>
-				<repository>
-					<id>ivy.nightly.release</id>
-					<layout>p2</layout>
-					<url>http://zugprodrone/p2/trunk.ivy.core/</url>
-				</repository>
-				<repository>
-					<id>thirdparty.libs</id>
-					<layout>p2</layout>
-					<url>http://zugprodrone/p2/thirdparty.lib/</url>
-				</repository>
-				<repository>
-					<id>luna</id>
-					<layout>p2</layout>
-					<url>http://zugprorepo/p2_repositories/eclipseSimReleases/luna/SR2</url>
-				</repository>
-				<repository>
-					<id>thirdpary.integration.luna</id>
-					<layout>p2</layout>
-					<url>http://zugprodrone/p2/thirdparty.integration.luna/</url>
-				</repository>
-				<repository>
-					<id>vn.integartion</id>
-					<layout>p2</layout>
-					<url>http://zugprodrone/p2/vn.integration/</url>
-				</repository>
-				<repository>
-					<id>static.integartion</id>
-					<layout>p2</layout>
-					<url>http://zugprodrone/p2/static.integration.luna/</url>
-				</repository>
-			</repositories>
 		</profile>
 	</profiles>
 </project>
