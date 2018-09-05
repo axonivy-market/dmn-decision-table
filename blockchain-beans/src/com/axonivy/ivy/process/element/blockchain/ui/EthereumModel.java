@@ -1,6 +1,7 @@
 package com.axonivy.ivy.process.element.blockchain.ui;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,12 +15,12 @@ public class EthereumModel
 {
   public static final ObjectMapper mapper = new ObjectMapper();
 
-  public Map<String, String> attributes;
-  public Map<String, String> properties;
-  public String contract = null;
-  public String function = null;
-  public Map<String, String> outputMappings;
-  public String outputCode = null;
+  public Map<String, String> attributes = new HashMap<String, String>();
+  public Map<String, String> properties = new HashMap<String, String>();
+  public String contract = "";
+  public String function = "";
+  public Map<String, String> outputMappings = new HashMap<String, String>();
+  public String outputCode = "";
 
   public static EthereumModel load(UserConfig config)
   {

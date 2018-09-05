@@ -21,12 +21,15 @@ import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.project.IvyProjectNavigationUtil;
 import ch.ivyteam.ivy.security.exec.Sudo;
+import ch.ivyteam.log.Logger;
 import ch.ivyteam.util.IvyRuntimeException;
 
 public final class EthereumExecutor
 {
   private static final BigInteger DEFAULT_GAS_PRIZE = BigInteger.valueOf(40000000000l);
-  private static final BigInteger DEFAULT_GAS_LIMIT = BigInteger.valueOf(150000l);
+  private static final BigInteger DEFAULT_GAS_LIMIT = BigInteger.valueOf(1500000l);
+
+  private static final Logger LOGGER = Logger.getLogger(EthereumExecutor.class);
 
   Contract ethContract;
   Method contractMethod;
@@ -42,6 +45,13 @@ public final class EthereumExecutor
     String password = properties.get(EthereumProperties.PASSWORD);
     String url = properties.get(EthereumProperties.NETWORK_URL);
     String contractAddress = properties.get(EthereumProperties.CONTRACT_ADDRESS);
+
+    if (StringUtils.isEmpty(contract) || StringUtils.isEmpty(function) || StringUtils.isEmpty(credentialsFile)
+            || StringUtils.isEmpty(password) || StringUtils.isEmpty(url))
+    {
+      throw new IvyRuntimeException(
+              "Contract class, function name, Credentials, password and network URL are mandatory parameters.");
+    }
 
     ethContract = loadOrDeployContract(contract, url, contractAddress, credentialsFile, password);
     contractMethod = loadMethod(function, ethContract);
@@ -98,7 +108,11 @@ public final class EthereumExecutor
       {
         accessMethod = contractClass.getMethod("deploy", Web3j.class, Credentials.class, BigInteger.class, BigInteger.class);
         Contract contract = (Contract) ((RemoteCall<?>) accessMethod.invoke(null, web3, credentials, DEFAULT_GAS_PRIZE, DEFAULT_GAS_LIMIT)).send();
-
+        if(!"0x1".equals(contract.getTransactionReceipt().get().getStatus()))
+        {
+          LOGGER.error("Could not deploy contract of class " + clazz + "; TxReceipt=" + contract.getTransactionReceipt().get());
+        }
+        LOGGER.info("Deployed new contract " + contractClass.getName() + " to address " + contract.getContractAddress());
         return contract;
       }
       accessMethod = contractClass.getMethod("load", String.class, Web3j.class, Credentials.class, BigInteger.class, BigInteger.class);
@@ -106,7 +120,7 @@ public final class EthereumExecutor
     }
     catch (Exception ex)
     {
-      throw new IvyRuntimeException("Could not find invoke method load() on class " + clazz, ex);
+      throw new IvyRuntimeException("Could not get contract of class " + clazz, ex);
     }
   }
 

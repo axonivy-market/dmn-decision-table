@@ -37,7 +37,7 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
   public final IvyScriptInscriptionModel parameterMappingScriptModel;
 
   public final UiComboModel<String> contracts;
-  public final UiComboModel<String> functions;
+  public final UiComboModel<Method> functions;
   public final UiMappingTableModel<Row> properties;
   public  UiMappingTreeTableModel parameters;
 
@@ -49,16 +49,16 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
               ()->getEthereumModel().contract,
               this::setContract,
               this::getContracts)
-              .withDefaultValue(null)
-              .withDisplayTextProvider(config -> config == null ? "<no blockchain contract>" : config);
+              .withDefaultValue("")
+              .withDisplayTextProvider(config -> getContractDisplayText(config));
     tab.addChild(contracts);
 
     functions = create().combo(
-              ()->getEthereumModel().function,
+              this::getFunction,
               this::setFunction,
               this::getFunctions)
             .withDefaultValue(null)
-            .withDisplayTextProvider(function -> function)
+            .withDisplayTextProvider(function -> function.getName())
             .withEnabler(this::isContractSelected)
             .dependsOnValueOf(contracts);
     tab.addChild(functions);
@@ -94,14 +94,28 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
     try
     {
       IType type = javaProject.findType(BASE_CONTRACT_CLASS);
+      if (type == null)
+      {
+        return new String[0];
+      }
       List<IType> subTypes = Arrays.asList(type.newTypeHierarchy(null).getAllSubtypes(type));
       subTypes.forEach(subType -> contractNames.add(subType.getFullyQualifiedName()));
       return contractNames.toArray(new String[contractNames.size()]);
     }
     catch (JavaModelException ex)
     {
-      return null;
+      return new String[0];
     }
+  }
+
+  String getContractDisplayText(String config)
+  {
+    if (config == null)
+    {
+      return "<no blockchain contract>";
+    }
+    String[] parts = config.split("\\.");
+    return parts[parts.length - 1];
   }
 
   private EthereumModel getEthereumModel()
@@ -121,23 +135,27 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
     setEthereumModel(etherumModel);
   }
 
-  private void setFunction(String newFunction)
+  private Method getFunction()
   {
     EthereumModel etherumModel = getEthereumModel();
-    etherumModel.function = newFunction;
+    return BlockchainHelper.loadMethod(configurator.project, etherumModel.contract, etherumModel.function);
+  }
+
+  private void setFunction(Method newFunction)
+  {
+    EthereumModel etherumModel = getEthereumModel();
+    etherumModel.function = newFunction.toString();
     setEthereumModel(etherumModel);
   }
 
-  private List<String> getFunctions()
+  private List<Method> getFunctions()
   {
     if (!isContractSelected())
     {
       return Collections.emptyList();
     }
-    List<String> result = new ArrayList<>();
     String contract = contracts.getSelection();
-    BlockchainHelper.loadDeclaredMethods(configurator.project, contract).forEach(method -> result.add(method.toString()));
-    return result;
+    return BlockchainHelper.loadDeclaredMethods(configurator.project, contract);
   }
 
   private List<Row> getProperties()
@@ -165,7 +183,7 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
 
   private List<Variable> getParameterVariables()
   {
-    Method chosenMethod = BlockchainHelper.loadMethod(configurator.project, contracts.getSelection(), functions.getSelection());
+    Method chosenMethod = functions.getSelection();
     if (chosenMethod == null)
     {
       return Collections.emptyList();
