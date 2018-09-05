@@ -73,10 +73,6 @@ public class JndiConfigPanel extends JPanel
   /** default context */
   private JTextField tfContext;
 
- /**
-   * Constructor
-   * @param config Jndi configuration
-   */
   public JndiConfigPanel(JndiConfig config)
   {
     this.config=config;
@@ -93,14 +89,11 @@ public class JndiConfigPanel extends JPanel
     this.config=config;
     createGui(isDefaultContextVisible);
   }
-  /**
-   * Constructor
-   */
+
   public JndiConfigPanel()
   {
-    this(new JndiConfig());    
+    this(null);    
   }
-
 
   /**
    * Creates the gui
