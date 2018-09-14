@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RestStart
+Bundle-SymbolicName: RestStart;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Axon.ivy
+Automatic-Module-Name: RestStart
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: ch.ivyteam.ivy.components,
+ ch.ivyteam.ivy.bpm.exec;bundle-version="7.2.0",
+ ch.ivyteam.ivy.designer.process.ui,
+ ch.ivyteam.ivy.designer.ide;bundle-version="7.2.0",
+ ch.ivyteam.lib.jersey
+Import-Package: org.eclipse.ui.forms.widgets
