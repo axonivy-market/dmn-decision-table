@@ -7,8 +7,10 @@ import com.axonivy.ivy.process.element.blockchain.ProcessElementExtension;
 
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.BpmnInscriptionEditor;
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.fw.IInscriptionEditorTab;
+import ch.ivyteam.ivy.process.config.element.AbstractProcessElementConfigurator;
 import ch.ivyteam.ivy.process.config.element.pi.ThirdPartyProgramInterfaceConfigurator;
 
+@SuppressWarnings("restriction")
 public class BlockchainInscriptionEditor implements BpmnInscriptionEditor
 {
 
@@ -17,9 +19,15 @@ public class BlockchainInscriptionEditor implements BpmnInscriptionEditor
   {
     return ProcessElementExtension.ETHEREUM_ACTIVITY.equals(modElementName);
   }
-
+  
   @Override
-  public List<IInscriptionEditorTab> getTabs(ThirdPartyProgramInterfaceConfigurator configurator)
+  public <T extends AbstractProcessElementConfigurator<? extends NodeElement>> List<IInscriptionEditorTab> getTabs(
+          T configurator)
+  {
+    return getTabs((ThirdPartyProgramInterfaceConfigurator)configurator);
+  }
+
+  private List<IInscriptionEditorTab> getTabs(ThirdPartyProgramInterfaceConfigurator configurator)
   {
     BlockchainRequestUiModel requestUiModel = new BlockchainRequestUiModel(configurator);
     BlockchainResponseUiModel responseUiModel = new BlockchainResponseUiModel(configurator, requestUiModel);
