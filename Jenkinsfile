@@ -23,7 +23,7 @@ pipeline {
       steps {
           script {
             maven cmd: 'clean deploy ' + 
-                '-P ${params.DEPLOY_PROFILE} ' + 
+                '-P ${DEPLOY_PROFILE} ' + 
                 '-Dproject-build-plugin.version=7.2.0 ' +
                 '-Dgpg.skip=true ' +
                 '-Divy.engine.list.url=http://zugprobldmas/job/Trunk_All/ ' + 
