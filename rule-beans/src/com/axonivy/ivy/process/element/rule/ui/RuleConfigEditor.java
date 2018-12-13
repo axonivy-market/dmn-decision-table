@@ -18,7 +18,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import ch.ivyteam.ivy.designer.richdialog.ui.configeditors.SelectAttributeDialog;
+import ch.ivyteam.ivy.designer.ui.attribute.SelectAttributeDialog;
 import ch.ivyteam.ivy.scripting.exceptions.invocation.IvyScriptVariableAlreadyDeclaredException;
 import ch.ivyteam.ivy.scripting.language.IvyScriptContextFactory;
 import ch.ivyteam.ivy.scripting.types.IVariable;

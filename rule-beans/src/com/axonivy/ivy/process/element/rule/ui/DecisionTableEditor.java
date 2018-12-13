@@ -31,7 +31,7 @@ import com.axonivy.ivy.process.element.rule.model.ConditionColumn;
 import com.axonivy.ivy.process.element.rule.model.RulesModel;
 
 import ch.ivyteam.icons.Size;
-import ch.ivyteam.ivy.designer.richdialog.ui.configeditors.SelectAttributeDialog;
+import ch.ivyteam.ivy.designer.ui.attribute.SelectAttributeDialog;
 import ch.ivyteam.ivy.project.IIvyProject;
 import ch.ivyteam.ivy.scripting.IvyScriptManagerFactory;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptContext;
@@ -168,7 +168,7 @@ private IProject project;
   
   private Optional<String> attributeSelectionDialog(String variableFilter)
   {
-    SelectAttributeDialog dialog = SelectAttributeDialog.createAttributeBrowserDialog(this.getShell(), project);
+	SelectAttributeDialog dialog = SelectAttributeDialog.createAttributeBrowserDialog(this.getShell(), project);
     dialog.create();
     try
     {
