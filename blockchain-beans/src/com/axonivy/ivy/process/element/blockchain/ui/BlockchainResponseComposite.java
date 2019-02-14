@@ -8,12 +8,15 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.forms.widgets.SharedScrolledComposite;
 
-import ch.ivyteam.ivy.guiComponents.swt.restricted.mapping.MappingTreeAndCodeGroup;
+import ch.ivyteam.ivy.designer.ide.actions.AttributeBrowserAction;
+import ch.ivyteam.ivy.designer.ide.actions.DatatypeBrowserAction;
+import ch.ivyteam.ivy.designer.ide.actions.FunctionBrowserAction;
+import ch.ivyteam.ivy.guiComponents.swt.restricted.mapping.MappingTreeWithCode;
 import ch.ivyteam.swt.layout.GridDataBuilder;
 
 public class BlockchainResponseComposite extends SharedScrolledComposite
 {
-  final MappingTreeAndCodeGroup responseGroup;
+  final MappingTreeWithCode responseGroup;
 
   public BlockchainResponseComposite(Composite parent)
   {
@@ -27,11 +30,14 @@ public class BlockchainResponseComposite extends SharedScrolledComposite
 
     setContent(scrollContent);
 
-    responseGroup = new MappingTreeAndCodeGroup(scrollContent, SWT.NONE);
-    responseGroup.setText("Body");
+    responseGroup = new MappingTreeWithCode(scrollContent, SWT.NONE,
+            DatatypeBrowserAction.PROVIDER,
+            FunctionBrowserAction.PROVIDER,
+            AttributeBrowserAction.PROVIDER);
     responseGroup.setLayoutData(GridDataBuilder.create().horizontalFill().verticalFill().toGridData());
   }
 
+  @SuppressWarnings("unused")
   public static void main(String[] args)
   {
     Display display = Display.getDefault();
