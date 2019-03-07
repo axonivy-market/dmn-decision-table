@@ -32,7 +32,7 @@ public class BlockchainResponseUiModel extends UiModel<ThirdPartyProgramInterfac
     responseScriptModel = IvyScriptInscriptionModel
             .create(configurator.project, configurator.processElement)
             .addDefaultOutputVariables()
-            .additionalInputVariablesSupplier(this::getResponseVariables)
+            .additionalInputVariablesSuppliers(this::getResponseVariables)
             .toModel();
     response = create().mappingCode(
               this::getOutput,
