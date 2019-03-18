@@ -10,7 +10,8 @@ import java.util.TreeSet;
 
 import ch.ivyteam.ivy.datawrapper.scripting.IvyScriptInscriptionModel;
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.model.UiModel;
-import ch.ivyteam.ivy.process.config.element.thirdPartyProgramStart.ThirdPartyProgramStartConfigurator;
+import ch.ivyteam.ivy.process.config.element.ElementConfigurator;
+import ch.ivyteam.ivy.process.config.event.start.pi.ThirdPartyProgramStartConfigurator;
 import ch.ivyteam.ivy.process.model.element.event.start.ThirdPartyProgramStart;
 import ch.ivyteam.ivy.process.model.element.value.Mappings;
 import ch.ivyteam.ivy.scripting.types.IIvyClass;
@@ -20,14 +21,14 @@ import ch.ivyteam.ivy.ui.model.UiMappingTreeTableModel;
 import ch.ivyteam.swt.table.Row;
 import ch.ivyteam.ui.model.UiTextModel;
 
-public class RestStartUiModel extends UiModel<ThirdPartyProgramStart, ThirdPartyProgramStartConfigurator>
+public class RestStartUiModel extends UiModel<ThirdPartyProgramStart, ElementConfigurator<ThirdPartyProgramStart>>
 {
   public final IvyScriptInscriptionModel inputParamsScriptModel;
   public final IvyScriptInscriptionModel inputToDataMappingScriptModel;
 
   public final UiTextModel signatureName;
   public final UiMappingTableModel<Row> inputParams;
-  public UiMappingTreeTableModel inputParamToDataMapping;
+  public final UiMappingTreeTableModel inputParamToDataMapping;
 
   @SuppressWarnings("restriction")
   public RestStartUiModel(ThirdPartyProgramStartConfigurator configurator)
@@ -53,7 +54,7 @@ public class RestStartUiModel extends UiModel<ThirdPartyProgramStart, ThirdParty
     inputToDataMappingScriptModel = IvyScriptInscriptionModel
             .create(configurator.project, configurator.processElement)
             .addDefaultOutputVariables()
-            .additionalInputVariablesSupplier(this::getParameterVariables)
+            .additionalInputVariablesSuppliers(this::getParameterVariables)
             .toModel();
     inputParamToDataMapping = create().mappingTreeTable(
               this::getParameterMappings,
@@ -95,7 +96,7 @@ public class RestStartUiModel extends UiModel<ThirdPartyProgramStart, ThirdParty
     List<Variable> parameterVariables = new ArrayList<>();
     for (Row paramRow : paramList)
     {
-      IIvyClass<?> ivyClass = configurator.project.getIvyScriptClassRepository().getIvyClassForName(paramRow.value);
+      IIvyClass<?> ivyClass = configurator.getIvyScriptClassRepository().getIvyClassForName(paramRow.value);
       parameterVariables.add(new Variable(paramRow.name, ivyClass));
     }
     return parameterVariables;

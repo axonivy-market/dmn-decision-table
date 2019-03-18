@@ -10,7 +10,8 @@ import java.util.TreeSet;
 
 import ch.ivyteam.ivy.datawrapper.scripting.IvyScriptInscriptionModel;
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.model.UiModel;
-import ch.ivyteam.ivy.process.config.element.thirdPartyProgramStart.ThirdPartyProgramStartConfigurator;
+import ch.ivyteam.ivy.process.config.element.ElementConfigurator;
+import ch.ivyteam.ivy.process.config.event.start.pi.ThirdPartyProgramStartConfigurator;
 import ch.ivyteam.ivy.process.model.element.event.start.ThirdPartyProgramStart;
 import ch.ivyteam.ivy.process.model.element.value.Mappings;
 import ch.ivyteam.ivy.scripting.types.IIvyClass;
@@ -19,7 +20,7 @@ import ch.ivyteam.ivy.ui.model.UiMappingTableModel;
 import ch.ivyteam.ivy.ui.model.UiMappingTreeTableModel;
 import ch.ivyteam.swt.table.Row;
 
-public class RestResultUiModel extends UiModel<ThirdPartyProgramStart, ThirdPartyProgramStartConfigurator>
+public class RestResultUiModel extends UiModel<ThirdPartyProgramStart, ElementConfigurator<ThirdPartyProgramStart>>
 {
   public final IvyScriptInscriptionModel outputParamsScriptModel;
   public final IvyScriptInscriptionModel dataToOutputMappingScriptModel;
@@ -33,7 +34,7 @@ public class RestResultUiModel extends UiModel<ThirdPartyProgramStart, ThirdPart
     super(configurator);
 
     outputParamsScriptModel = IvyScriptInscriptionModel
-            .create(configurator.project, configurator.processElement)
+            .create(configurator.project, configurator.getElement())
             .toModel();
     outputParams = create().mappingTable(
             this::getOutputParams,
@@ -44,7 +45,7 @@ public class RestResultUiModel extends UiModel<ThirdPartyProgramStart, ThirdPart
     tab.addChild(outputParams);
 
     dataToOutputMappingScriptModel = IvyScriptInscriptionModel
-            .create(configurator.project, configurator.processElement)
+            .create(configurator.project, configurator.getElement())
             .outputVariablesSupplier(this::getMappingVariables)
             .toModel();
     dataToOutputParamMapping = create().mappingTreeTable(
@@ -71,7 +72,7 @@ public class RestResultUiModel extends UiModel<ThirdPartyProgramStart, ThirdPart
     
     List<Variable> mappingVariables = new ArrayList<>();
     dataModel.outputParams.forEach((paramName, paramType) -> {
-      IIvyClass<?> ivyClass = configurator.project.getIvyScriptClassRepository().getIvyClassForName(paramType);
+      IIvyClass<?> ivyClass = configurator.getIvyScriptClassRepository().getIvyClassForName(paramType);
       mappingVariables.add(new Variable(paramName, ivyClass));
     });
     
