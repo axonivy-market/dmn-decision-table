@@ -64,7 +64,7 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
     tab.addChild(functions);
 
     propertiesMappingScriptModel = IvyScriptInscriptionModel
-            .create(configurator.project, configurator.processElement)
+            .create(configurator.project, configurator.getElement())
             .toModel();
     properties = create().mappingTable(
             this::getProperties,
@@ -75,7 +75,7 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
     tab.addChild(properties);
 
     parameterMappingScriptModel = IvyScriptInscriptionModel
-            .create(configurator.project, configurator.processElement)
+            .create(configurator.project, configurator.getElement())
             .outputVariablesSupplier(this::getParameterVariables)
             .toModel();
     parameters = create().mappingTreeTable(
@@ -192,7 +192,7 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
     Parameter[] methodParams = chosenMethod.getParameters();
     for (Parameter parameter : methodParams)
     {
-      IIvyClass<?> ivyClass = configurator.project.getIvyScriptClassRepository().getIvyClassForName(parameter.getType().getName());
+      IIvyClass<?> ivyClass = configurator.getIvyScriptClassRepository().getIvyClassForName(parameter.getType().getName());
       parameterVariables.add(new Variable(parameter.getName(), ivyClass));
     }
 
