@@ -20,7 +20,7 @@ import com.axonivy.ivy.process.element.blockchain.EthereumProperties;
 
 import ch.ivyteam.ivy.datawrapper.scripting.IvyScriptInscriptionModel;
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.model.UiModel;
-import ch.ivyteam.ivy.process.config.element.pi.ThirdPartyProgramInterfaceConfigurator;
+import ch.ivyteam.ivy.process.config.activity.pi.ThirdPartyProgramInterfaceConfigurator;
 import ch.ivyteam.ivy.process.model.element.activity.ThirdPartyProgramInterface;
 import ch.ivyteam.ivy.process.model.element.value.Mappings;
 import ch.ivyteam.ivy.scripting.types.IIvyClass;

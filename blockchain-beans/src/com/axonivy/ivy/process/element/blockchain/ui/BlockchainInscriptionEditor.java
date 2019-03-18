@@ -7,8 +7,8 @@ import com.axonivy.ivy.process.element.blockchain.ProcessElementExtension;
 
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.BpmnInscriptionEditor;
 import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.fw.IInscriptionEditorTab;
+import ch.ivyteam.ivy.process.config.activity.pi.ThirdPartyProgramInterfaceConfigurator;
 import ch.ivyteam.ivy.process.config.element.AbstractProcessElementConfigurator;
-import ch.ivyteam.ivy.process.config.element.pi.ThirdPartyProgramInterfaceConfigurator;
 import ch.ivyteam.ivy.process.model.NodeElement;
 
 @SuppressWarnings("restriction")
