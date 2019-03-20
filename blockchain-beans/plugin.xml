@@ -20,7 +20,7 @@
       </ivyProcessPaletteExtension>
    </extension>
    <extension
-         point="ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.BpmnInscriptionEditor">
+         point="ch.ivyteam.ivy.designer.process.ui.thirdparty.BpmnInscriptionEditor">
       <editor
             class="com.axonivy.ivy.process.element.blockchain.ui.BlockchainInscriptionEditor">
       </editor>
