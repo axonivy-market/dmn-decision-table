@@ -9,13 +9,11 @@
 	<classpathentry exported="true" kind="lib" path="lib/bcprov-jdk15on-1.54.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/rxjava-1.2.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/abi-3.3.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/codegen-3.0.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/core-3.3.1.jar" sourcepath="C:/Users/arus/AppData/Local/Temp/.org.sf.feeling.decompiler1528292802246/source/core-3.3.1-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/crypto-3.0.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/rlp-3.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/core-3.3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/crypto-3.3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/rlp-3.3.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/tuples-3.3.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/utils-3.0.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/web3j-maven-plugin-0.1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/utils-3.3.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
