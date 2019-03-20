@@ -19,7 +19,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import com.axonivy.ivy.process.element.blockchain.EthereumProperties;
 
 import ch.ivyteam.ivy.datawrapper.scripting.IvyScriptInscriptionModel;
-import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.model.UiModel;
+import ch.ivyteam.ivy.designer.process.ui.inscription.model.UiModel;
 import ch.ivyteam.ivy.process.config.activity.pi.ThirdPartyProgramInterfaceConfigurator;
 import ch.ivyteam.ivy.process.model.element.activity.ThirdPartyProgramInterface;
 import ch.ivyteam.ivy.process.model.element.value.Mappings;

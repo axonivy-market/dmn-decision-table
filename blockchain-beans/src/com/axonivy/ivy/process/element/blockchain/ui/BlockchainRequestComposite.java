@@ -66,6 +66,7 @@ public class BlockchainRequestComposite extends SharedScrolledComposite
     parameterMapping.setMode(Mode.PANEL);
   }
 
+  @SuppressWarnings("unused")
   public static void main(String[] args)
   {
     Display display = Display.getDefault();
