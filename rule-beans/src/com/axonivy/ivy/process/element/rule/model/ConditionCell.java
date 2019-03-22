@@ -59,7 +59,7 @@ public class ConditionCell extends Cell
 
   private static String formatNumber(String value)
   {
-    if (NumberUtils.isNumber(value))
+    if (NumberUtils.isCreatable(value))
     {
       try
       {

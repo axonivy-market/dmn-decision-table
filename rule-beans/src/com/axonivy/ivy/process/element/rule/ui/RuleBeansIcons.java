@@ -12,6 +12,7 @@ public class RuleBeansIcons
   private static final ImageDescriptor NO_IMAGE = new ImageDescriptor()
   {
     @Override
+    @SuppressWarnings("deprecation")
     public ImageData getImageData()
     {
       return null;

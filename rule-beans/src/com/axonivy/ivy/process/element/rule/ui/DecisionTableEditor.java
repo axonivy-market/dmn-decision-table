@@ -1,6 +1,7 @@
 package com.axonivy.ivy.process.element.rule.ui;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -53,7 +54,7 @@ public class DecisionTableEditor extends Composite
 
   private IVariable[] dataVars = new IVariable[0];
   private IIvyScriptEngine scriptEngine;
-private IProject project;
+  private IProject project;
   
   public DecisionTableEditor(Composite parent, int style)
   {
@@ -115,7 +116,7 @@ private IProject project;
     {
       try(InputStream is = new DmnSerializer(model).serialize())
       {
-        return IOUtils.toString(is);
+        return IOUtils.toString(is, StandardCharsets.UTF_8);
       }
     }
     catch (Exception ex)
