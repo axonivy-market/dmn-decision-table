@@ -1,6 +1,6 @@
 package com.axonivy.ivy.process.element.rule.dmn;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 public class FeelBuilder
 {
