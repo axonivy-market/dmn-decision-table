@@ -53,6 +53,9 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableModel;
 
 import ch.ivyteam.awtExt.AWTUtil;
+import ch.ivyteam.ivy.ldap.beans.util.JndiConfig;
+import ch.ivyteam.ivy.ldap.beans.util.JndiProvider;
+import ch.ivyteam.ivy.ldap.beans.util.JndiUtil;
 import ch.ivyteam.ivy.persistence.PersistencyException;
 import ch.ivyteam.ivy.process.engine.IRequestId;
 import ch.ivyteam.ivy.process.extension.impl.AbstractProcessExtensionConfigurationEditor;
@@ -62,9 +65,6 @@ import ch.ivyteam.ivy.scripting.language.IIvyScriptContext;
 import ch.ivyteam.ivy.scripting.objects.CompositeObject;
 import ch.ivyteam.ivy.scripting.objects.List;
 import ch.ivyteam.ivy.scripting.objects.Recordset;
-import ch.ivyteam.naming.JndiConfig;
-import ch.ivyteam.naming.JndiProvider;
-import ch.ivyteam.naming.JndiUtil;
 
 /**
  * PI-Element to query LDAP-Servers A variant from LdapQueryBean that returns
@@ -1456,7 +1456,6 @@ public class LdapQueryBeanRS extends AbstractUserProcessExtension
       props.setProperty("server_password", jndiConfig.getPassword());
       props.setProperty("server_useSsl", new Boolean(jndiConfig
               .isUseSsl()).toString());
-      @SuppressWarnings("deprecation")
       String defaultContext = jndiConfig.getDefaultContext();
       props.setProperty("server_context", defaultContext);
 

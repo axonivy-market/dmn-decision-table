@@ -32,8 +32,8 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import ch.ivyteam.awtExt.AWTUtil;
-import ch.ivyteam.naming.JndiConfig;
-import ch.ivyteam.naming.JndiProvider;
+import ch.ivyteam.ivy.ldap.beans.util.JndiConfig;
+import ch.ivyteam.ivy.ldap.beans.util.JndiProvider;
  
 /**
  * This panel can be used to configure JNDI environement information needed to
@@ -273,7 +273,6 @@ public class JndiConfigPanel extends JPanel
     }
 
     cbSsl.setSelected(config.isUseSsl());
-    @SuppressWarnings("deprecation")
     String context = config.getDefaultContext();
     tfContext.setText(context);
 
@@ -305,7 +304,6 @@ public class JndiConfigPanel extends JPanel
     dialog.setVisible(true);
   }
 
-  @SuppressWarnings("deprecation")
   public Hashtable<?, ?> getModel()
   {
     return config.getEnvironement();
