@@ -15,7 +15,7 @@ import com.axonivy.ivy.process.element.rule.model.RulesModelSerialization;
 import com.axonivy.ivy.process.element.rule.ui.DecisionTableEditor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.tabs.helper.ProcessExtensionConfigurationEditorEnvironment;
+import ch.ivyteam.ivy.designer.process.ui.inscription.masks.fw.ProcessExtensionConfigurationEditorEnvironment;
 import ch.ivyteam.ivy.process.engine.IRequestId;
 import ch.ivyteam.ivy.process.extension.IProcessExtensionConfigurationEditorEnvironment;
 import ch.ivyteam.ivy.process.extension.impl.AbstractProcessExtensionConfigurationEditor;

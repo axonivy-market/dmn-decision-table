@@ -13,7 +13,7 @@ import com.axonivy.ivy.process.element.rule.ui.RuleConfigEditor;
 
 import ch.ivyteam.awt.swt.SwtRunnable;
 import ch.ivyteam.ivy.bpm.exec.restricted.acl.scripting.IvyScriptCodeBuilder;
-import ch.ivyteam.ivy.designer.process.ui.inscriptionMasks.tabs.helper.ProcessExtensionConfigurationEditorEnvironment;
+import ch.ivyteam.ivy.designer.process.ui.inscription.masks.fw.ProcessExtensionConfigurationEditorEnvironment;
 import ch.ivyteam.ivy.process.engine.IRequestId;
 import ch.ivyteam.ivy.process.extension.IProcessExtensionConfigurationEditorEnvironment;
 import ch.ivyteam.ivy.process.extension.impl.AbstractProcessExtensionConfigurationEditor;
