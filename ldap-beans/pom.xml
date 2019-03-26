@@ -15,4 +15,28 @@
 	<name>ldap-beans</name>
 	<description>Utility classes to query and modify Active Directory with ivy Program Interface activities.</description>
 	<url>https://github.com/ivy-supplements/bpm-beans/tree/master/ldap-beans</url>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.coderplus.maven.plugins</groupId>
+				<artifactId>copy-rename-maven-plugin</artifactId>
+				<version>1.0.1</version>
+				<executions>
+					<execution>
+						<id>copy.latest.beans.to.demo</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<sourceFile>${project.build.directory}/${project.artifactId}-${project.version}.jar</sourceFile>
+							<destinationFile>${basedir}/samples/LdapBeansDemos/lib/${project.artifactId}.jar</destinationFile>
+							<overWrite>true</overWrite>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

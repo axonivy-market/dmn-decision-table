@@ -35,6 +35,6 @@
 	<classpathentry kind="con" path="WEBAPP_CONTAINER"/>
 	<classpathentry kind="con" path="ULC_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
-	<classpathentry kind="lib" path="lib/supplement.ldap.beans-6.4.1-SNAPSHOT(1).jar"/>
+	<classpathentry kind="lib" path="lib/supplement.ldap.beans.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
