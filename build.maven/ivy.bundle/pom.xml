@@ -16,6 +16,17 @@
 		<tycho.version>1.4.0</tycho.version>
 	</properties>
 
+	<pluginRepositories>
+		<!-- Snapshot releases are available via sonatype.org -->
+		<pluginRepository>
+		<id>sonatype</id>
+		<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		<snapshots>
+			<updatePolicy>always</updatePolicy>
+		</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<repositories>
 		<repository>
 			<id>ivy.nightly.release</id>
