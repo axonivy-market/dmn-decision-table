@@ -90,25 +90,29 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jaxb2-maven-plugin</artifactId>
-				<version>2.2</version>
+				<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-xjc-plugin</artifactId>
+				<version>3.3.0</version>
 				<executions>
 					<execution>
 						<id>xjc</id>
+						<phase>generate-sources</phase>
 						<goals>
-							<goal>xjc</goal>
+							<goal>xsdtojava</goal>
 						</goals>
+						<configuration>
+							<sourceRoot>${basedir}/generated</sourceRoot>
+							<xsdOptions>
+								<xsdOption>
+									<xsd>${basedir}/src/com/axonivy/ivy/process/element/rule/dmn/dmn-1.1.xsd</xsd>
+									<packagename>com.axonivy.dmn.specification</packagename>
+									<extension>true</extension>
+								</xsdOption>
+							</xsdOptions>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<packageName>com.axonivy.dmn.specification</packageName>
-					<outputDirectory>generated</outputDirectory>
-					<sources>
-						<source>src/com/axonivy/ivy/process/element/rule/dmn/dmn-1.1.xsd</source>
-					</sources>
-				</configuration>
 			</plugin>
 		</plugins>
 		

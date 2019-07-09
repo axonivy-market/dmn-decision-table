@@ -34,7 +34,7 @@ import com.axonivy.ivy.process.element.rule.model.ConditionColumn;
 import com.axonivy.ivy.process.element.rule.model.Row;
 import com.axonivy.ivy.process.element.rule.model.RulesModel;
 import com.axonivy.ivy.process.element.rule.model.ValueCell;
-import com.sun.xml.internal.bind.marshaller.CharacterEscapeHandler;
+import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
 
 public class DmnSerializer
 {
@@ -279,7 +279,7 @@ public class DmnSerializer
     {
       Marshaller jaxbMarshaller = JAXBContext.newInstance(TDefinitions.class).createMarshaller();
       jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-      jaxbMarshaller.setProperty("com.sun.xml.internal.bind.characterEscapeHandler", new InsecureCharacterEscapeHandler());
+      jaxbMarshaller.setProperty("com.sun.xml.bind.marshaller.CharacterEscapeHandler", new InsecureCharacterEscapeHandler());
       
       JAXBElement<TDefinitions> rootElement = new JAXBElement<>(new QName(DMN_XML_NAMESPACE, "definitions"), TDefinitions.class, definitions);
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
