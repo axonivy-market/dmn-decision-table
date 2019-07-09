@@ -24,7 +24,7 @@ pipeline {
           script {
             maven cmd: 'clean deploy ' + 
                 '-P ${DEPLOY_PROFILE} ' + 
-                '-Dproject-build-plugin.version=7.2.0 ' +
+                '-Dproject-build-plugin.version=7.4.0-SNAPSHOT ' +
                 '-Dgpg.skip=true ' +
                 '-Divy.engine.list.url=http://zugprobldmas/job/Trunk_All/ ' + 
                 '-Divy.engine.directory=${WORKSPACE}/ldap-beans/target/ivyEngine '
