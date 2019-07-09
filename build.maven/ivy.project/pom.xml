@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.axonivy.ivy.supplements</groupId>
+	<artifactId>ivy-project</artifactId>
+	<version>7.4.0-SNAPSHOT</version>
+	<parent>
+		<groupId>com.axonivy.ivy.supplements</groupId>
+		<artifactId>maven-deploy</artifactId>
+		<version>7.0.0-SNAPSHOT</version>
+		<relativePath>../central.deploy</relativePath>
+	</parent>
+	<packaging>pom</packaging>
+
+    <properties>
+		<project-build-plugin.version>7.3.0</project-build-plugin.version>
+ 	</properties>
+
+	<pluginRepositories>
+		<!-- Snapshot releases are available via sonatype.org -->
+		<pluginRepository>
+			<id>sonatype</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<snapshots>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+  <build>
+    <plugins>
+		<plugin>
+			<groupId>com.axonivy.ivy.ci</groupId>
+			<artifactId>project-build-plugin</artifactId>
+			<version>${project-build-plugin.version}</version>
+			<extensions>true</extensions>
+			<configuration>
+				<ivyVersion>[7.3.0,]</ivyVersion>
+			</configuration>
+		</plugin>
+	</plugins>
+    <pluginManagement>
+    	<plugins>
+    		<plugin>
+    			<artifactId>maven-deploy-plugin</artifactId>
+    			<configuration>
+	    			<skip>true</skip>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
+  </build>
+
+</project>
