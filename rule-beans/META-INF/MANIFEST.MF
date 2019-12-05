@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Rule
 Bundle-SymbolicName: supplement.rule.beans;singleton:=true
 Bundle-Version: 7.3.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: ch.ivyteam.ivy.components;bundle-version="7.3.0",
  ch.ivyteam.ivy.bpm.exec;bundle-version="7.3.0",
  ch.ivyteam.ivy.designer.process.ui;bundle-version="7.3.0";resolution:=optional,
