@@ -57,7 +57,7 @@ public class BlockchainRequestComposite extends SharedScrolledComposite
     propertySelector = new ExpandableComposite(scrollContent, SWT.NONE);
     propertySelector.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
     propertySelector.setText("Properties");
-    propertiesTable = new MappingTable(propertySelector, SWT.DROP_DOWN);
+    propertiesTable = new BlockchainPropertyTable(propertySelector, SWT.DROP_DOWN);
     propertySelector.setClient(propertiesTable);
     ExpandableCompositeUtil.wireSizeUpdates(this, propertySelector, propertiesTable);
 

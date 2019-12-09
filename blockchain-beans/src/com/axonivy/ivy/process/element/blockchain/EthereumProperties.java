@@ -1,7 +1,7 @@
 package com.axonivy.ivy.process.element.blockchain;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EthereumProperties
 {
@@ -10,15 +10,15 @@ public class EthereumProperties
   public static final String CREDENTIALS = "Credentials";
   public static final String PASSWORD = "Password";
 
-  public static final Set<String> ALL_PROPERTIES = getAllProperties();
+  public static final List<String> ALL_PROPERTIES = getAllProperties();
 
-  private static Set<String> getAllProperties()
+  private static List<String> getAllProperties()
   {
-    Set<String> props = new HashSet<>();
-    props.add(CONTRACT_ADDRESS);
-    props.add(CREDENTIALS);
+    List<String> props = new ArrayList<>();
     props.add(NETWORK_URL);
+    props.add(CREDENTIALS);
     props.add(PASSWORD);
+    props.add(CONTRACT_ADDRESS);
     return props;
   }
 }

@@ -8,15 +8,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-
-import com.axonivy.ivy.process.element.blockchain.EthereumProperties;
 
 import ch.ivyteam.ivy.datawrapper.scripting.IvyScriptInscriptionModel;
 import ch.ivyteam.ivy.designer.process.ui.inscription.model.UiModel;
@@ -25,8 +21,8 @@ import ch.ivyteam.ivy.process.model.element.activity.ThirdPartyProgramInterface;
 import ch.ivyteam.ivy.process.model.element.value.Mappings;
 import ch.ivyteam.ivy.scripting.types.IIvyClass;
 import ch.ivyteam.ivy.scripting.util.Variable;
-import ch.ivyteam.ivy.ui.model.UiMappingTableModel;
 import ch.ivyteam.ivy.ui.model.UiMappingTreeTableModel;
+import ch.ivyteam.ivy.ui.model.UiScriptableTableModel;
 import ch.ivyteam.swt.table.Row;
 import ch.ivyteam.ui.model.UiComboModel;
 
@@ -38,8 +34,8 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
 
   public final UiComboModel<String> contracts;
   public final UiComboModel<Method> functions;
-  public final UiMappingTableModel<Row> properties;
-  public  UiMappingTreeTableModel parameters;
+  public final UiScriptableTableModel<Row> properties;
+  public final UiMappingTreeTableModel parameters;
 
   public BlockchainRequestUiModel(ThirdPartyProgramInterfaceConfigurator configurator)
   {
@@ -66,11 +62,11 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
     propertiesMappingScriptModel = IvyScriptInscriptionModel
             .create(configurator.project, configurator.getElement())
             .toModel();
-    properties = create().mappingTable(
+    properties = create().scriptableTable(
             this::getProperties,
             this::setProperties,
             propertiesMappingScriptModel)
-            .withNameValuesSupplier(this::getPropertyNames)
+            .withNewRowSupplier(()-> new Row())
             .withDefaultValue(Arrays.asList(new Row()));
     tab.addChild(properties);
 
@@ -211,14 +207,6 @@ public class BlockchainRequestUiModel extends UiModel<ThirdPartyProgramInterface
     uiMappings.forEach(mapping -> ethereum.attributes.put(mapping.getLeftSide(), mapping.getRightSide()));
     System.err.println("set attr: "+ethereum.attributes);
     setEthereumModel(ethereum);
-  }
-
-  private SortedSet<String> getPropertyNames()
-  {
-    SortedSet<String> allProps = new TreeSet<>();
-    getProperties().stream().forEach(row -> allProps.add(row.name));
-    allProps.addAll(EthereumProperties.ALL_PROPERTIES);
-    return allProps;
   }
 
   private boolean isContractSelected()
