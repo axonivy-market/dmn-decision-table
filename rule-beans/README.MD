@@ -19,6 +19,6 @@ Easy execution of existing rules (drl and xls)
 
 ## Installation
 1. Download the `supplement.rules.beans-X.Y.Z-SNAPSHOT.jar` from the [latest release](https://github.com/ivy-supplements/bpm-beans/releases/latest)
-2. Copy the downloaded JAR into the `plugins` directory of your Axon.ivy Designer
+2. Copy the downloaded JAR into the `dropins` directory of your Axon.ivy Designer
 4. Open a process and use the additional beans provided in the `Rules` drawer of Process Editor palette
 
