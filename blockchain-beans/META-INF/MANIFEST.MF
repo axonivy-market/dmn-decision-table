@@ -3,24 +3,25 @@ Bundle-ManifestVersion: 2
 Bundle-Vendor: AXON IVY AG
 Bundle-Name: Blockchain
 Bundle-SymbolicName: supplement.blockchain.beans;singleton:=true
-Bundle-Version: 7.3.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: ch.ivyteam.ivy.components;bundle-version="7.2.0",
- ch.ivyteam.ivy.bpm.exec;bundle-version="7.2.0",
- ch.ivyteam.ivy.designer.process.ui;bundle-version="7.2.0";resolution:=optional,
- ch.ivyteam.ivy.designer.ide;bundle-version="7.2.0";resolution:=optional,
- ch.ivyteam.ivy.process.config;bundle-version="7.3.0"
-Bundle-ClassPath: lib/abi-3.3.1.jar,
- lib/core-3.3.1.jar,
- lib/crypto-3.3.1.jar,
- lib/rlp-3.3.1.jar,
- lib/tuples-3.3.1.jar,
- lib/utils-3.3.1.jar,
- lib/rxjava-1.2.4.jar,
+Bundle-Version: 8.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: ch.ivyteam.ivy.components;bundle-version="8.0.0",
+ ch.ivyteam.ivy.bpm.exec;bundle-version="8.0.0",
+ ch.ivyteam.ivy.designer.process.ui;bundle-version="8.0.0";resolution:=optional,
+ ch.ivyteam.ivy.designer.ide;bundle-version="8.0.0";resolution:=optional,
+ ch.ivyteam.ivy.process.config;bundle-version="8.0.0"
+Bundle-ClassPath: lib/abi-4.5.9.jar,
+ lib/core-4.5.9.jar,
+ lib/crypto-4.5.9.jar,
+ lib/rlp-4.5.9.jar,
+ lib/tuples-4.5.9.jar,
+ lib/utils-4.5.9.jar,
+ lib/rxjava-2.2.2.jar,
  lib/logging-interceptor-3.8.1.jar,
  lib/okhttp-3.8.1.jar,
  lib/okio-1.13.0.jar,
- lib/bcprov-jdk15on-1.54.jar,
+ lib/bcprov-jdk15on-1.61.jar,
+ lib/reactive-streams-1.0.2.jar,
  .
 Bundle-ActivationPolicy: lazy
 Export-Package: com.axonivy.ivy.process.element.blockchain,
