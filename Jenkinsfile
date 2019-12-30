@@ -26,7 +26,7 @@ pipeline {
                 '-P ${DEPLOY_PROFILE} ' + 
                 '-Dproject-build-plugin.version=7.4.0-SNAPSHOT ' +
                 '-Dgpg.skip=true ' +
-                '-Divy.engine.list.url=http://zugprojenkins/job/ivy-core_product/job/master/lastSuccessfulBuild/ ' + 
+                '-Divy.engine.list.url=https://jenkins.ivyteam.io/job/ivy-core_product/job/master/lastSuccessfulBuild/ ' + 
                 '-Divy.engine.directory=${WORKSPACE}/ldap-beans/target/ivyEngine '
             
             archiveArtifacts '*/target/*.jar, */*/target/*.jar,  */samples/*/target/*.iar'
