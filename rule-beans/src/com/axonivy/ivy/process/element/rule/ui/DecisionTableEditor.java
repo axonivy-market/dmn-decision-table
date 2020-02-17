@@ -147,6 +147,7 @@ public class DecisionTableEditor extends Composite
           ColumnType type = getTypeOf(attribute);
           table.addConditionColumn(new ConditionColumn(attribute, type));
           table.pack(true);
+          table.getParent().layout(true);
         }
       }
     });
@@ -162,6 +163,7 @@ public class DecisionTableEditor extends Composite
           ColumnType type = getTypeOf(attribute);
           table.addActionColumn(new ActionColumn(attribute, type));
           table.pack(true);
+          table.getParent().layout(true);
         }
       }
     });
