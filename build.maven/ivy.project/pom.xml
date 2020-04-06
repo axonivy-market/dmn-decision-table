@@ -11,7 +11,7 @@
 	<packaging>pom</packaging>
 
     <properties>
-		<project-build-plugin.version>8.0.0</project-build-plugin.version>
+		<project-build-plugin.version>8.0.4</project-build-plugin.version>
  	</properties>
 
 	<pluginRepositories>
