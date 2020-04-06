@@ -24,7 +24,7 @@ pipeline {
           script {
             maven cmd: 'clean deploy ' + 
                 '-P ${DEPLOY_PROFILE} ' + 
-                '-Dproject-build-plugin.version=7.4.0-SNAPSHOT ' +
+                '-Dproject-build-plugin.version=8.0.5-SNAPSHOT ' +
                 '-Dgpg.skip=true ' +
                 '-Divy.engine.list.url=https://jenkins.ivyteam.io/job/ivy-core_product/job/master/lastSuccessfulBuild/ ' + 
                 '-Divy.engine.directory=${WORKSPACE}/ldap-beans/target/ivyEngine '
