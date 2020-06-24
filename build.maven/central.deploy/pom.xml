@@ -33,29 +33,16 @@
 		<url>git@github.com:ivy-supplements/bpm-beans.git</url>
 	</scm>
 
+	<distributionManagement>			
+		<snapshotRepository>
+			<id>ossrh</id>					
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
-
-	<profiles>
-		<profile>
-			<id>central</id>
-			<distributionManagement>			
-				<snapshotRepository>
-					<id>ossrh</id>					
-					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-				</snapshotRepository>
-			</distributionManagement>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 
 	<build>
 		<plugins>
@@ -67,6 +54,10 @@
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
