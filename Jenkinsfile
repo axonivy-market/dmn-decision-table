@@ -6,7 +6,7 @@ pipeline {
   parameters {
     choice(
         name: 'DEPLOY_PROFILE',
-        choices: ['build', 'central']
+        choices: ['central']
     )
   }
 
