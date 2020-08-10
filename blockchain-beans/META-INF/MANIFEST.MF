@@ -3,13 +3,14 @@ Bundle-ManifestVersion: 2
 Bundle-Vendor: AXON IVY AG
 Bundle-Name: Blockchain
 Bundle-SymbolicName: supplement.blockchain.beans;singleton:=true
-Bundle-Version: 8.0.0.qualifier
+Bundle-Version: 9.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: ch.ivyteam.ivy.components;bundle-version="8.0.0",
  ch.ivyteam.ivy.bpm.exec;bundle-version="8.0.0",
  ch.ivyteam.ivy.designer.process.ui;bundle-version="8.0.0";resolution:=optional,
  ch.ivyteam.ivy.designer.ide;bundle-version="8.0.0";resolution:=optional,
- ch.ivyteam.ivy.process.config;bundle-version="8.0.0"
+ ch.ivyteam.ivy.process.config;bundle-version="8.0.0",
+ ch.ivyteam.lib.jackson;bundle-version="2.10.5";resolution:=optional
 Bundle-ClassPath: lib/abi-4.5.9.jar,
  lib/core-4.5.9.jar,
  lib/crypto-4.5.9.jar,
