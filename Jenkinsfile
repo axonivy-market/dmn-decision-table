@@ -17,7 +17,7 @@ pipeline {
           script {
             def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
             maven cmd: "clean ${phase} " +
-                '-Dproject-build-plugin.version=9.1.0-SNAPSHOT ' +
+                '-Dproject-build-plugin.version=9.1.0 ' +
                 '-Dgpg.skip=true ' +
                 '-Divy.engine.list.url=https://jenkins.ivyteam.io/job/ivy-core_product/job/master/lastSuccessfulBuild/ ' +
                 '-Divy.engine.directory=${WORKSPACE}/ldap-beans/target/ivyEngine '
