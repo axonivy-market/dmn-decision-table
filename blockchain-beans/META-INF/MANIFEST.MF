@@ -23,6 +23,7 @@ Bundle-ClassPath: lib/abi.jar,
  lib/okio.jar,
  lib/bcprov-jdk15on.jar,
  lib/reactive-streams.jar,
+ lib/kotlin-stdlib.jar,
  .
 Bundle-ActivationPolicy: lazy
 Export-Package: com.axonivy.ivy.process.element.blockchain,

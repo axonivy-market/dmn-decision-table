@@ -1,6 +1,6 @@
 package com.axonivy.ivy.process.element.blockchain;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class EthereumProperties
@@ -14,11 +14,6 @@ public class EthereumProperties
 
   private static List<String> getAllProperties()
   {
-    List<String> props = new ArrayList<>();
-    props.add(NETWORK_URL);
-    props.add(CREDENTIALS);
-    props.add(PASSWORD);
-    props.add(CONTRACT_ADDRESS);
-    return props;
+    return Arrays.asList(NETWORK_URL, CREDENTIALS, PASSWORD, CONTRACT_ADDRESS);
   }
 }

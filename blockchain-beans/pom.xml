@@ -17,7 +17,7 @@
 
 
 	<properties>
-    <web3j.version>4.5.9</web3j.version>
+    <web3j.version>4.7.0</web3j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -68,7 +68,8 @@
 								io.reactivex,
 								com.squareup.okhttp3,
 								com.squareup.okio,
-								org.bouncycastle
+								org.bouncycastle,
+								org.jetbrains.kotlin
 							</includeGroupIds>
 						</configuration>
 					</execution>
