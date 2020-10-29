@@ -6,14 +6,6 @@
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/bcprov-jdk15on-1.61.jar"/>
-	<classpathentry kind="lib" path="lib/rxjava-2.2.2.jar"/>
-	<classpathentry kind="lib" path="lib/abi-4.5.9.jar"/>
-	<classpathentry kind="lib" path="lib/core-4.5.9.jar"/>
-	<classpathentry kind="lib" path="lib/crypto-4.5.9.jar"/>
-	<classpathentry kind="lib" path="lib/rlp-4.5.9.jar"/>
-	<classpathentry kind="lib" path="lib/tuples-4.5.9.jar"/>
-	<classpathentry kind="lib" path="lib/utils-4.5.9.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>

@@ -37,7 +37,7 @@ public class DataMappingComposite extends Composite
     ToolBar toolBar = new ToolBar(this, SWT.HORIZONTAL);
     toolBar.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false, 1, 1));
     btnAttributeBrowser = new ToolItem(toolBar, SWT.NONE);
-    btnAttributeBrowser.setImage(IconFactory.get(parent.getDisplay()).getAttribute16());
+    btnAttributeBrowser.setImage(IconFactory.get(this).getAttribute16());
   }
 
   private static Color getGrey()
