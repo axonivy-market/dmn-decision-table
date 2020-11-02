@@ -3,7 +3,7 @@ package com.axonivy.ivy.process.element.rule.ui;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
