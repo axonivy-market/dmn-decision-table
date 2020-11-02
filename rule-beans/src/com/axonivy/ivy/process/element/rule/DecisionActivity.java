@@ -95,16 +95,19 @@ public class DecisionActivity extends AbstractUserProcessExtension
     @Override
     protected boolean saveUiDataToConfiguration()
     {
-      try
+      if (decisionEditor != null)
       {
-        RulesModel rulesModel = decisionEditor.table.getModel();
-        String ruleModelJson = RulesModelSerialization.serialize(rulesModel);
-        setBeanConfiguration(ruleModelJson);
-      }
-      catch (JsonProcessingException ex)
-      {
-        LOGGER.error(ex);
-        return false;
+        try
+        {
+          RulesModel rulesModel = decisionEditor.table.getModel();
+          String ruleModelJson = RulesModelSerialization.serialize(rulesModel);
+          setBeanConfiguration(ruleModelJson);
+        }
+        catch (JsonProcessingException ex)
+        {
+          LOGGER.error(ex);
+          return false;
+        }
       }
       return true;
     }

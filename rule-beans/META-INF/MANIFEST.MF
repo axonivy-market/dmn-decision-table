@@ -8,6 +8,7 @@ Require-Bundle: ch.ivyteam.ivy.components;bundle-version="9.2.0",
  ch.ivyteam.ivy.bpm.exec;bundle-version="9.2.0",
  ch.ivyteam.ivy.designer.process.ui;bundle-version="9.2.0";resolution:=optional,
  ch.ivyteam.ivy.designer.ide;bundle-version="9.2.0";resolution:=optional,
+ ch.ivyteam.ivy.process.config;bundle-version="9.2.0",
  ch.ivyteam.icons;bundle-version="9.2.0";resolution:=optional,
  ch.ivyteam.lib.jackson;bundle-version="2.10.5";resolution:=optional,
  ch.ivyteam.lib.jaxb;bundle-version="2.3.2"
