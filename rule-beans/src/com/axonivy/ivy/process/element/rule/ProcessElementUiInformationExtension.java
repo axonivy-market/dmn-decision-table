@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import ch.ivyteam.ivy.designer.process.ui.info.IProcessElementUiInformationExtension;
 
+@SuppressWarnings("deprecation")
 public class ProcessElementUiInformationExtension implements IProcessElementUiInformationExtension
 {
   @Override
@@ -11,8 +12,6 @@ public class ProcessElementUiInformationExtension implements IProcessElementUiIn
   {
     switch (processElementClassName)
     {
-      case ProcessElementExtension.RULE_ACTIVITY:
-        return "Rule";
       case ProcessElementExtension.DECISION_ACTIVITY:
         return "Decision";
       default:
@@ -25,8 +24,6 @@ public class ProcessElementUiInformationExtension implements IProcessElementUiIn
   {
     switch (processElementClassName)
     {
-      case ProcessElementExtension.RULE_ACTIVITY:
-        return "Rule Activity";
       case ProcessElementExtension.DECISION_ACTIVITY:
         return "Decision Table Activity";
       default:
@@ -39,8 +36,6 @@ public class ProcessElementUiInformationExtension implements IProcessElementUiIn
   {
     switch (processElementClassName)
     {
-      case ProcessElementExtension.RULE_ACTIVITY:
-        return "Executes a Rule";
       case ProcessElementExtension.DECISION_ACTIVITY:
         return "Executes a DMN table";
       default:

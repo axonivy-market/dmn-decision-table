@@ -120,6 +120,7 @@ public class DecisionTableComposite extends TableComposite<Row>
     provideEditSupport(column, i, tableCol);
   }
 
+  @SuppressWarnings("deprecation")
   private void provideEditSupport(Column column, final int columnIndex, TypedTableViewerColumn<Row> tableCol)
   {
     if (column instanceof ConditionColumn)
