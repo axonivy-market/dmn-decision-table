@@ -61,6 +61,12 @@ public class EthereumProcessElementUi implements IBpmnProcessElementUi
   }
   
   @Override
+  public String getHelpPath()
+  {
+    return "https://github.com/ivy-supplements/bpm-beans/blob/master/blockchain-beans/README.md";
+  }
+  
+  @Override
   public List<IInscriptionEditorTab> getEditorTabs(ElementConfigurator<? extends NodeElement> configurator)
   {
     return getThirdpartyTabs((ThirdPartyProgramInterfaceConfigurator)configurator);
