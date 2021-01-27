@@ -4,14 +4,17 @@ Bundle-Name: Rule
 Bundle-SymbolicName: supplement.rule.beans;singleton:=true
 Bundle-Version: 9.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Require-Bundle: ch.ivyteam.ivy.components;bundle-version="9.2.0",
- ch.ivyteam.ivy.bpm.exec;bundle-version="9.2.0",
- ch.ivyteam.ivy.designer.process.ui;bundle-version="9.2.0";resolution:=optional,
- ch.ivyteam.ivy.designer.ide;bundle-version="9.2.0";resolution:=optional,
- ch.ivyteam.ivy.process.config;bundle-version="9.2.0",
- ch.ivyteam.icons;bundle-version="9.2.0";resolution:=optional,
- ch.ivyteam.lib.jackson;bundle-version="2.10.5";resolution:=optional,
- ch.ivyteam.lib.jaxb;bundle-version="2.3.2"
+Require-Bundle: ch.ivyteam.ivy.components,
+ ch.ivyteam.ivy.bpm.exec,
+ ch.ivyteam.ivy.designer.process.ui;resolution:=optional,
+ ch.ivyteam.ivy.designer.ide;resolution:=optional,
+ ch.ivyteam.ivy.process.config,
+ ch.ivyteam.icons;resolution:=optional,
+ ch.ivyteam.lib.jackson;resolution:=optional,
+ ch.ivyteam.lib.jaxb,
+ ch.ivyteam.lib.apache.commons.io,
+ ch.ivyteam.lib.apache.commons.lang3,
+ ch.ivyteam.lib.apache.commons.text
 Bundle-ClassPath: lib/camunda-commons-logging-1.4.0.jar,
  lib/camunda-commons-typed-values-1.4.0.jar,
  lib/camunda-commons-utils-1.4.0.jar,

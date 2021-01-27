@@ -1,9 +1,10 @@
 Bundle-Version: 8.0.0.qualifier
 Bundle-Name: LdapBeans
 Bundle-SymbolicName: supplement.ldap.beans
-Require-Bundle: ch.ivyteam.util;bundle-version="7.0.0",
- ch.ivyteam.ivy.request;bundle-version="7.0.0",
- ch.ivyteam.ivy.bpm.exec;bundle-version="7.0.0",
- ch.ivyteam.ivy.persistence;bundle-version="7.0.0",
- ch.ivyteam.ivy.scripting;bundle-version="7.0.0"
+Require-Bundle: ch.ivyteam.util,
+ ch.ivyteam.ivy.request,
+ ch.ivyteam.ivy.bpm.exec,
+ ch.ivyteam.ivy.persistence,
+ ch.ivyteam.ivy.scripting,
+ ch.ivyteam.lib.apache.commons.lang3
 
