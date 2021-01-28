@@ -8,7 +8,6 @@ Require-Bundle: ch.ivyteam.ivy.process.event,
  ch.ivyteam.ivy.bpm.exec,
  org.eclipse.equinox.registry,
  ch.ivyteam.util,
- ch.ivyteam.commons.lib,
  org.eclipse.osgi,
  ch.ivyteam.ivy.service,
  ch.ivyteam.ivy.security
