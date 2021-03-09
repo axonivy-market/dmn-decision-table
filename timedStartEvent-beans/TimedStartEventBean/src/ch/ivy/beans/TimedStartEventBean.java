@@ -38,7 +38,7 @@ import ch.ivyteam.ivy.service.ServiceException;
 /**
  * An Eventbean which is triggered after a given date or interval
  * 
- * @version 29.09.2016 bb Axon.ivy6.3
+ * @version 29.09.2016 bb Axon Ivy6.3
  */
 public class TimedStartEventBean implements IProcessStartEventBean
 {

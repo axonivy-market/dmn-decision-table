@@ -1,5 +1,5 @@
 # LDAP Beans
-Provides simple Axon.ivy process element extensions that allow to write or query LDAP objects.
+Provides simple Axon Ivy process element extensions that allow to write or query LDAP objects.
 
 ## Query Bean
 Allows to query LDAP objects. In this example we query all mail adresses of users within our organisation unit.

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: RestStart
 Bundle-SymbolicName: RestStart;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: Axon.ivy
+Bundle-Vendor: Axon Ivy
 Automatic-Module-Name: RestStart
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: ch.ivyteam.ivy.components,
