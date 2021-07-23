@@ -2,7 +2,7 @@
 
 ![CI Build](https://github.com/axonivy-market/decision-table/actions/workflows/ci.yml/badge.svg)
 
-Enables you to apply rules and decisions on your data without scripting effort.
+Enables you to apply DMN decision tables on your data without scripting effort.
 
 ## Decision Table Activity
 Simple and expressive decision table element. 
@@ -17,6 +17,7 @@ Convenient condition editing with zero scripting
 ![Condition Editing](decision-table-demo/screenshots/decisionTable_editCondition.png)
 
 ## Setup
-1. Download the `supplement.rules.beans-X.Y.Z-SNAPSHOT.jar` from the [latest release](https://github.com/ivy-supplements/bpm-beans/releases/latest)
-2. Copy the downloaded JAR into the `dropins` directory of your Axon Ivy Designer
+1. Download the `decision-table-*.jar`
+2. Copy the file into the `dropins` directory of your Axon Ivy Designer
+3. Start Axon Ivy Designer
 4. Open a process and use the additional beans provided in the `Rules` drawer of Process Editor palette
