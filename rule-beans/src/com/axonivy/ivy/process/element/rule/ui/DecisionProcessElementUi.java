@@ -11,7 +11,7 @@ import ch.ivyteam.ivy.designer.process.ui.info.IBpmnProcessElementUi;
 public class DecisionProcessElementUi implements IBpmnProcessElementUi
 {
   private static final String RULE_GROUP = "Rule";
-  
+
   @Override
   public void addPaletteGroup(IIvyProcessPalette palette)
   {
@@ -21,15 +21,15 @@ public class DecisionProcessElementUi implements IBpmnProcessElementUi
   @Override
   public void addPaletteEntry(IIvyProcessPalette palette, String name)
   {
-    palette.addProcessElementEntry(RULE_GROUP, name, 1000);
+    palette.addEntry(RULE_GROUP, name, 1000);
   }
-  
+
   @Override
   public String getName()
   {
     return DecisionProcessElement.DECISION_ACTIVITY;
   }
-  
+
   @Override
   public String getShortName(Locale locale)
   {
@@ -53,13 +53,13 @@ public class DecisionProcessElementUi implements IBpmnProcessElementUi
   {
     return getClass().getResource("DecisionActivity.png");
   }
-  
+
   @Override
   public boolean showDefaultTabs()
   {
     return true;
   }
-  
+
   @Override
   public String getHelpPath()
   {
