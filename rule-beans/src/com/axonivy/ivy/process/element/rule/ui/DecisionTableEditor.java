@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 import org.eclipse.core.resources.IProject;
@@ -55,15 +56,15 @@ public class DecisionTableEditor extends Composite
   private IVariable[] dataVars = new IVariable[0];
   private IIvyScriptEngine scriptEngine;
   private IProject project;
-  
+
   public DecisionTableEditor(Composite parent, int style)
   {
     super(parent, style);
     setLayout(new GridLayout(1, false));
-    
+
     tabs = new CTabFolder(this, SWT.BOTTOM);
     tabs.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-    
+
     createTableTab();
     createDMNtab();
   }
@@ -73,17 +74,17 @@ public class DecisionTableEditor extends Composite
     CTabItem tab = new CTabItem(tabs, SWT.NONE);
     tab.setText("Table");
     tab.setImage(ch.ivyteam.swt.icons.IconFactory.get(this).getTable(Size.SIZE_16));
-    
+
     Group grpDecisions = new Group(tabs, SWT.NONE);
     grpDecisions.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
     grpDecisions.setText("Decisions");
     grpDecisions.setLayout(new GridLayout(1, false));
     tab.setControl(grpDecisions);
-    
+
     columnEdit = new ColumnEditActionsComposite(grpDecisions, SWT.NONE);
     columnEdit.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
     addDataChooser();
-    
+
     table = new DecisionTableComposite(grpDecisions, SWT.NONE);
     table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
     return tab;
@@ -100,7 +101,7 @@ public class DecisionTableEditor extends Composite
     dmnTab.addListener(SWT.SELECTED, evt -> {
       dmnViewer.getDocument().set(toDMN(table.model));
     });
-    
+
     tabs.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
@@ -111,7 +112,7 @@ public class DecisionTableEditor extends Composite
   }
 
   private static String toDMN(RulesModel model)
-  { 
+  {
     try
     {
       try(InputStream is = new DmnSerializer(model).serialize())
@@ -124,7 +125,7 @@ public class DecisionTableEditor extends Composite
       return ex.getMessage();
     }
   }
-  
+
   public void setDataVariables(IVariable[] vars)
   {
     this.dataVars = Arrays.stream(vars)
@@ -168,21 +169,21 @@ public class DecisionTableEditor extends Composite
       }
     });
   }
-  
+
   private Optional<String> attributeSelectionDialog(String variableFilter)
   {
-	SelectAttributeDialog dialog = SelectAttributeDialog.createAttributeBrowserDialog(this.getShell(), project);
+    var dialog = SelectAttributeDialog.createAttributeBrowserDialog(this.getShell(), project);
     dialog.create();
     try
     {
-      IVariable[] vars = Arrays.stream(dataVars)
+      var vars = Arrays.stream(dataVars)
         .filter(var -> var.getName().equals(variableFilter))
-        .toArray(IVariable[]::new);
-      dialog.setInput(IvyScriptContextFactory.createIvyScriptContext(vars));
+        .collect(Collectors.toList());
+      dialog.setInput(vars);
     }
     catch (Exception ex)
     {
-      ex.printStackTrace();
+      throw new RuntimeException(ex);
     }
     if (dialog.open() == Window.OK)
     {
@@ -191,7 +192,7 @@ public class DecisionTableEditor extends Composite
     }
     return Optional.empty();
   }
-  
+
   private ColumnType getTypeOf(String attribute)
   {
     IIvyClass<?> ivyClass = getIvyTypeOf(attribute);
@@ -222,23 +223,23 @@ public class DecisionTableEditor extends Composite
       return null;
     }
   }
-  
+
   public static void main(String[] args)
   {
     Shell shell = new Shell();
     DecisionTableEditor editor = new DecisionTableEditor(shell, SWT.NONE);
-    
+
     RulesModel model = CitizenSample.generateData();
     editor.table.setModel(model);
     editor.setDataVariables(getSampleScriptContext());
-    
+
     editor.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
     shell.setLayout(new FillLayout());
     shell.setSize(700,400);
     shell.setText("Test Decision Table");
     shell.layout();
     shell.open();
-    
+
     Display display = Display.getDefault();
     while(!shell.isDisposed())
     {
@@ -248,12 +249,12 @@ public class DecisionTableEditor extends Composite
       }
     }
   }
-  
+
   private static IVariable[] getSampleScriptContext()
   {
     @SuppressWarnings({"restriction"})
     IIvyScriptClassRepository tmpRepo = new ch.ivyteam.ivy.scripting.internal.system.IvyScriptGlobalClassRepository(
-            new IvyWebAppClassLoaderProvider(), 
+            new IvyWebAppClassLoaderProvider(),
             (ch.ivyteam.ivy.scripting.internal.IvyScriptManager) IvyScriptManagerFactory.createIvyScriptManager());
     Variable in = new Variable(IvyScriptProcessVariables.IN.getVariableName(), tmpRepo.getAnyCompositeObjectClass());
     return new IVariable[]{in};
