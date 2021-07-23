@@ -11,6 +11,10 @@
 		<module>dmn-decision-table-demo</module>
 	</modules>
 
+	<scm>
+		<developerConnection>scm:git:https://github.com/axonivy-market/dmn-decision-table.git</developerConnection>
+	</scm>
+
 	<build>
 		<pluginManagement>
 			<plugins>

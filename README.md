@@ -15,9 +15,3 @@ Exposes the decision in standard [DMN](http://www.omg.org/spec/DMN/) format so t
 ### Edit
 Convenient condition editing with zero scripting
 ![Condition Editing](doc/edit-condition.png)
-
-## Setup
-1. Download the `dmn-decision-table-*.jar`
-2. Copy the file into the `dropins` directory of your Axon Ivy Designer
-3. Start Axon Ivy Designer
-4. Open a process and use the additional beans provided in the `Rules` drawer of Process Editor palette
