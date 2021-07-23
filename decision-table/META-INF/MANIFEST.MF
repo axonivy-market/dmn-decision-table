@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Rule
-Bundle-SymbolicName: supplement.rule.beans;singleton:=true
+Bundle-SymbolicName: decision-table;singleton:=true
 Bundle-Version: 9.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: ch.ivyteam.ivy.components,
