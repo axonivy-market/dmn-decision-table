@@ -14,6 +14,13 @@
 		<tycho.version>2.3.0</tycho.version>
 	</properties>
 
+	<distributionManagement>
+		<repository>
+		  <id>github</id>
+		  <url>https://maven.pkg.github.com/axonivy-market/decision-table</url>
+		</repository>
+	  </distributionManagement>
+
 	<repositories>
 		<repository>
 			<id>ivy.nightly.release</id>
