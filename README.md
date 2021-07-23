@@ -1,6 +1,7 @@
 # Decision Table
 
 ![CI Build](https://github.com/axonivy-market/decision-table/actions/workflows/ci.yml/badge.svg)
+
 Enables you to apply rules and decisions on your data without scripting effort.
 
 ## Decision Table Activity
