@@ -1,15 +1,15 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.axonivy.decisiontable</groupId>
-  <artifactId>decision-table-demo</artifactId>
+  <groupId>com.axonivy.dmn.decisiontable</groupId>
+  <artifactId>dmn-decision-table-demo</artifactId>
   <version>9.2.0-SNAPSHOT</version>
   <packaging>iar</packaging>
 
   <distributionManagement>
     <repository>
       <id>github</id>
-      <url>https://maven.pkg.github.com/axonivy-market/decision-table</url>
+      <url>https://maven.pkg.github.com/axonivy-market/dmn-decision-table</url>
     </repository>
   </distributionManagement>
 

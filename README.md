@@ -1,4 +1,4 @@
-# Decision Table
+# DMN Decision Table
 
 ![CI Build](https://github.com/axonivy-market/decision-table/actions/workflows/ci.yml/badge.svg)
 
