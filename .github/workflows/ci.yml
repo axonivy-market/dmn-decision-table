@@ -19,7 +19,7 @@ jobs:
         java-version: 11
 
     - name: Build with Maven
-      run: mvn clean verify --batch-mode
+      run: mvn clean deploy --batch-mode
 
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
