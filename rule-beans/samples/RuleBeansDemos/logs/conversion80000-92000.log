@@ -1,8 +1,0 @@
-# Conversion log for project 'RuleBeansDemos' from version 80000 to 92000
-# Created on 23.07.2021 09:04:01
-23.07.2021 09:04:01 : New Task  : Migrate Global Variables to variables.yaml
-23.07.2021 09:04:01 : Info      : no global variables found. nothing to convert.
-23.07.2021 09:04:01 : Info      : deleted folder config/GlobalVariables
-23.07.2021 09:04:01 : New Task  : Store process MOD files in latest version 9.2.0
-23.07.2021 09:04:01 : New Task  : Update project version to actual version 92000.
-23.07.2021 09:04:01 : New Task  : Finished conversion of project RuleBeansDemos.
