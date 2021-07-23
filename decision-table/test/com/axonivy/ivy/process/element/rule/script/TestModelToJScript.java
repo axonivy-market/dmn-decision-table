@@ -63,14 +63,4 @@ public class TestModelToJScript
             "}\n";
     assertEquals(expectedScript, script);
   }
-
-  @Test
-  @Ignore
-  public void modelParser() throws ParseException
-  {
-    String script = new ScriptGenerator(model).toScript();
-    RulesModel parsedModel = new RulesModelParser(script).toModel();
-    assertEquals(model, parsedModel);
-  }
-
 }
