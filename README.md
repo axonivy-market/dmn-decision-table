@@ -1,6 +1,6 @@
 # DMN Decision Table
 
-![CI Build](https://github.com/axonivy-market/decision-table/actions/workflows/ci.yml/badge.svg)
+[![CI Build](https://github.com/axonivy-market/decision-table/actions/workflows/ci.yml/badge.svg)](https://github.com/axonivy-market/decision-table/actions/workflows/ci.yml)
 
 Enables you to apply DMN decision tables on your data without scripting effort.
 
