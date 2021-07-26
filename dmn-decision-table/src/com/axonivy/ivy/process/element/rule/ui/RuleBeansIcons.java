@@ -7,8 +7,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class RuleBeansIcons
 {
-  public static final String PLUGIN_ID = "supplement.rule.beans";
-  
+  public static final String PLUGIN_ID = "dmn-decision-table";
+
   private static final ImageDescriptor NO_IMAGE = new ImageDescriptor()
   {
     @Override
@@ -20,8 +20,7 @@ public class RuleBeansIcons
 
   public static final ImageDescriptor CONDITION_COLUMN = loadIcon("cell-import.png");
   public static final ImageDescriptor OUTPUT_COLUMN = loadIcon("cell-export.png");
-  
-  
+
   private static ImageDescriptor loadIcon(String name)
   {
     try
@@ -36,5 +35,5 @@ public class RuleBeansIcons
     }
     return AbstractUIPlugin.imageDescriptorFromPlugin(PLUGIN_ID, "icons/"+name);
   }
-  
+
 }

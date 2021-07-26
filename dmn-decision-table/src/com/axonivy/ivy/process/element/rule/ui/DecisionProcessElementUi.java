@@ -63,6 +63,6 @@ public class DecisionProcessElementUi implements IBpmnProcessElementUi
   @Override
   public String getHelpPath()
   {
-    return "https://github.com/ivy-supplements/bpm-beans/blob/master/rule-beans/README.MD";
+    return "https://market.axonivy.com/dmn-decision-table";
   }
 }
