@@ -36,6 +36,7 @@
 				<configuration>
 					<preparationGoals>org.eclipse.tycho:tycho-versions-plugin:2.3.0:update-eclipse-metadata org.apache.maven.plugins:maven-scm-plugin:1.11.2:add org.apache.maven.plugins:maven-scm-plugin:1.11.2:checkin</preparationGoals>
 					<completionGoals>org.eclipse.tycho:tycho-versions-plugin:2.3.0:update-eclipse-metadata org.apache.maven.plugins:maven-scm-plugin:1.11.2:add org.apache.maven.plugins:maven-scm-plugin:1.11.2:checkin</completionGoals>
+					<tagNameFormat>v@{project.version}</tagNameFormat>
 				</configuration>
 			</plugin>
 
