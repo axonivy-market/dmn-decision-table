@@ -3,7 +3,7 @@
 
 	<groupId>com.axonivy.dmn.decisiontable</groupId>
 	<artifactId>dmn-decision-table-modules</artifactId>
-	<version>9.2.2-SNAPSHOT</version>
+	<version>9.2.2</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -14,7 +14,7 @@
 
 	<scm>
 		<developerConnection>scm:git:https://github.com/axonivy-market/dmn-decision-table.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>v9.2.2</tag>
 	</scm>
 
 	<build>
