@@ -26,7 +26,7 @@ jobs:
           git checkout -b new-release
         
       - name: Build with Maven
-        run: mvn --batch-mode release:prepare release:perform
+        run: mvn --batch-mode -Darguments='-DaltDeploymentRepository=github::https://maven.pkg.github.com/axonivy-market/${{ github.event.repository.name }}' release:prepare release:perform
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
