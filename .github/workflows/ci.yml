@@ -26,3 +26,10 @@ jobs:
       if: always()
       with:
         files: "*/target/surefire-reports/*.xml"
+
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ github.event.repository.name }}
+        path: |
+          **/*.jar
