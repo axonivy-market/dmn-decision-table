@@ -1,0 +1,48 @@
+{
+	"installers": [
+		{
+			"id": "maven-import",
+			"data": {
+				"projects": [
+					{
+						"groupId": "com.axonivy.market",
+						"artifactId": "${project.name}-demo",
+						"version": "${version}",
+						"type": "iar"
+					}
+				],
+				"repositories": [
+					{
+						"id": "axonivy.public",
+						"url": "https://maven.axonivy.com",
+						"snapshots": {
+							"enabled": "true"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "maven-dependency",
+			"data": {
+				"dependencies": [
+					{
+						"groupId": "com.axonivy.connector.excel",
+						"artifactId": "${project.name}",
+						"version": "${version}",
+						"type": "iar"
+					}
+				],
+				"repositories": [
+					{
+						"id": "axonivy.public",
+						"url": "https://maven.axonivy.com",
+						"snapshots": {
+							"enabled": "true"
+						}
+					}
+				]
+			}
+		}
+	]
+}
