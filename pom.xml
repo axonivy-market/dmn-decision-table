@@ -9,6 +9,7 @@
 	<modules>
 		<module>dmn-decision-table</module>
 		<module>dmn-decision-table-demo</module>
+		<module>dmn-decision-table-product</module>
 	</modules>
 
 	<scm>
