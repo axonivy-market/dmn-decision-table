@@ -6,13 +6,6 @@
   <version>9.2.2-SNAPSHOT</version>
   <packaging>iar</packaging>
 
-  <distributionManagement>
-    <repository>
-      <id>github</id>
-      <url>https://maven.pkg.github.com/axonivy-market/dmn-decision-table</url>
-    </repository>
-  </distributionManagement>
-
   <build>
     <plugins>
       <plugin>
