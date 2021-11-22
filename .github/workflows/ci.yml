@@ -30,8 +30,7 @@ jobs:
     - name: Archive build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ github.event.repository.name }}
         path: |
-          **/*.jar
+          **/dmn-decision-table*.jar
           **/*.iar
           **/*.zip
