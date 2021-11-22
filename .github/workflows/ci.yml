@@ -32,6 +32,6 @@ jobs:
       with:
         name: ${{ github.event.repository.name }}
         path: |
-          **/*.jar
+          **/dmn-decision-table*.jar
           **/*.iar
           **/*.zip
