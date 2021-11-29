@@ -1,5 +1,5 @@
 [Ivy]
-15C82B07277A094A 9.2.0 #module
+15C82B07277A094A 9.3.1 #module
 >Proto >Proto Collection #zClass
 Gs0 GatherPersonDataProcess Big #zClass
 Gs0 RD #cInfo
@@ -34,9 +34,7 @@ Gs0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 </elementInfo>
 ' #txt
 Gs0 f0 83 51 26 26 -20 15 #rect
-Gs0 f0 @|UdInitIcon #fIcon
 Gs0 f1 339 51 26 26 0 12 #rect
-Gs0 f1 @|UdProcessEndIcon #fIcon
 Gs0 f3 guid 15C82B0729B4C2B9 #txt
 Gs0 f3 actionTable 'out=in;
 ' #txt
@@ -48,9 +46,7 @@ Gs0 f3 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 </elementInfo>
 ' #txt
 Gs0 f3 83 147 26 26 -16 12 #rect
-Gs0 f3 @|UdEventIcon #fIcon
 Gs0 f4 211 147 26 26 0 12 #rect
-Gs0 f4 @|UdExitEndIcon #fIcon
 Gs0 f5 expr out #txt
 Gs0 f5 109 160 211 160 #arcP
 Gs0 f6 actionTable 'out=in;
@@ -70,7 +66,6 @@ Gs0 f6 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 </elementInfo>
 ' #txt
 Gs0 f6 168 42 112 44 -39 -7 #rect
-Gs0 f6 @|StepIcon #fIcon
 Gs0 f7 expr out #txt
 Gs0 f7 109 64 168 64 #arcP
 Gs0 f2 expr out #txt
@@ -78,7 +73,6 @@ Gs0 f2 280 64 339 64 #arcP
 >Proto Gs0 .type com.axonivy.ivy.supplements.rule.beans.demos.GatherPersonData.GatherPersonDataData #txt
 >Proto Gs0 .processKind HTML_DIALOG #txt
 >Proto Gs0 -8 -8 16 16 16 26 #rect
->Proto Gs0 '' #fIcon
 Gs0 f3 mainOut f5 tail #connect
 Gs0 f5 head f4 mainIn #connect
 Gs0 f0 mainOut f7 tail #connect

@@ -4,6 +4,7 @@ import javax.swing.table.AbstractTableModel;
 
 import com.axonivy.ivy.process.element.rule.model.RulesModel;
 
+@SuppressWarnings("serial")
 public class DecisionTableModel extends AbstractTableModel
 {
   private RulesModel model;
