@@ -1,5 +1,5 @@
 [Ivy]
-15C82A89FA49E8E6 9.2.0 #module
+15C82A89FA49E8E6 9.3.1 #module
 >Proto >Proto Collection #zClass
 Tn0 TaxCalculation Big #zClass
 Tn0 B #cInfo
@@ -49,9 +49,7 @@ Tn0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Tn0 f0 @C|.responsibility Everybody #txt
 Tn0 f0 105 97 30 30 -25 17 #rect
-Tn0 f0 @|StartRequestIcon #fIcon
 Tn0 f1 993 97 30 30 0 15 #rect
-Tn0 f1 @|EndIcon #fIcon
 Tn0 f3 @AbstractThirdPartyProgramInterface|type com.axonivy.ivy.supplements.rule.beans.demos.Data #txt
 Tn0 f3 @AbstractThirdPartyProgramInterface|timeout 0 #txt
 Tn0 f3 @AbstractThirdPartyProgramInterface|beanConfig '"{
@@ -184,7 +182,6 @@ Tn0 f3 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 </elementInfo>
 ' #txt
 Tn0 f3 556 84 216 56 -91 -8 #rect
-Tn0 f3 @|DecisionActivity #fIcon
 Tn0 f5 dialogId com.axonivy.ivy.supplements.rule.beans.demos.GatherPersonData #txt
 Tn0 f5 startMethod start() #txt
 Tn0 f5 requestActionDecl '<> param;' #txt
@@ -202,7 +199,6 @@ Tn0 f5 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 </elementInfo>
 ' #txt
 Tn0 f5 208 90 112 44 -39 -8 #rect
-Tn0 f5 @|UserDialogIcon #fIcon
 Tn0 f6 expr out #txt
 Tn0 f6 135 112 208 112 #arcP
 Tn0 f6 0 0.6169741941115735 0 0 #arcLabel
@@ -221,7 +217,6 @@ Tn0 f7 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 </elementInfo>
 ' #txt
 Tn0 f7 368 90 112 44 -51 -7 #rect
-Tn0 f7 @|RestClientCallIcon #fIcon
 Tn0 f8 expr out #txt
 Tn0 f8 320 112 368 112 #arcP
 Tn0 f9 dialogId com.axonivy.ivy.supplements.rule.beans.demos.TaxesDialog #txt
@@ -243,7 +238,6 @@ Tn0 f9 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 </elementInfo>
 ' #txt
 Tn0 f9 832 90 112 44 -40 -7 #rect
-Tn0 f9 @|UserDialogIcon #fIcon
 Tn0 f10 expr out #txt
 Tn0 f10 772 112 832 112 #arcP
 Tn0 f10 0 0.6898527322635233 0 0 #arcLabel

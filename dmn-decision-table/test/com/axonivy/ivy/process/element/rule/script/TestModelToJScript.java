@@ -2,10 +2,7 @@ package com.axonivy.ivy.process.element.rule.script;
 
 import static org.junit.Assert.assertEquals;
 
-import java.text.ParseException;
-
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.axonivy.ivy.process.element.rule.model.ActionColumn;

@@ -1,0 +1,8 @@
+RestClients:
+  genderize.io:
+    UUID: 9b19d52e-3e7a-4bec-9fae-9fdeee8b2535
+    Url: https://api.genderize.io/
+    Features:
+    - ch.ivyteam.ivy.rest.client.mapper.JsonFeature
+    Properties:
+      jersey.config.client.followRedirects: 'true'
