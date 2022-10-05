@@ -4,36 +4,4 @@ on: workflow_dispatch
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Get branch name
-        id: branch-name
-        uses: tj-actions/branch-names@v4.5
-
-      - name: Setup Java JDK
-        uses: actions/setup-java@v1.4.3
-        with:
-          java-version: 11
-          server-id: github
-
-      - name: Configure Git user
-        run: |
-          git config user.email "actions@github.com"
-          git config user.name "GitHub Actions"
-          git checkout -b new-release
-        
-      - name: Build with Maven
-        run: mvn --batch-mode -Darguments='-DaltDeploymentRepository=github::https://maven.pkg.github.com/axonivy-market/${{ github.event.repository.name }}' release:prepare release:perform
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: pull-request
-        uses: repo-sync/pull-request@v2
-        with:
-          destination_branch: ${{ steps.branch-name.outputs.current_branch }}
-          source_branch: new-release
-          pr_title: "Release"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+    uses: axonivy-market/github-workflows/.github/workflows/release.yml@v1
