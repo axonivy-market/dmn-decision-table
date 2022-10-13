@@ -1,0 +1,86 @@
+{
+  "format" : "10.0.0",
+  "id" : "15C82A89FA49E8E6",
+  "config" : {
+    "data" : "com.axonivy.ivy.supplements.rule.beans.demos.Data"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "startDecisionTable",
+      "config" : {
+        "callSignature" : "startDecisionTable",
+        "case" : {
+          "customFields" : [
+            { "name" : "ProcessCategoryCode", "type" : "String", "value" : "\"table\"" }
+          ]
+        },
+        "outLink" : "startDecisionTable.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 120, "y" : 112 },
+        "labelOffset" : { "x" : 41, "y" : 37 }
+      },
+      "connect" : { "id" : "f6", "to" : "f5" }
+    }, {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 1008, "y" : 112 }
+      }
+    }, {
+      "id" : "f5",
+      "type" : "DialogCall",
+      "name" : "data gathering",
+      "config" : {
+        "dialogId" : "com.axonivy.ivy.supplements.rule.beans.demos.GatherPersonData",
+        "startMethod" : "start()",
+        "output" : {
+          "map" : {
+            "out" : "result.data"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 264, "y" : 112 }
+      },
+      "connect" : { "id" : "f8", "to" : "f7" }
+    }, {
+      "id" : "f7",
+      "type" : "RestClientCall",
+      "name" : "evaluate gender",
+      "config" : {
+        "clientId" : "9b19d52e-3e7a-4bec-9fae-9fdeee8b2535",
+        "clientErrorCode" : "ivy:error:rest:client",
+        "queryParams" : {
+          "name" : "in.person.firstname"
+        },
+        "statusErrorCode" : ">> Ignore status",
+        "resultType" : "com.fasterxml.jackson.databind.JsonNode",
+        "responseCode" : "out.person.gender = result.get(\"gender\").asText();"
+      },
+      "visual" : {
+        "at" : { "x" : 424, "y" : 112 }
+      }
+    }, {
+      "id" : "f9",
+      "type" : "DialogCall",
+      "name" : "display taxes",
+      "config" : {
+        "dialogId" : "com.axonivy.ivy.supplements.rule.beans.demos.TaxesDialog",
+        "startMethod" : "start(com.axonivy.ivy.supplements.rule.beans.demos.Data)",
+        "call" : {
+          "params" : [
+            { "name" : "data", "type" : "com.axonivy.ivy.supplements.rule.beans.demos.Data" }
+          ],
+          "map" : {
+            "param.data" : "in"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 888, "y" : 112 }
+      },
+      "connect" : { "id" : "f2", "to" : "f1" }
+    } ]
+}
