@@ -15,17 +15,20 @@ import com.axonivy.ivy.process.element.rule.model.RulesModelSerialization;
 import com.axonivy.ivy.process.element.rule.ui.DecisionTableEditor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import ch.ivyteam.ivy.designer.process.ui.inscription.masks.fw.ProcessExtensionConfigurationEditorEnvironment;
+import ch.ivyteam.ivy.designer.inscription.ui.masks.fw.ProcessExtensionConfigurationEditorEnvironment;
+import ch.ivyteam.ivy.process.config.activity.pi.bean.JavaBeanConfigurator;
 import ch.ivyteam.ivy.process.engine.IRequestId;
+import ch.ivyteam.ivy.process.extension.ICommonProcessExtensionConfigurationEditor;
 import ch.ivyteam.ivy.process.extension.IProcessExtensionConfigurationEditorEnvironment;
 import ch.ivyteam.ivy.process.extension.impl.AbstractProcessExtensionConfigurationEditor;
 import ch.ivyteam.ivy.process.extension.impl.AbstractUserProcessExtension;
 import ch.ivyteam.ivy.scripting.exceptions.IvyScriptException;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptContext;
 import ch.ivyteam.ivy.scripting.objects.CompositeObject;
+import ch.ivyteam.ivy.scripting.types.IVariable;
 import ch.ivyteam.log.Logger;
 
-public class DecisionActivity extends AbstractUserProcessExtension 
+public class DecisionActivity extends AbstractUserProcessExtension
 {
   private static final Logger LOGGER = Logger.getClassLogger(DecisionActivity.class);
 
@@ -36,7 +39,7 @@ public class DecisionActivity extends AbstractUserProcessExtension
     RulesModel model = RulesModelSerialization.deserialize(ruleModelJson);
     InputStream dmnInputStream = new DmnSerializer(model).serialize();
     Map<String, Object> result = new DmnExecutor(dmnInputStream, in).execute();
-    if (!result.isEmpty()) 
+    if (!result.isEmpty())
     {
       mapResultToOutput(context, result);
     }
@@ -49,33 +52,44 @@ public class DecisionActivity extends AbstractUserProcessExtension
     executeIvyScript(context, ivyScript);
   }
 
-  public static class Editor extends AbstractProcessExtensionConfigurationEditor
-  {    
-    private ProcessExtensionConfigurationEditorEnvironment env;
+  public static class Editor extends AbstractProcessExtensionConfigurationEditor implements ICommonProcessExtensionConfigurationEditor
+  {
+    private IProcessExtensionConfigurationEditorEnvironment env;
     private DecisionTableEditor decisionEditor;
     private RulesModel model;
 
     @Override
     public void setEnvironment(IProcessExtensionConfigurationEditorEnvironment environment)
     {
-      this.env = (ProcessExtensionConfigurationEditorEnvironment) environment;
+      this.env = environment;
     }
-    
+
+    @SuppressWarnings("unchecked")
     @Override
-    public Composite getComposite(Composite parent)
-    {
+    public <T> T getComposite(T parent) {
       if (decisionEditor == null)
       {
-        decisionEditor = new DecisionTableEditor(parent, SWT.NONE);
-        GridLayout gridLayout = (GridLayout) decisionEditor.getLayout();
-        gridLayout.marginHeight = 0; // margin already provided by tab
-        gridLayout.marginWidth = 0;
-        decisionEditor.table.setModel(model);
-        decisionEditor.setDataVariables(env.getDataInputVariables());
-        decisionEditor.setProject(env.getIvyProject());
-        decisionEditor.tabs.setSelection(0); // select table mode
+        if (parent instanceof Composite wrapper) {
+          decisionEditor = new DecisionTableEditor(wrapper, SWT.NONE);
+          GridLayout gridLayout = (GridLayout) decisionEditor.getLayout();
+          gridLayout.marginHeight = 0; // margin already provided by tab
+          gridLayout.marginWidth = 0;
+          decisionEditor.table.setModel(model);
+          JavaBeanConfigurator configurator = getConfigurator();
+          decisionEditor.setDataVariables(configurator.editorScriptModel.getInputVariables().stream().toArray(IVariable[]::new));
+          decisionEditor.setProject(configurator.project);
+          decisionEditor.tabs.setSelection(0); // select table mode
+        }
       }
-      return decisionEditor;
+      return (T) decisionEditor;
+    }
+
+    private JavaBeanConfigurator getConfigurator(){
+      try {
+        return (JavaBeanConfigurator) ProcessExtensionConfigurationEditorEnvironment.class.getDeclaredField("configurator").get(env);
+      } catch (Exception ex) {
+        throw new RuntimeException("Failed to resolve configurator ",ex);
+      }
     }
 
     @Override
