@@ -10,28 +10,22 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-public class RulesModelSerialization
-{
+public class RulesModelSerialization {
   private static final ObjectMapper objectMapper = new ObjectMapper();
 
-  static
-  {
+  static {
     objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
   }
 
-  private RulesModelSerialization()
-  {
-  }
+  private RulesModelSerialization() {}
 
-  public static String serialize(RulesModel model) throws JsonProcessingException
-  {
+  public static String serialize(RulesModel model) throws JsonProcessingException {
     return objectMapper.writeValueAsString(model);
   }
 
-  public static RulesModel deserialize(String jsonModel) throws JsonParseException, JsonMappingException, IOException
-  {
-    if (StringUtils.isEmpty(jsonModel))
-    {
+  public static RulesModel deserialize(String jsonModel)
+          throws JsonParseException, JsonMappingException, IOException {
+    if (StringUtils.isEmpty(jsonModel)) {
       return new RulesModel();
     }
     return objectMapper.readValue(jsonModel, RulesModel.class);

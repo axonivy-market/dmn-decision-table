@@ -7,17 +7,16 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
 @JsonSubTypes({
-  @JsonSubTypes.Type(value=ValueCell.class, name="valueCell"),
-  @JsonSubTypes.Type(value=ConditionCell.class, name="conditionCell"),
+    @JsonSubTypes.Type(value = ValueCell.class, name = "valueCell"),
+    @JsonSubTypes.Type(value = ConditionCell.class, name = "conditionCell"),
 })
-public abstract class Cell
-{
+public abstract class Cell {
+
   @JsonIgnore
-  public abstract String getText();  
-  
+  public abstract String getText();
+
   @Override
-  public String toString()
-  {
+  public String toString() {
     return getText();
   }
 }

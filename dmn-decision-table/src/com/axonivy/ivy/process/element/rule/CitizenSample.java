@@ -9,21 +9,17 @@ import com.axonivy.ivy.process.element.rule.model.Row;
 import com.axonivy.ivy.process.element.rule.model.RulesModel;
 import com.axonivy.ivy.process.element.rule.model.ValueCell;
 
-public class CitizenSample
-{
-  private CitizenSample()
-  {
-  }
+public class CitizenSample {
 
-  public static RulesModel generateData()
-  {
+  private CitizenSample() {}
+
+  public static RulesModel generateData() {
     RulesModel model = new RulesModel();
     addData(model);
     return model;
   }
 
-  private static void addData(RulesModel model)
-  {
+  private static void addData(RulesModel model) {
     model.addColumn(new ConditionColumn("person.age", ColumnType.Number));
     model.addColumn(new ConditionColumn("person.gender", ColumnType.String));
     model.addColumn(new ConditionColumn("person.isGoldMember", ColumnType.Boolean));

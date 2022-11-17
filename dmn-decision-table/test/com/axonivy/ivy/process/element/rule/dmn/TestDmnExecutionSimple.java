@@ -25,11 +25,9 @@ import com.axonivy.ivy.process.element.rule.model.RulesModel;
 import com.axonivy.ivy.process.element.rule.model.ValueCell;
 
 @RunWith(Parameterized.class)
-public class TestDmnExecutionSimple
-{
+public class TestDmnExecutionSimple {
   @Parameters
-  public static Collection<Object[]> data()
-  {
+  public static Collection<Object[]> data() {
     return Arrays.asList(new Object[][] {
         {20d, "male", 12.5d},
         {18d, "female", 8.5d},
@@ -44,15 +42,13 @@ public class TestDmnExecutionSimple
   private Person person;
   private Double taxRate;
 
-  public TestDmnExecutionSimple(Double age, String gender, Double taxRate)
-  {
+  public TestDmnExecutionSimple(Double age, String gender, Double taxRate) {
     this.person = new Person(age, gender);
     this.taxRate = taxRate;
   }
 
   @Before
-  public void before()
-  {
+  public void before() {
     model = new RulesModel();
 
     model.addColumn(new ConditionColumn("person.age", ColumnType.Number));
@@ -79,38 +75,32 @@ public class TestDmnExecutionSimple
   }
 
   @Test
-  public void execute()
-  {
+  public void execute() {
     VariableMap variables = Variables.putValue("person", person);
     Map<String, Object> result = decide(variables);
     assertEquals(result.get("tax.rate"), taxRate);
   }
 
-  private Map<String, Object> decide(VariableMap variables)
-  {
+  private Map<String, Object> decide(VariableMap variables) {
     InputStream dmnInputStream = new DmnSerializer(model).serialize();
     DmnExecutor dmnExecution = new DmnExecutor(dmnInputStream, variables);
     return dmnExecution.execute();
   }
 
-  public static class Person
-  {
+  public static class Person {
     public Double age;
     public String gender;
 
-    public Person(Double age, String gender)
-    {
+    public Person(Double age, String gender) {
       this.age = age;
       this.gender = gender;
     }
 
-    public Double getAge()
-    {
+    public Double getAge() {
       return age;
     }
 
-    public String getGender()
-    {
+    public String getGender() {
       return gender;
     }
   }

@@ -26,11 +26,9 @@ import com.axonivy.ivy.process.element.rule.model.RulesModel;
 import com.axonivy.ivy.process.element.rule.model.ValueCell;
 
 @RunWith(Parameterized.class)
-public class TestDmnExecutionComplex
-{
+public class TestDmnExecutionComplex {
   @Parameters
-  public static Collection<Object[]> data()
-  {
+  public static Collection<Object[]> data() {
     return Arrays.asList(new Object[][] {
         {new Person(11d, "male", true), true, "schnipo", 2d, true},
         {new Person(12d, "male", true), true, "schnipo", 2d, true},
@@ -48,12 +46,12 @@ public class TestDmnExecutionComplex
   private Boolean starter;
   private String mainCourse;
   private Double glaceBalls;
-  
+
   private boolean match;
-  
-  public TestDmnExecutionComplex(Person person, Boolean starter, String mainCourse, Double glaceBalls, boolean match)
-  {
-    this.person = person;    
+
+  public TestDmnExecutionComplex(Person person, Boolean starter, String mainCourse, Double glaceBalls,
+          boolean match) {
+    this.person = person;
     this.starter = starter;
     this.mainCourse = mainCourse;
     this.glaceBalls = glaceBalls;
@@ -61,14 +59,13 @@ public class TestDmnExecutionComplex
   }
 
   @Before
-  public void before()
-  {
+  public void before() {
     model = new RulesModel();
 
     model.addColumn(new ConditionColumn("person.age", ColumnType.Number));
     model.addColumn(new ConditionColumn("person.gender", ColumnType.String));
     model.addColumn(new ConditionColumn("person.meatLover", ColumnType.Boolean));
-    
+
     model.addColumn(new ActionColumn("dish.starter", ColumnType.Boolean));
     model.addColumn(new ActionColumn("dish.mainCourse", ColumnType.String));
     model.addColumn(new ActionColumn("dish.glaceBalls", ColumnType.Number));
@@ -81,7 +78,7 @@ public class TestDmnExecutionComplex
     rowModel.addCell(new ValueCell("schnipo"));
     rowModel.addCell(new ValueCell("2"));
     model.addRow(rowModel);
-    
+
     rowModel = new Row();
     rowModel.addCell(new ConditionCell(Operator.EQUAL_OR_SMALLER, "12"));
     rowModel.addCell(new ConditionCell(Operator.EQUAL, "female"));
@@ -90,7 +87,7 @@ public class TestDmnExecutionComplex
     rowModel.addCell(new ValueCell("fitnessmen"));
     rowModel.addCell(new ValueCell("2"));
     model.addRow(rowModel);
-    
+
     rowModel = new Row();
     rowModel.addCell(new ConditionCell(Operator.EQUAL, "13.2"));
     rowModel.addCell(ConditionCell.NO_CONDITION);
@@ -99,7 +96,7 @@ public class TestDmnExecutionComplex
     rowModel.addCell(new ValueCell("spezialmen"));
     rowModel.addCell(new ValueCell("2"));
     model.addRow(rowModel);
-    
+
     rowModel = new Row();
     rowModel.addCell(new ConditionCell(Operator.GREATER, "65"));
     rowModel.addCell(ConditionCell.NO_CONDITION);
@@ -108,7 +105,7 @@ public class TestDmnExecutionComplex
     rowModel.addCell(new ValueCell("\"gummelst\"ungis\""));
     rowModel.addCell(new ValueCell("1.5"));
     model.addRow(rowModel);
-    
+
     rowModel = new Row();
     rowModel.addCell(new ConditionCell(Operator.UNEQUAL, "65"));
     rowModel.addCell(new ConditionCell(Operator.UNEQUAL, "female"));
@@ -120,8 +117,7 @@ public class TestDmnExecutionComplex
   }
 
   @Test
-  public void execute()
-  {
+  public void execute() {
     VariableMap variables = Variables.putValue("person", person);
     Map<String, Object> r = decide(variables);
     if (match) {
@@ -133,38 +129,32 @@ public class TestDmnExecutionComplex
     }
   }
 
-  private Map<String, Object> decide(VariableMap variables)
-  {
+  private Map<String, Object> decide(VariableMap variables) {
     InputStream dmnInputStream = new DmnSerializer(model).serialize();
     DmnExecutor dmnExecution = new DmnExecutor(dmnInputStream, variables);
     return dmnExecution.execute();
   }
 
-  public static class Person
-  {
+  public static class Person {
     public Double age;
     public String gender;
     public Boolean meatLover;
 
-    public Person(Double age, String gender, Boolean meatLover)
-    {
+    public Person(Double age, String gender, Boolean meatLover) {
       this.age = age;
       this.gender = gender;
       this.meatLover = meatLover;
     }
 
-    public Double getAge()
-    {
+    public Double getAge() {
       return age;
     }
 
-    public String getGender()
-    {
+    public String getGender() {
       return gender;
     }
-    
-    public Boolean getMeatLover()
-    {
+
+    public Boolean getMeatLover() {
       return meatLover;
     }
   }

@@ -14,13 +14,11 @@ import com.axonivy.ivy.process.element.rule.model.Row;
 import com.axonivy.ivy.process.element.rule.model.RulesModel;
 import com.axonivy.ivy.process.element.rule.model.ValueCell;
 
-public class TestModelToJScript
-{
+public class TestModelToJScript {
   private RulesModel model;
 
   @Before
-  public void before()
-  {
+  public void before() {
     model = new RulesModel();
     model.addColumn(new ConditionColumn("person.age", ColumnType.Number));
     model.addColumn(new ConditionColumn("person.gender", ColumnType.String));
@@ -41,22 +39,21 @@ public class TestModelToJScript
     rowModel.addCell(new ValueCell("8.5"));
     model.addRow(rowModel);
   }
-  
+
   @Test
-  public void scriptGenerator()
-  {
+  public void scriptGenerator() {
     String script = new ScriptGenerator(model).toScript();
-    String expectedScript = "if ( person.age < 18 )\n"+
-            "{\n"+
-            "  tax.rate = 0 ;\n"+
-            "}\n"+
-            "else if ( person.age >= 18 && person.gender == \"male\" )\n"+
-            "{\n"+
-            "  tax.rate = 12.5 ;\n"+
-            "}\n"+
-            "else if ( person.age >= 18 && person.gender == \"female\" )\n"+
-            "{\n"+
-            "  tax.rate = 8.5 ;\n"+
+    String expectedScript = "if ( person.age < 18 )\n" +
+            "{\n" +
+            "  tax.rate = 0 ;\n" +
+            "}\n" +
+            "else if ( person.age >= 18 && person.gender == \"male\" )\n" +
+            "{\n" +
+            "  tax.rate = 12.5 ;\n" +
+            "}\n" +
+            "else if ( person.age >= 18 && person.gender == \"female\" )\n" +
+            "{\n" +
+            "  tax.rate = 8.5 ;\n" +
             "}\n";
     assertEquals(expectedScript, script);
   }

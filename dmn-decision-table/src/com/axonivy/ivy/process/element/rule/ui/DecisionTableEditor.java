@@ -44,8 +44,8 @@ import ch.ivyteam.ivy.scripting.util.IvyScriptProcessVariables;
 import ch.ivyteam.ivy.scripting.util.Variable;
 import ch.ivyteam.ivy.scripting.validator.IvyScriptValidator;
 
-public class DecisionTableEditor extends Composite
-{
+public class DecisionTableEditor extends Composite {
+
   public DecisionTableComposite table;
   public final CTabFolder tabs;
   private ColumnEditActionsComposite columnEdit;
@@ -54,8 +54,7 @@ public class DecisionTableEditor extends Composite
   private IIvyScriptEngine scriptEngine;
   private IProject project;
 
-  public DecisionTableEditor(Composite parent, int style)
-  {
+  public DecisionTableEditor(Composite parent, int style) {
     super(parent, style);
     setLayout(new GridLayout(1, false));
 
@@ -66,8 +65,7 @@ public class DecisionTableEditor extends Composite
     createDMNtab();
   }
 
-  private CTabItem createTableTab()
-  {
+  private CTabItem createTableTab() {
     CTabItem tab = new CTabItem(tabs, SWT.NONE);
     tab.setText("Table");
     tab.setImage(ch.ivyteam.swt.icons.IconFactory.get(this).getTable(Size.SIZE_16));
@@ -87,8 +85,7 @@ public class DecisionTableEditor extends Composite
     return tab;
   }
 
-  private CTabItem createDMNtab()
-  {
+  private CTabItem createDMNtab() {
     CTabItem dmnTab = new CTabItem(tabs, SWT.NONE);
     dmnTab.setText("DMN");
     // assign a XML or DMN icon
@@ -104,43 +101,39 @@ public class DecisionTableEditor extends Composite
       public void widgetSelected(SelectionEvent e) {
         tabs.getSelection().notifyListeners(SWT.SELECTED, new Event());
       }
-     });
+    });
     return dmnTab;
   }
 
-  private static String toDMN(RulesModel model)
-  {
-    try
-    {
-      try(InputStream is = new DmnSerializer(model).serialize())
-      {
+  private static String toDMN(RulesModel model) {
+    try {
+      try (InputStream is = new DmnSerializer(model).serialize()) {
         return IOUtils.toString(is, StandardCharsets.UTF_8);
       }
-    }
-    catch (Exception ex)
-    {
+    } catch (Exception ex) {
       return ex.getMessage();
     }
   }
 
-  public void setDataVariables(IVariable[] vars)
-  {
+  public void setDataVariables(IVariable[] vars) {
     this.dataVars = Arrays.stream(vars)
-            .filter(var -> var.getName().equals(IvyScriptProcessVariables.IN.getVariableName())) // use only IN
-            .flatMap(in -> Arrays.stream(new IVariable[]{in, new Variable(IvyScriptProcessVariables.OUT.getVariableName(), in.getType())})) // duplicate in as out
+            .filter(var -> var.getName().equals(IvyScriptProcessVariables.IN.getVariableName())) // use
+                                                                                                 // only
+                                                                                                 // IN
+            .flatMap(in -> Arrays.stream(new IVariable[] {in,
+                new Variable(IvyScriptProcessVariables.OUT.getVariableName(), in.getType())})) // duplicate
+                                                                                               // in
+                                                                                               // as
+                                                                                               // out
             .toArray(IVariable[]::new);
   }
 
-  private void addDataChooser()
-  {
-    columnEdit.btnAddCondition.addSelectionListener(new SelectionAdapter()
-    {
+  private void addDataChooser() {
+    columnEdit.btnAddCondition.addSelectionListener(new SelectionAdapter() {
       @Override
-      public void widgetSelected(SelectionEvent e)
-      {
+      public void widgetSelected(SelectionEvent e) {
         Optional<String> selection = attributeSelectionDialog(IvyScriptProcessVariables.IN.getVariableName());
-        if (selection.isPresent())
-        {
+        if (selection.isPresent()) {
           String attribute = selection.get();
           ColumnType type = getTypeOf(attribute);
           table.addConditionColumn(new ConditionColumn(attribute, type));
@@ -149,14 +142,12 @@ public class DecisionTableEditor extends Composite
         }
       }
     });
-    columnEdit.btnAddOutput.addSelectionListener(new SelectionAdapter()
-    {
+    columnEdit.btnAddOutput.addSelectionListener(new SelectionAdapter() {
       @Override
-      public void widgetSelected(SelectionEvent e)
-      {
-        Optional<String> selection = attributeSelectionDialog(IvyScriptProcessVariables.OUT.getVariableName());
-        if (selection.isPresent())
-        {
+      public void widgetSelected(SelectionEvent e) {
+        Optional<String> selection = attributeSelectionDialog(
+                IvyScriptProcessVariables.OUT.getVariableName());
+        if (selection.isPresent()) {
           String attribute = selection.get();
           ColumnType type = getTypeOf(attribute);
           table.addActionColumn(new ActionColumn(attribute, type));
@@ -167,62 +158,48 @@ public class DecisionTableEditor extends Composite
     });
   }
 
-  private Optional<String> attributeSelectionDialog(String variableFilter)
-  {
+  private Optional<String> attributeSelectionDialog(String variableFilter) {
     var dialog = SelectAttributeDialog.createAttributeBrowserDialog(this.getShell(), project);
     dialog.create();
-    try
-    {
+    try {
       var vars = Arrays.stream(dataVars)
-        .filter(var -> var.getName().equals(variableFilter))
-        .collect(Collectors.toList());
+              .filter(var -> var.getName().equals(variableFilter))
+              .collect(Collectors.toList());
       dialog.setInput(vars);
-    }
-    catch (Exception ex)
-    {
+    } catch (Exception ex) {
       throw new RuntimeException(ex);
     }
-    if (dialog.open() == Window.OK)
-    {
+    if (dialog.open() == Window.OK) {
       String attribute = (String) dialog.getSelection();
       return Optional.of(attribute);
     }
     return Optional.empty();
   }
 
-  private ColumnType getTypeOf(String attribute)
-  {
+  private ColumnType getTypeOf(String attribute) {
     IIvyClass<?> ivyClass = getIvyTypeOf(attribute);
-    if (ivyClass != null)
-    {
-      if (ivyClass.getJavaClass().equals(Number.class))
-      {
+    if (ivyClass != null) {
+      if (ivyClass.getJavaClass().equals(Number.class)) {
         return ColumnType.Number;
       }
-      if (ivyClass.getJavaClass().equals(Boolean.class))
-      {
+      if (ivyClass.getJavaClass().equals(Boolean.class)) {
         return ColumnType.Boolean;
       }
     }
     return ColumnType.String;
   }
 
-  private IIvyClass<?> getIvyTypeOf(String attribute)
-  {
-    try
-    {
+  private IIvyClass<?> getIvyTypeOf(String attribute) {
+    try {
       IIvyScriptContext context = IvyScriptContextFactory.createIvyScriptContext(dataVars);
       IvyScriptValidator validator = new IvyScriptValidator(scriptEngine, context);
       return validator.determineType(attribute);
-    }
-    catch (Exception ex)
-    {
+    } catch (Exception ex) {
       return null;
     }
   }
 
-  public static void main(String[] args)
-  {
+  public static void main(String[] args) {
     Shell shell = new Shell();
     DecisionTableEditor editor = new DecisionTableEditor(shell, SWT.NONE);
 
@@ -232,24 +209,21 @@ public class DecisionTableEditor extends Composite
 
     editor.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
     shell.setLayout(new FillLayout());
-    shell.setSize(700,400);
+    shell.setSize(700, 400);
     shell.setText("Test Decision Table");
     shell.layout();
     shell.open();
 
     Display display = Display.getDefault();
-    while(!shell.isDisposed())
-    {
-      if (!display.readAndDispatch())
-      {
+    while (!shell.isDisposed()) {
+      if (!display.readAndDispatch()) {
         display.sleep();
       }
     }
   }
 
-  private static IVariable[] getSampleScriptContext()
-  {
-    return new IVariable[]{};
+  private static IVariable[] getSampleScriptContext() {
+    return new IVariable[] {};
   }
 
   public void setProject(IIvyProject ivyProject) {

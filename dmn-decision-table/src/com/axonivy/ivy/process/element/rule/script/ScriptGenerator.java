@@ -8,29 +8,24 @@ import com.axonivy.ivy.process.element.rule.model.Row;
 import com.axonivy.ivy.process.element.rule.model.RulesModel;
 import com.axonivy.ivy.process.element.rule.model.ValueCell;
 
-public class ScriptGenerator
-{
+public class ScriptGenerator {
+
   private RulesModel model;
   private StringBuilder builder = new StringBuilder();
 
-  public ScriptGenerator(RulesModel model)
-  {
+  public ScriptGenerator(RulesModel model) {
     this.model = model;
   }
-  
-  public String toScript()
-  {
-    for(Row row : model.getRows())
-    {
+
+  public String toScript() {
+    for (Row row : model.getRows()) {
       toScript(row);
     }
     return builder.toString();
   }
 
-  private void toScript(Row row)
-  {
-    if (builder.length() > 0)
-    {
+  private void toScript(Row row) {
+    if (builder.length() > 0) {
       builder.append("else ");
     }
     builder.append("if ( ");
@@ -41,13 +36,10 @@ public class ScriptGenerator
     builder.append("}\n");
   }
 
-  private void toActionScript(Row row)
-  {
-    for (ActionColumn action : model.getActionColumns())
-    {
-      ValueCell cell = (ValueCell)row.getCells().get(model.getColumns().indexOf(action));
-      if (!cell.isNoAssignment())
-      {
+  private void toActionScript(Row row) {
+    for (ActionColumn action : model.getActionColumns()) {
+      ValueCell cell = (ValueCell) row.getCells().get(model.getColumns().indexOf(action));
+      if (!cell.isNoAssignment()) {
         builder.append("  ");
         builder.append(action.getAttributeName());
         builder.append(" = ");
@@ -57,22 +49,17 @@ public class ScriptGenerator
     }
   }
 
-  private void toConditionScript(Row row)
-  {
-    boolean first = true; 
-    for (ConditionColumn condition : model.getConditionColumns())
-    {
-      ConditionCell cell = (ConditionCell)row.getCells().get(model.getColumns().indexOf(condition));
+  private void toConditionScript(Row row) {
+    boolean first = true;
+    for (ConditionColumn condition : model.getConditionColumns()) {
+      ConditionCell cell = (ConditionCell) row.getCells().get(model.getColumns().indexOf(condition));
       first = toScript(first, condition, cell);
     }
   }
 
-  private boolean toScript(boolean first, ConditionColumn condition, ConditionCell cell)
-  {
-    if (cell.getOperator() != Operator.NO_CONDITION)
-    {
-      if (!first)
-      {
+  private boolean toScript(boolean first, ConditionColumn condition, ConditionCell cell) {
+    if (cell.getOperator() != Operator.NO_CONDITION) {
+      if (!first) {
         builder.append(" && ");
       }
       builder.append(condition.getAttributeName());
