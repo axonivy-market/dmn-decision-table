@@ -6,8 +6,6 @@ import java.util.function.Function;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
@@ -28,10 +26,7 @@ import com.axonivy.ivy.process.element.rule.ui.cellEdit.NumberConditionEditor;
 import com.axonivy.ivy.process.element.rule.ui.cellEdit.NumericValueVerifier;
 import com.axonivy.ivy.process.element.rule.ui.cellEdit.StringConditionEditor;
 
-import ch.ivyteam.icons.Size;
-import ch.ivyteam.swt.editors.AbstractColumnViewerCellNavigator.Cell;
 import ch.ivyteam.swt.editors.FastTextCellEditor;
-import ch.ivyteam.swt.icons.IconFactory;
 import ch.ivyteam.swt.table.AbstractTypedViewerColumn.Edited;
 import ch.ivyteam.swt.table.TableComposite;
 import ch.ivyteam.swt.table.TypedTableViewerColumn;
@@ -39,7 +34,7 @@ import ch.ivyteam.swt.table.TypedTableViewerColumn;
 public class DecisionTableComposite extends TableComposite<Row>
 {
   public RulesModel model;
-  
+
   private ToolItem upBtn;
   private ToolItem downBtn;
 
@@ -47,11 +42,11 @@ public class DecisionTableComposite extends TableComposite<Row>
   {
     super(parent, style);
     model = new RulesModel();
-    
+
     withNewRowSupplier(()->addRow());
     withActionBar();
-    
-    
+
+
     addColumn("#", new ColumnWeightData(1), 0)
       .withTextProvider(row -> String.valueOf(model.getRows().indexOf(row)+1));
   }
@@ -81,7 +76,7 @@ public class DecisionTableComposite extends TableComposite<Row>
     }
     return row;
   }
-  
+
   private void initFromModel()
   {
     attachModelRows();
@@ -94,14 +89,14 @@ public class DecisionTableComposite extends TableComposite<Row>
     this.model.addColumn(column);
     addUiColumn(indexOf, column);
   }
-  
+
   public void addActionColumn(ActionColumn column)
   {
     int indexOf = this.model.getColumns().size();
     this.model.addColumn(column);
     addUiColumn(indexOf, column);
   }
-  
+
   private void attachModelRows()
   {
     for(int i=0; i<model.getColumns().size(); i++)
@@ -129,17 +124,17 @@ public class DecisionTableComposite extends TableComposite<Row>
       Consumer<Edited<Row>> conditionValueApplier = edit -> edit.element.getCells().set(columnIndex, (ConditionCell)edit.value);
       if (column.getType() == ColumnType.String)
       {
-        tableCol.withEditingSupport(new StringConditionEditor(viewer.getTable(), SWT.NONE), 
+        tableCol.withEditingSupport(new StringConditionEditor(viewer.getTable(), SWT.NONE),
                 conditionValueReader, conditionValueApplier);
       }
       else if (column.getType() == ColumnType.Number)
       {
-        tableCol.withEditingSupport(new NumberConditionEditor(viewer.getTable(), SWT.NONE), 
+        tableCol.withEditingSupport(new NumberConditionEditor(viewer.getTable(), SWT.NONE),
                 conditionValueReader, conditionValueApplier);
       }
       else if (column.getType() == ColumnType.Boolean)
       {
-        tableCol.withEditingSupport(new BooleanConditionEditor(viewer.getTable(), SWT.NONE), 
+        tableCol.withEditingSupport(new BooleanConditionEditor(viewer.getTable(), SWT.NONE),
                 conditionValueReader, conditionValueApplier);
       }
     }
@@ -150,12 +145,12 @@ public class DecisionTableComposite extends TableComposite<Row>
       {
         ((Text)editor.getControl()).addVerifyListener(new NumericValueVerifier());
       }
-      tableCol.withEditingSupport(editor, 
-              row -> StringUtils.defaultIfBlank(row.getCells().get(columnIndex).getText(), ""), 
+      tableCol.withEditingSupport(editor,
+              row -> StringUtils.defaultIfBlank(row.getCells().get(columnIndex).getText(), ""),
               edit -> edit.element.getCells().set(columnIndex, new ValueCell((String)edit.value)));
     }
   }
-  
+
   private Image getColumnImage(Column column)
   {
     if (column instanceof ConditionColumn)
@@ -168,61 +163,25 @@ public class DecisionTableComposite extends TableComposite<Row>
     }
     return null;
   }
-  
+
   @Override
   protected void createActionBar(ToolBar actionBar)
   {
     super.createActionBar(actionBar);
-    createUpButton(actionBar);
-    createDownButton(actionBar);
-    
+    upBtn = createUpButton(actionBar);
+    downBtn = createDownButton(actionBar);
+
     viewer.addSelectionChangedListener(event -> {
       updateRowMoveButtonEnabling();
     });
     updateRowMoveButtonEnabling(); // initial setting
   }
 
-  private void createUpButton(ToolBar actionBar)
-  {
-    upBtn = new ToolItem(actionBar, SWT.PUSH);
-    upBtn.setImage(IconFactory.get(actionBar).getArrowUpBlue(Size.SIZE_16));
-    upBtn.setToolTipText("move row up");
-    upBtn.addSelectionListener(new SelectionAdapter()
-    {
-      @Override
-      public void widgetSelected(SelectionEvent e)
-      {
-        int selectionIndex = viewer.getTable().getSelectionIndex();
-        model.rows.add(selectionIndex-1, model.rows.remove(selectionIndex));
-        viewer.refresh();
-        cellNavigator.setEditCell(new Cell(selectionIndex-1, 0));
-      }
-    });
-  }
-
-  private void createDownButton(ToolBar actionBar)
-  {
-    downBtn = new ToolItem(actionBar, SWT.PUSH);
-    downBtn.setImage(IconFactory.get(actionBar).getArrowDownBlue(Size.SIZE_16));
-    downBtn.setToolTipText("move row down");
-    downBtn.addSelectionListener(new SelectionAdapter()
-    {
-      @Override
-      public void widgetSelected(SelectionEvent e)
-      {
-        int selectionIndex = viewer.getTable().getSelectionIndex();
-        model.rows.add(selectionIndex, model.rows.remove(selectionIndex+1));
-        viewer.refresh();
-        cellNavigator.setEditCell(new Cell(selectionIndex+1, 0));
-      }
-    });
-  }
-  
   private void updateRowMoveButtonEnabling()
   {
     int selectionIndex = viewer.getTable().getSelectionIndex();
     upBtn.setEnabled(selectionIndex > 0);
     downBtn.setEnabled(selectionIndex < viewer.getTable().getItemCount()-1);
   }
-  
+
 }

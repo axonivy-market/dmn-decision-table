@@ -35,17 +35,14 @@ import com.axonivy.ivy.process.element.rule.model.RulesModel;
 import ch.ivyteam.icons.Size;
 import ch.ivyteam.ivy.designer.ui.attribute.SelectAttributeDialog;
 import ch.ivyteam.ivy.project.IIvyProject;
-import ch.ivyteam.ivy.scripting.IvyScriptManagerFactory;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptContext;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptEngine;
 import ch.ivyteam.ivy.scripting.language.IvyScriptContextFactory;
-import ch.ivyteam.ivy.scripting.system.IIvyScriptClassRepository;
 import ch.ivyteam.ivy.scripting.types.IIvyClass;
 import ch.ivyteam.ivy.scripting.types.IVariable;
 import ch.ivyteam.ivy.scripting.util.IvyScriptProcessVariables;
 import ch.ivyteam.ivy.scripting.util.Variable;
 import ch.ivyteam.ivy.scripting.validator.IvyScriptValidator;
-import ch.ivyteam.ivy.server.IvyWebAppClassLoaderProvider;
 
 public class DecisionTableEditor extends Composite
 {
@@ -252,12 +249,7 @@ public class DecisionTableEditor extends Composite
 
   private static IVariable[] getSampleScriptContext()
   {
-    @SuppressWarnings({"restriction"})
-    IIvyScriptClassRepository tmpRepo = new ch.ivyteam.ivy.scripting.internal.system.IvyScriptGlobalClassRepository(
-            new IvyWebAppClassLoaderProvider(),
-            (ch.ivyteam.ivy.scripting.internal.IvyScriptManager) IvyScriptManagerFactory.createIvyScriptManager());
-    Variable in = new Variable(IvyScriptProcessVariables.IN.getVariableName(), tmpRepo.getAnyCompositeObjectClass());
-    return new IVariable[]{in};
+    return new IVariable[]{};
   }
 
   public void setProject(IIvyProject ivyProject) {
