@@ -3,8 +3,8 @@ package com.axonivy.ivy.process.element.rule;
 import ch.ivyteam.ivy.bpm.exec.IBpmnProcessElement;
 import ch.ivyteam.ivy.process.extension.IUserProcessExtension;
 
-public class DecisionProcessElement implements IBpmnProcessElement
-{
+public class DecisionProcessElement implements IBpmnProcessElement {
+
   public static final String DECISION_ACTIVITY = "DecisionActivity";
 
   @Override

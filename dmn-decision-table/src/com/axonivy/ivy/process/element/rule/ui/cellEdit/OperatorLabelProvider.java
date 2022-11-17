@@ -4,14 +4,12 @@ import org.eclipse.jface.viewers.LabelProvider;
 
 import com.axonivy.ivy.process.element.rule.model.Operator;
 
-public class OperatorLabelProvider extends LabelProvider
-{
+public class OperatorLabelProvider extends LabelProvider {
+
   @Override
-  public String getText(Object element)
-  {
-    if (element instanceof Operator)
-    {
-      return ((Operator)element).getScriptToken();
+  public String getText(Object element) {
+    if (element instanceof Operator) {
+      return ((Operator) element).getScriptToken();
     }
     return null;
   }

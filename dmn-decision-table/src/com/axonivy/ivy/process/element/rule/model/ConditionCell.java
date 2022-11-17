@@ -13,30 +13,26 @@ import org.apache.commons.lang3.math.NumberUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class ConditionCell extends Cell {
 
-public class ConditionCell extends Cell
-{
   public static final ConditionCell NO_CONDITION = new ConditionCell(Operator.NO_CONDITION);
   private Operator operator;
   private List<String> arguments;
-  
+
   public ConditionCell(
           @JsonProperty("operator") Operator operator,
-          @JsonProperty("arguments") String... arguments)
-  {    
+          @JsonProperty("arguments") String... arguments) {
     this.operator = operator;
     this.arguments = Arrays.asList(arguments);
-    if (this.arguments.size() != operator.getArguments())
-    {
-      throw new IllegalArgumentException("Operator "+operator.getSign()+" expects "+operator.getArguments()+" but provided were "+this.arguments.size());
+    if (this.arguments.size() != operator.getArguments()) {
+      throw new IllegalArgumentException("Operator " + operator.getSign() + " expects "
+              + operator.getArguments() + " but provided were " + this.arguments.size());
     }
   }
 
   @JsonIgnore
-  public String getFirstArgument()
-  {
-    if (arguments.isEmpty())
-    {
+  public String getFirstArgument() {
+    if (arguments.isEmpty()) {
       return StringUtils.EMPTY;
     }
     return arguments.get(0);
@@ -44,12 +40,10 @@ public class ConditionCell extends Cell
 
   @Override
   @JsonIgnore
-  public String getText()
-  {
+  public String getText() {
     StringBuilder builder = new StringBuilder();
     builder.append(operator.getSign());
-    for (int argument = 0; argument < operator.getArguments(); argument++)
-    {
+    for (int argument = 0; argument < operator.getArguments(); argument++) {
       builder.append(" ");
       String value = formatNumber(arguments.get(argument));
       builder.append(value);
@@ -57,46 +51,35 @@ public class ConditionCell extends Cell
     return builder.toString();
   }
 
-  private static String formatNumber(String value)
-  {
-    if (NumberUtils.isCreatable(value))
-    {
-      try
-      {
+  private static String formatNumber(String value) {
+    if (NumberUtils.isCreatable(value)) {
+      try {
         double amount = Double.parseDouble(value);
         value = NumberFormat.getInstance(new Locale("DE", "ch")).format(amount);
-      }
-      catch (Exception ex)
-      {
+      } catch (Exception ex) {
         // ignore;
       }
     }
     return value;
   }
 
-  public Operator getOperator()
-  {
+  public Operator getOperator() {
     return operator;
   }
 
-  public List<String> getArguments()
-  {
+  public List<String> getArguments() {
     return arguments;
   }
-  
+
   @Override
-  public boolean equals(Object obj)
-  {
-    if (obj == this)
-    {
+  public boolean equals(Object obj) {
+    if (obj == this) {
       return true;
     }
-    if (obj == null)
-    {
+    if (obj == null) {
       return false;
     }
-    if (obj.getClass() != ConditionCell.class)
-    {
+    if (obj.getClass() != ConditionCell.class) {
       return false;
     }
     ConditionCell other = (ConditionCell) obj;
@@ -105,13 +88,12 @@ public class ConditionCell extends Cell
             .append(arguments, other.arguments)
             .isEquals();
   }
-  
+
   @Override
-  public int hashCode()
-  {
+  public int hashCode() {
     return new HashCodeBuilder()
-           .append(operator)
-           .append(arguments)
-           .toHashCode();
+            .append(operator)
+            .append(arguments)
+            .toHashCode();
   }
 }

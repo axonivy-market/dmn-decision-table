@@ -18,12 +18,12 @@ import ch.ivyteam.ivy.scripting.objects.CompositeObject;
 public class DecisionActivity extends AbstractUserProcessExtension {
 
   @Override
-  public CompositeObject perform(IRequestId requestId, CompositeObject in, IIvyScriptContext context) throws Exception {
+  public CompositeObject perform(IRequestId requestId, CompositeObject in, IIvyScriptContext context)  throws Exception {
     String ruleModelJson = getConfiguration();
     RulesModel model = RulesModelSerialization.deserialize(ruleModelJson);
     InputStream dmnInputStream = new DmnSerializer(model).serialize();
     Map<String, Object> result = new DmnExecutor(dmnInputStream, in).execute();
-    if (!result.isEmpty())  {
+    if (!result.isEmpty()) {
       mapResultToOutput(context, result);
     }
     return in;

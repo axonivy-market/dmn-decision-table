@@ -14,43 +14,33 @@ import org.camunda.bpm.engine.variable.Variables;
 
 import ch.ivyteam.ivy.scripting.objects.CompositeObject;
 
-public class DmnExecutor
-{
+public class DmnExecutor {
+
   private InputStream dmnInputStream;
   private VariableMap variables;
 
-  public DmnExecutor(InputStream dmnInputStream, VariableMap variables)
-  {
+  public DmnExecutor(InputStream dmnInputStream, VariableMap variables) {
     this.dmnInputStream = dmnInputStream;
     this.variables = variables;
   }
 
-  public DmnExecutor(InputStream dmnInputStream, CompositeObject in)
-  {
+  public DmnExecutor(InputStream dmnInputStream, CompositeObject in) {
     this(dmnInputStream, Variables.putValue("in", in));
   }
 
-  public Map<String, Object> execute()
-  {
+  public Map<String, Object> execute() {
     DmnEngine dmnEngine = DmnEngineConfiguration.createDefaultDmnEngineConfiguration().buildEngine();
-    try
-    {
+    try {
       DmnDecision decision = dmnEngine.parseDecision("decision", dmnInputStream);
       DmnDecisionTableResult result = dmnEngine.evaluateDecisionTable(decision, variables);
-      if (result.getFirstResult() == null)
-      {
+      if (result.getFirstResult() == null) {
         return Collections.emptyMap();
       }
       return result.getFirstResult().getEntryMap();
-    }
-    finally
-    {
-      try
-      {
+    } finally {
+      try {
         dmnInputStream.close();
-      }
-      catch (IOException e)
-      {
+      } catch (IOException e) {
         // close silently
       }
     }

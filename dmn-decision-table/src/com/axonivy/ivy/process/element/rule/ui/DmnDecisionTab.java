@@ -34,7 +34,8 @@ public class DmnDecisionTab extends AbstractUiModelSwtInscriptionTab<DmnTableUiM
     gridLayout.marginHeight = 0; // margin already provided by tab
     gridLayout.marginWidth = 0;
     var configurator = model.configurator;
-    decisionEditor.setDataVariables(configurator.scriptModel.getInputVariables().stream().toArray(IVariable[]::new));
+    decisionEditor.setDataVariables(
+            configurator.scriptModel.getInputVariables().stream().toArray(IVariable[]::new));
     decisionEditor.setProject(configurator.project);
     decisionEditor.tabs.setSelection(0); // select table mode
 

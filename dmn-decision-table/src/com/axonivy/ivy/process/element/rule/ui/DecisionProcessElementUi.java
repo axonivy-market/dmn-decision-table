@@ -11,35 +11,31 @@ import ch.ivyteam.ivy.process.config.activity.pi.ThirdPartyProgramInterfaceConfi
 import ch.ivyteam.ivy.process.config.element.ElementConfigurator;
 import ch.ivyteam.ivy.process.model.NodeElement;
 
-public class DecisionProcessElementUi implements IBpmnProcessElementUi
-{
+public class DecisionProcessElementUi implements IBpmnProcessElementUi {
+
   @Override
-  public String getName()
-  {
+  public String getName() {
     return DecisionProcessElement.DECISION_ACTIVITY;
   }
 
   @Override
-  public URL getIcon()
-  {
+  public URL getIcon() {
     return getClass().getResource("DecisionActivity.png");
   }
 
   @Override
-  public boolean showDefaultTabs()
-  {
+  public boolean showDefaultTabs() {
     return false;
   }
 
   @Override
-  public String getHelpPath()
-  {
+  public String getHelpPath() {
     return "https://market.axonivy.com/dmn-decision-table";
   }
 
   @Override
   public List<IInscriptionEditorTab> getEditorTabs(ElementConfigurator<? extends NodeElement> configurator) {
-    return getThirdpartyTabs((ThirdPartyProgramInterfaceConfigurator)configurator);
+    return getThirdpartyTabs((ThirdPartyProgramInterfaceConfigurator) configurator);
   }
 
   private List<IInscriptionEditorTab> getThirdpartyTabs(ThirdPartyProgramInterfaceConfigurator configurator) {

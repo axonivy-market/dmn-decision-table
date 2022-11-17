@@ -14,7 +14,8 @@ import ch.ivyteam.ivy.process.model.element.value.bean.UserConfig;
 import ch.ivyteam.log.Logger;
 import ch.ivyteam.ui.model.UiTableModel;
 
-public class DmnTableUiModel extends UiModel<ThirdPartyProgramInterface, ThirdPartyProgramInterfaceConfigurator>{
+public class DmnTableUiModel
+        extends UiModel<ThirdPartyProgramInterface, ThirdPartyProgramInterfaceConfigurator> {
 
   private static final Logger LOGGER = Logger.getLogger(DmnTableUiModel.class);
 

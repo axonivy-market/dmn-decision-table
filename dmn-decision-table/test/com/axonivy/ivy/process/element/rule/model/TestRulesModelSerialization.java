@@ -4,12 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class TestRulesModelSerialization
-{
+public class TestRulesModelSerialization {
 
   @Test
-  public void serialization() throws Exception
-  {
+  public void serialization() throws Exception {
     RulesModel model = new RulesModel();
     model.addColumn(new ConditionColumn("person.age", ColumnType.Number));
     model.addColumn(new ConditionColumn("person.gender", ColumnType.String));

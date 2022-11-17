@@ -14,61 +14,53 @@ import com.axonivy.ivy.process.element.rule.model.Operator;
 
 import ch.ivyteam.swt.SwtSelectionUtil;
 
-public class NumberConditionEditor extends CellEditor
-{
+public class NumberConditionEditor extends CellEditor {
+
   private StringConditionComposite composite;
 
-  public NumberConditionEditor(Composite parent, int style)
-  {
+  public NumberConditionEditor(Composite parent, int style) {
     super(parent, style);
   }
-  
+
   @Override
-  protected Control createControl(Composite parent)
-  {
+  protected Control createControl(Composite parent) {
     composite = new StringConditionComposite(parent, SWT.NONE);
     composite.operation.setContentProvider(ArrayContentProvider.getInstance());
     composite.operation.setInput(Arrays.asList(
             Operator.NO_CONDITION,
             Operator.EQUAL, Operator.UNEQUAL,
-            Operator.EQUAL_OR_GREATER, Operator.EQUAL_OR_SMALLER, 
+            Operator.EQUAL_OR_GREATER, Operator.EQUAL_OR_SMALLER,
             Operator.GREATER, Operator.LESS));
     composite.operation.setLabelProvider(new OperatorLabelProvider());
     composite.text.addVerifyListener(new NumericValueVerifier());
     return composite;
   }
-  
+
   @Override
-  protected void doSetFocus()
-  {
+  protected void doSetFocus() {
     composite.text.setFocus();
   }
 
   @Override
-  protected Object doGetValue()
-  {
+  protected Object doGetValue() {
     Operator op = SwtSelectionUtil.getFirstElement(composite.operation.getSelection());
-    if (op == null || op == Operator.NO_CONDITION)
-    {
+    if (op == null || op == Operator.NO_CONDITION) {
       return ConditionCell.NO_CONDITION;
     }
     return new ConditionCell(op, composite.text.getText());
   }
 
   @Override
-  protected void doSetValue(Object value)
-  {
-    if (value instanceof ConditionCell)
-    {
+  protected void doSetValue(Object value) {
+    if (value instanceof ConditionCell) {
       ConditionCell cell = (ConditionCell) value;
       composite.operation.setSelection(new StructuredSelection(cell.getOperator()));
       composite.text.setText(cell.getFirstArgument());
     }
   }
-  
+
   @Override
-  protected int getDoubleClickTimeout()
-  { // makes me fast
+  protected int getDoubleClickTimeout() { // makes me fast
     return 0;
   }
 
