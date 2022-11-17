@@ -1,11 +1,15 @@
 package com.axonivy.ivy.process.element.rule.ui;
 
 import java.net.URL;
-import java.util.Locale;
+import java.util.List;
 
 import com.axonivy.ivy.process.element.rule.DecisionProcessElement;
 
+import ch.ivyteam.ivy.designer.inscription.ui.masks.fw.IInscriptionEditorTab;
 import ch.ivyteam.ivy.designer.process.ui.info.IBpmnProcessElementUi;
+import ch.ivyteam.ivy.process.config.activity.pi.ThirdPartyProgramInterfaceConfigurator;
+import ch.ivyteam.ivy.process.config.element.ElementConfigurator;
+import ch.ivyteam.ivy.process.model.NodeElement;
 
 public class DecisionProcessElementUi implements IBpmnProcessElementUi
 {
@@ -13,24 +17,6 @@ public class DecisionProcessElementUi implements IBpmnProcessElementUi
   public String getName()
   {
     return DecisionProcessElement.DECISION_ACTIVITY;
-  }
-
-  @Override
-  public String getShortName(Locale locale)
-  {
-    return "Decision";
-  }
-
-  @Override
-  public String getName(Locale locale)
-  {
-    return "Decision Table Activity";
-  }
-
-  @Override
-  public String getDescription(Locale locale)
-  {
-    return "Executes a DMN table";
   }
 
   @Override
@@ -42,12 +28,22 @@ public class DecisionProcessElementUi implements IBpmnProcessElementUi
   @Override
   public boolean showDefaultTabs()
   {
-    return true;
+    return false;
   }
 
   @Override
   public String getHelpPath()
   {
     return "https://market.axonivy.com/dmn-decision-table";
+  }
+
+  @Override
+  public List<IInscriptionEditorTab> getEditorTabs(ElementConfigurator<? extends NodeElement> configurator) {
+    return getThirdpartyTabs((ThirdPartyProgramInterfaceConfigurator)configurator);
+  }
+
+  private List<IInscriptionEditorTab> getThirdpartyTabs(ThirdPartyProgramInterfaceConfigurator configurator) {
+    DmnTableUiModel requestUiModel = new DmnTableUiModel(configurator);
+    return List.of(new DmnDecisionTab(requestUiModel));
   }
 }
