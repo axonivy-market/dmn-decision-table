@@ -10,6 +10,7 @@ import ch.ivyteam.ivy.resource.validation.restricted.IvyValidationEvent;
 import ch.ivyteam.ivy.resource.validation.restricted.IvyValidationResult;
 import ch.ivyteam.ivy.scripting.types.IVariable;
 import ch.ivyteam.ivy.ui.model.swt.IvySwtBinder;
+import ch.ivyteam.ui.model.swt.SwtTableModelBinder;
 
 public class DmnDecisionTab extends AbstractUiModelSwtInscriptionTab<DmnTableUiModel> implements IInscriptionEditorTab {
 
@@ -33,10 +34,13 @@ public class DmnDecisionTab extends AbstractUiModelSwtInscriptionTab<DmnTableUiM
     gridLayout.marginHeight = 0; // margin already provided by tab
     gridLayout.marginWidth = 0;
     var configurator = model.configurator;
-    decisionEditor.table.setModel(model.loadRulesModel());
     decisionEditor.setDataVariables(configurator.scriptModel.getInputVariables().stream().toArray(IVariable[]::new));
     decisionEditor.setProject(configurator.project);
     decisionEditor.tabs.setSelection(0); // select table mode
+
+    new SwtTableModelBinder.SwtTableCompositeBinder<>(model.table).toUpdatable(decisionEditor.table);
+    decisionEditor.table.setModel(model.rules);
+
     return decisionEditor;
   }
 

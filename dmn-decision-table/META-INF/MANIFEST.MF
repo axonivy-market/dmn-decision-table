@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Rule
+Bundle-Name: Decision Table
 Bundle-SymbolicName: dmn-decision-table;singleton:=true
 Bundle-Version: 10.0.0.qualifier
 Require-Bundle: ch.ivyteam.ivy.components,
@@ -8,6 +8,7 @@ Require-Bundle: ch.ivyteam.ivy.components,
  ch.ivyteam.ivy.designer.process.ui;resolution:=optional,
  ch.ivyteam.ivy.designer.ide;resolution:=optional,
  ch.ivyteam.ivy.designer.inscription.ui;resolution:=optional,
+ ch.ivyteam.swt;resolution:=optional,
  ch.ivyteam.ivy.process.config,
  ch.ivyteam.icons;resolution:=optional,
  ch.ivyteam.lib.jackson;resolution:=optional,
