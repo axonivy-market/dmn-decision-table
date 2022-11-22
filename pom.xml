@@ -16,6 +16,12 @@
     <developerConnection>scm:git:https://github.com/axonivy-market/dmn-decision-table.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
+  
+  <properties>
+    <tycho.version>2.7.5</tycho.version>
+    <maven.scm.plugin>2.0.0-M3</maven.scm.plugin>
+    <release.goals>org.eclipse.tycho:tycho-versions-plugin:${tycho.version}:update-eclipse-metadata org.apache.maven.plugins:maven-scm-plugin:${maven.scm.plugin}:add org.apache.maven.plugins:maven-scm-plugin:${maven.scm.plugin}:checkin</release.goals>
+  </properties>
 
   <build>
     <pluginManagement>
@@ -33,10 +39,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.3</version>
+        <version>3.0.0-M4</version>
         <configuration>
-          <preparationGoals>org.eclipse.tycho:tycho-versions-plugin:2.3.0:update-eclipse-metadata org.apache.maven.plugins:maven-scm-plugin:1.11.2:add org.apache.maven.plugins:maven-scm-plugin:1.11.2:checkin</preparationGoals>
-          <completionGoals>org.eclipse.tycho:tycho-versions-plugin:2.3.0:update-eclipse-metadata org.apache.maven.plugins:maven-scm-plugin:1.11.2:add org.apache.maven.plugins:maven-scm-plugin:1.11.2:checkin</completionGoals>
+          <preparationGoals>${release.goals}</preparationGoals>
+          <completionGoals>${release.goals}</completionGoals>
           <tagNameFormat>v@{project.version}</tagNameFormat>
         </configuration>
       </plugin>
@@ -44,7 +50,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
-        <version>1.11.2</version>
+        <version>${maven.scm.plugin}</version>
         <executions>
           <execution>
             <id>default-cli</id>
