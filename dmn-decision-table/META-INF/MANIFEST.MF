@@ -12,7 +12,7 @@ Require-Bundle: ch.ivyteam.ivy.components,
  ch.ivyteam.ivy.process.config,
  ch.ivyteam.icons;resolution:=optional,
  ch.ivyteam.lib.jackson;resolution:=optional,
- ch.ivyteam.lib.jaxb,
+ ch.ivyteam.lib.jaxb;resolution:=optional,
  ch.ivyteam.lib.apache.commons.io,
  ch.ivyteam.lib.apache.commons.lang3,
  ch.ivyteam.lib.apache.commons.text
@@ -30,3 +30,4 @@ Bundle-ClassPath: lib/camunda-commons-logging-1.4.0.jar,
  lib/slf4j-api-1.7.7.jar,
  .
 Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-17
