@@ -32,40 +32,38 @@
             <skip>true</skip>
           </configuration>
         </plugin>
+      
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>3.0.0-M4</version>
+          <configuration>
+            <preparationGoals>${release.goals}</preparationGoals>
+            <completionGoals>${release.goals}</completionGoals>
+            <tagNameFormat>v@{project.version}</tagNameFormat>
+          </configuration>
+        </plugin>
+  
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-plugin</artifactId>
+          <version>${maven.scm.plugin}</version>
+          <executions>
+            <execution>
+              <id>default-cli</id>
+              <goals>
+                <goal>add</goal>
+                <goal>checkin</goal>
+              </goals>
+              <configuration>
+                <includes>**/META-INF/MANIFEST.MF,pom.xml</includes>
+                <excludes>**/target/**</excludes>
+                <message>Changing the Eclipse files versions</message>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
-
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>3.0.0-M4</version>
-        <configuration>
-          <preparationGoals>${release.goals}</preparationGoals>
-          <completionGoals>${release.goals}</completionGoals>
-          <tagNameFormat>v@{project.version}</tagNameFormat>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-scm-plugin</artifactId>
-        <version>${maven.scm.plugin}</version>
-        <executions>
-          <execution>
-            <id>default-cli</id>
-            <goals>
-              <goal>add</goal>
-              <goal>checkin</goal>
-            </goals>
-            <configuration>
-              <includes>**/META-INF/MANIFEST.MF, **/feature.xml, **/*.product,**/category.xml</includes>
-              <excludes>**/target/**</excludes>
-              <message>Changing the Eclipse files versions</message>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
   </build>
 </project>
