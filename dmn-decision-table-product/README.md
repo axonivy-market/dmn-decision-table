@@ -36,8 +36,9 @@ rate based on the yearly income and the gender of the person.
 
 ## Setup
 
+If you need this extensions on an Axon Ivy Engine. Proceed as follows:
+
 1. Download the `dmn-decision-table-*.jar`
-2. Copy the file into the `dropins` directory of your Axon Ivy Designer
-3. Start or restart Axon Ivy Designer
-4. Open a process and use the additional beans provided in the `Rules` drawer of Process Editor palette
-5. Download the demo project (iar) and import it in Axon Ivy Designer
+2. Copy the file into the `dropins` directory of your Axon Ivy Engine
+3. Start or restart Axon Ivy Engine
+4. Deploy projects that involve DMN Decision Tables.
