@@ -1,0 +1,47 @@
+{
+  "installers": [
+    {
+      "id": "maven-import",
+      "data": {
+        "projects": [
+          {
+            "groupId": "com.axonivy.dmn.decisiontable",
+            "artifactId": "dmn-decision-table-demo",
+            "version": "${version}",
+            "type": "iar"
+          }
+        ],
+        "repositories": [
+          {
+            "id": "maven.axonivy.com",
+            "url": "https://maven.axonivy.com",
+            "snapshots": {
+              "enabled": "true"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "maven-dropins",
+      "data": {
+        "dependencies": [
+          {
+            "groupId": "com.axonivy.dmn.decisiontable",
+            "artifactId": "dmn-decision-table",
+            "version": "${version}"
+          }
+        ],
+        "repositories": [
+          {
+            "id": "maven.axonivy.com",
+            "url": "https://maven.axonivy.com",
+            "snapshots": {
+              "enabled": "true"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
