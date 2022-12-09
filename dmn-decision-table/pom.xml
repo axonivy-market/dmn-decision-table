@@ -3,7 +3,7 @@
 
   <groupId>com.axonivy.dmn.decisiontable</groupId>
   <artifactId>dmn-decision-table</artifactId>
-  <version>10.0.2-SNAPSHOT</version>
+  <version>10.0.2</version>
   <packaging>eclipse-plugin</packaging>
 
   <properties>
