@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Decision Table
 Bundle-SymbolicName: dmn-decision-table;singleton:=true
-Bundle-Version: 10.0.3.qualifier
+Bundle-Version: 10.0.4.qualifier
 Require-Bundle: ch.ivyteam.ivy.components,
  ch.ivyteam.ivy.bpm.exec,
  ch.ivyteam.ivy.designer.process.ui;resolution:=optional,
