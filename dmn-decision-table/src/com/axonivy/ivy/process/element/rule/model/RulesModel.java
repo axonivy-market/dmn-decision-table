@@ -3,6 +3,7 @@ package com.axonivy.ivy.process.element.rule.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -11,9 +12,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class RulesModel {
 
-  private List<ConditionColumn> conditionColumns = new ArrayList<>();
-  private List<ActionColumn> actionColumns = new ArrayList<>();
-  public List<Row> rows = new ArrayList<>();
+  private final List<ConditionColumn> conditionColumns = new ArrayList<>();
+  private final List<ActionColumn> actionColumns = new ArrayList<>();
+  private List<Row> rows = new ArrayList<>();
 
   public List<ConditionColumn> getConditionColumns() {
     return Collections.unmodifiableList(conditionColumns);
@@ -30,8 +31,16 @@ public class RulesModel {
     return columns;
   }
 
+  public void setRows(List<Row> rows) {
+    this.rows = copyRows(rows);
+  }
+
   public List<Row> getRows() {
-    return Collections.unmodifiableList(rows);
+    return copyRows(this.rows);
+  }
+
+  private static List<Row> copyRows(List<Row> rows) {
+    return rows.stream().map(Row::new).collect(Collectors.toList());
   }
 
   public void addColumn(ConditionColumn conditionColumn) {
@@ -54,6 +63,33 @@ public class RulesModel {
         row.addCell(ValueCell.NO_ASSIGNMENT);
       }
     }
+  }
+
+  public Cell getCell(Row row, Column column) {
+    var index = indexOf(column);
+    return row.getCells().get(index);
+  }
+
+  public void setCell(Row row, Column column, Cell cell) {
+    var index = indexOf(column);
+    row.getCells().set(index, cell);
+  }
+
+  private int indexOf(Column column) {
+    var index = indexOf(conditionColumns, column);
+    if (index < 0) {
+      index = indexOf(actionColumns, column) + conditionColumns.size();
+    }
+    return index;
+  }
+
+  private int indexOf(List<? extends Column> columns, Column column) {
+    for (int index = 0; index < columns.size(); index++) {
+      if (columns.get(index) == column) {
+        return index;
+      }
+    }
+    return -1;
   }
 
   public void addRow(Row row) {

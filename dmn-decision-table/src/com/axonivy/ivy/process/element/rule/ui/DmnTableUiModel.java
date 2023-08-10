@@ -37,8 +37,7 @@ public class DmnTableUiModel
   }
 
   private void updateRows(List<Row> rows) {
-    rules.rows.clear();
-    rules.rows.addAll(rows);
+    rules.setRows(rows);
     storeRulesModel();
   }
 

@@ -26,7 +26,7 @@ import com.axonivy.ivy.process.element.rule.ui.cellEdit.NumberConditionEditor;
 import com.axonivy.ivy.process.element.rule.ui.cellEdit.NumericValueVerifier;
 import com.axonivy.ivy.process.element.rule.ui.cellEdit.StringConditionEditor;
 
-import ch.ivyteam.swt.editors.FastTextCellEditor;
+import ch.ivyteam.swt.editors.TraverseKeyListener;
 import ch.ivyteam.swt.table.AbstractTypedViewerColumn.Edited;
 import ch.ivyteam.swt.table.TableComposite;
 import ch.ivyteam.swt.table.TypedTableViewerColumn;
@@ -72,19 +72,21 @@ public class DecisionTableComposite extends TableComposite<Row> {
 
   private void initFromModel() {
     attachModelRows();
-    setItems(model.rows);
+    setItems(model.getRows());
   }
 
   public void addConditionColumn(ConditionColumn column) {
     int indexOf = this.model.getConditionColumns().size();
     this.model.addColumn(column);
     addUiColumn(indexOf, column);
+    setItems(model.getRows());
   }
 
   public void addActionColumn(ActionColumn column) {
     int indexOf = this.model.getColumns().size();
     this.model.addColumn(column);
     addUiColumn(indexOf, column);
+    setItems(model.getRows());
   }
 
   private void attachModelRows() {
@@ -95,23 +97,21 @@ public class DecisionTableComposite extends TableComposite<Row> {
   }
 
   private void addUiColumn(int i, Column column) {
-    final int t = i;
-    TypedTableViewerColumn<Row> tableCol = addColumn(column.getAttributeName(), new ColumnWeightData(4),
-            i + 1)
-                    .withTextProvider(row -> row.getCells().get(t).getText());
+    TypedTableViewerColumn<Row> tableCol = addColumn(column.getAttributeName(), new ColumnWeightData(4), i + 1)
+                    .withTextProvider(row -> model.getCell(row, column).getText());
     tableCol.getColumn().setImage(getColumnImage(column));
-    provideEditSupport(column, i, tableCol);
+    provideEditSupport(column, tableCol);
   }
 
   @SuppressWarnings("deprecation")
-  private void provideEditSupport(Column column, final int columnIndex,
-          TypedTableViewerColumn<Row> tableCol) {
+  private void provideEditSupport(Column column, TypedTableViewerColumn<Row> tableCol) {
     if (column instanceof ConditionColumn) {
-      Function<Row, Object> conditionValueReader = row -> row.getCells().get(columnIndex);
-      Consumer<Edited<Row>> conditionValueApplier = edit -> edit.element.getCells().set(columnIndex,
-              (ConditionCell) edit.value);
+      Function<Row, Object> conditionValueReader = row -> model.getCell(row, column);
+      Consumer<Edited<Row>> conditionValueApplier = edit -> model.setCell(edit.element, column, (ConditionCell) edit.value);
       if (column.getType() == ColumnType.String) {
-        tableCol.withEditingSupport(new StringConditionEditor(viewer.getTable(), SWT.NONE),
+        StringConditionEditor editor = new StringConditionEditor(viewer.getTable(), SWT.NONE);
+        TraverseKeyListener.install(editor.getControl(), cellNavigator);
+        tableCol.withEditingSupport(editor,
                 conditionValueReader, conditionValueApplier);
       } else if (column.getType() == ColumnType.Number) {
         tableCol.withEditingSupport(new NumberConditionEditor(viewer.getTable(), SWT.NONE),
@@ -122,13 +122,13 @@ public class DecisionTableComposite extends TableComposite<Row> {
       }
     }
     if (column instanceof ActionColumn) {
-      FastTextCellEditor editor = new FastTextCellEditor(viewer.getTable(), SWT.NONE);
+      var editor = createTextCellEditor();
       if (column.getType() == ColumnType.Number) {
         ((Text) editor.getControl()).addVerifyListener(new NumericValueVerifier());
       }
       tableCol.withEditingSupport(editor,
-              row -> StringUtils.defaultIfBlank(row.getCells().get(columnIndex).getText(), ""),
-              edit -> edit.element.getCells().set(columnIndex, new ValueCell((String) edit.value)));
+              row -> StringUtils.defaultIfBlank(model.getCell(row, column).getText(), ""),
+              edit -> model.setCell(edit.element, column, new ValueCell((String) edit.value)));
     }
   }
 

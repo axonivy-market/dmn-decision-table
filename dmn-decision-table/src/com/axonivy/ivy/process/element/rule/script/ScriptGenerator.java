@@ -10,8 +10,8 @@ import com.axonivy.ivy.process.element.rule.model.ValueCell;
 
 public class ScriptGenerator {
 
-  private RulesModel model;
-  private StringBuilder builder = new StringBuilder();
+  private final RulesModel model;
+  private final StringBuilder builder = new StringBuilder();
 
   public ScriptGenerator(RulesModel model) {
     this.model = model;
@@ -38,7 +38,7 @@ public class ScriptGenerator {
 
   private void toActionScript(Row row) {
     for (ActionColumn action : model.getActionColumns()) {
-      ValueCell cell = (ValueCell) row.getCells().get(model.getColumns().indexOf(action));
+      ValueCell cell = (ValueCell) model.getCell(row, action);
       if (!cell.isNoAssignment()) {
         builder.append("  ");
         builder.append(action.getAttributeName());
@@ -52,7 +52,7 @@ public class ScriptGenerator {
   private void toConditionScript(Row row) {
     boolean first = true;
     for (ConditionColumn condition : model.getConditionColumns()) {
-      ConditionCell cell = (ConditionCell) row.getCells().get(model.getColumns().indexOf(condition));
+      ConditionCell cell = (ConditionCell) model.getCell(row, condition);
       first = toScript(first, condition, cell);
     }
   }

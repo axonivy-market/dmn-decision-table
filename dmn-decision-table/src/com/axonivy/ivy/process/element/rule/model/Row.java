@@ -8,7 +8,15 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Row {
 
-  private List<Cell> cells = new ArrayList<>();
+  private final List<Cell> cells;
+
+  public Row() {
+    this.cells = new ArrayList<>();
+  }
+
+  public Row(Row other) {
+    this.cells = new ArrayList<>(other.cells);
+  }
 
   public List<Cell> getCells() {
     return cells;
