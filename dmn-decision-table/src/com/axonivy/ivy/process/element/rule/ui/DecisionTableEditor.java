@@ -39,7 +39,6 @@ import ch.ivyteam.ivy.scripting.language.IIvyScriptContext;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptEngine;
 import ch.ivyteam.ivy.scripting.language.IvyScriptContextFactory;
 import ch.ivyteam.ivy.scripting.types.IIvyClass;
-import ch.ivyteam.ivy.scripting.types.IVariable;
 import ch.ivyteam.ivy.scripting.util.IvyScriptProcessVariables;
 import ch.ivyteam.ivy.scripting.util.Variable;
 import ch.ivyteam.ivy.scripting.validator.IvyScriptValidator;
@@ -50,7 +49,7 @@ public class DecisionTableEditor extends Composite {
   public final CTabFolder tabs;
   private ColumnEditActionsComposite columnEdit;
 
-  private IVariable[] dataVars = new IVariable[0];
+  private Variable[] dataVars = new Variable[0];
   private IIvyScriptEngine scriptEngine;
   private IProject project;
 
@@ -115,17 +114,17 @@ public class DecisionTableEditor extends Composite {
     }
   }
 
-  public void setDataVariables(IVariable[] vars) {
+  public void setDataVariables(Variable[] vars) {
     this.dataVars = Arrays.stream(vars)
             .filter(var -> var.getName().equals(IvyScriptProcessVariables.IN.getVariableName())) // use
                                                                                                  // only
                                                                                                  // IN
-            .flatMap(in -> Arrays.stream(new IVariable[] {in,
+            .flatMap(in -> Arrays.stream(new Variable[] {in,
                 new Variable(IvyScriptProcessVariables.OUT.getVariableName(), in.getType())})) // duplicate
                                                                                                // in
                                                                                                // as
                                                                                                // out
-            .toArray(IVariable[]::new);
+            .toArray(Variable[]::new);
   }
 
   private void addDataChooser() {
@@ -222,8 +221,8 @@ public class DecisionTableEditor extends Composite {
     }
   }
 
-  private static IVariable[] getSampleScriptContext() {
-    return new IVariable[] {};
+  private static Variable[] getSampleScriptContext() {
+    return new Variable[] {};
   }
 
   public void setProject(IIvyProject ivyProject) {

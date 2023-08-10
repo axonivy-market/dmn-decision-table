@@ -8,7 +8,7 @@ import ch.ivyteam.ivy.designer.inscription.ui.masks.fw.IInscriptionEditorTab;
 import ch.ivyteam.ivy.designer.inscription.ui.model.AbstractUiModelSwtInscriptionTab;
 import ch.ivyteam.ivy.resource.validation.restricted.IvyValidationEvent;
 import ch.ivyteam.ivy.resource.validation.restricted.IvyValidationResult;
-import ch.ivyteam.ivy.scripting.types.IVariable;
+import ch.ivyteam.ivy.scripting.util.Variable;
 import ch.ivyteam.ivy.ui.model.swt.IvySwtBinder;
 import ch.ivyteam.ui.model.swt.SwtTableModelBinder;
 
@@ -35,7 +35,7 @@ public class DmnDecisionTab extends AbstractUiModelSwtInscriptionTab<DmnTableUiM
     gridLayout.marginWidth = 0;
     var configurator = model.configurator;
     decisionEditor.setDataVariables(
-            configurator.scriptModel.getInputVariables().stream().toArray(IVariable[]::new));
+            configurator.scriptModel.getInputVariables().toArray(Variable[]::new));
     decisionEditor.setProject(configurator.project);
     decisionEditor.tabs.setSelection(0); // select table mode
 
