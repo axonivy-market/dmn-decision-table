@@ -3,7 +3,7 @@
 
   <groupId>com.axonivy.dmn.decisiontable</groupId>
   <artifactId>dmn-decision-table</artifactId>
-  <version>10.0.4-SNAPSHOT</version>
+  <version>11.2.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 
   <properties>
@@ -16,7 +16,7 @@
     <repository>
       <id>ivy.nightly.release</id>
       <layout>p2</layout>
-      <url>https://download.axonivy.rocks/p2/lts-10.0/</url>
+      <url>https://download.axonivy.rocks/p2/nightly/</url>
     </repository>
   </repositories>
 

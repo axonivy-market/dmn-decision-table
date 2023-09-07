@@ -1,5 +1,5 @@
 {
-  "format" : "10.0.0",
+  "$schema" : "https://json-schema.axonivy.com/process/11.2.1/process.json",
   "id" : "15C82A89FA49E8E6",
   "config" : {
     "data" : "com.axonivy.ivy.supplements.rule.beans.demos.Data"
@@ -9,19 +9,20 @@
       "type" : "RequestStart",
       "name" : "startDecisionTable",
       "config" : {
-        "callSignature" : "startDecisionTable",
+        "signature" : "startDecisionTable",
         "case" : {
           "customFields" : [
-            { "name" : "ProcessCategoryCode", "type" : "String", "value" : "\"table\"" }
+            { "name" : "ProcessCategoryCode", "type" : "STRING", "value" : "\"table\"" }
           ]
-        },
-        "outLink" : "startDecisionTable.ivp"
+        }
       },
       "visual" : {
         "at" : { "x" : 120, "y" : 112 },
         "labelOffset" : { "x" : 41, "y" : 37 }
       },
-      "connect" : { "id" : "f6", "to" : "f5" }
+      "connect" : [
+        { "id" : "f6", "to" : "f5" }
+      ]
     }, {
       "id" : "f1",
       "type" : "TaskEnd",
@@ -34,7 +35,7 @@
       "impl" : "DecisionActivity",
       "name" : "evaluate taxes with decision table",
       "config" : {
-        "beanConfig" : [
+        "userConfig" : [
           "{",
           "  \"conditionColumns\" : [ {",
           "    \"attributeName\" : \"in.yearlyIncomeDollars\",",
@@ -163,14 +164,15 @@
         "at" : { "x" : 664, "y" : 112 },
         "size" : { "width" : 216, "height" : 56 }
       },
-      "connect" : { "id" : "f10", "to" : "f9" }
+      "connect" : [
+        { "id" : "f10", "to" : "f9" }
+      ]
     }, {
       "id" : "f5",
       "type" : "DialogCall",
       "name" : "data gathering",
       "config" : {
-        "dialogId" : "com.axonivy.ivy.supplements.rule.beans.demos.GatherPersonData",
-        "startMethod" : "start()",
+        "dialog" : "com.axonivy.ivy.supplements.rule.beans.demos.GatherPersonData:start()",
         "output" : {
           "map" : {
             "out" : "result.data"
@@ -180,36 +182,41 @@
       "visual" : {
         "at" : { "x" : 264, "y" : 112 }
       },
-      "connect" : { "id" : "f8", "to" : "f7" }
+      "connect" : [
+        { "id" : "f8", "to" : "f7" }
+      ]
     }, {
       "id" : "f7",
       "type" : "RestClientCall",
       "name" : "evaluate gender",
       "config" : {
-        "clientId" : "9b19d52e-3e7a-4bec-9fae-9fdeee8b2535",
-        "clientErrorCode" : "ivy:error:rest:client",
-        "queryParams" : {
-          "name" : "in.person.firstname"
+        "target" : {
+          "clientId" : "9b19d52e-3e7a-4bec-9fae-9fdeee8b2535",
+          "queryParams" : {
+            "name" : "in.person.firstname"
+          }
         },
-        "statusErrorCode" : ">> Ignore status",
-        "resultType" : "com.fasterxml.jackson.databind.JsonNode",
-        "responseCode" : "out.person.gender = result.get(\"gender\").asText();"
+        "response" : {
+          "entity" : {
+            "type" : "com.fasterxml.jackson.databind.JsonNode",
+            "code" : "out.person.gender = result.get(\"gender\").asText();"
+          },
+          "statusError" : ">> Ignore status"
+        }
       },
       "visual" : {
         "at" : { "x" : 424, "y" : 112 }
       },
-      "connect" : { "id" : "f4", "to" : "f3" }
+      "connect" : [
+        { "id" : "f4", "to" : "f3" }
+      ]
     }, {
       "id" : "f9",
       "type" : "DialogCall",
       "name" : "display taxes",
       "config" : {
-        "dialogId" : "com.axonivy.ivy.supplements.rule.beans.demos.TaxesDialog",
-        "startMethod" : "start(com.axonivy.ivy.supplements.rule.beans.demos.Data)",
+        "dialog" : "com.axonivy.ivy.supplements.rule.beans.demos.TaxesDialog:start(com.axonivy.ivy.supplements.rule.beans.demos.Data)",
         "call" : {
-          "params" : [
-            { "name" : "data", "type" : "com.axonivy.ivy.supplements.rule.beans.demos.Data" }
-          ],
           "map" : {
             "param.data" : "in"
           }
@@ -218,6 +225,8 @@
       "visual" : {
         "at" : { "x" : 888, "y" : 112 }
       },
-      "connect" : { "id" : "f2", "to" : "f1" }
+      "connect" : [
+        { "id" : "f2", "to" : "f1" }
+      ]
     } ]
 }
