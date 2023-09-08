@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.window.Window;
@@ -35,11 +34,12 @@ import com.axonivy.ivy.process.element.rule.model.RulesModel;
 import ch.ivyteam.icons.Size;
 import ch.ivyteam.ivy.designer.ui.attribute.SelectAttributeDialog;
 import ch.ivyteam.ivy.project.IIvyProject;
+import ch.ivyteam.ivy.project.model.Project;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptContext;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptEngine;
 import ch.ivyteam.ivy.scripting.language.IvyScriptContextFactory;
 import ch.ivyteam.ivy.scripting.types.IIvyClass;
-import ch.ivyteam.ivy.scripting.types.IVariable;
+import ch.ivyteam.ivy.scripting.types.classmembers.IVariable;
 import ch.ivyteam.ivy.scripting.util.IvyScriptProcessVariables;
 import ch.ivyteam.ivy.scripting.util.Variable;
 import ch.ivyteam.ivy.scripting.validator.IvyScriptValidator;
@@ -52,7 +52,7 @@ public class DecisionTableEditor extends Composite {
 
   private IVariable[] dataVars = new IVariable[0];
   private IIvyScriptEngine scriptEngine;
-  private IProject project;
+  private Project project;
 
   public DecisionTableEditor(Composite parent, int style) {
     super(parent, style);
@@ -228,7 +228,7 @@ public class DecisionTableEditor extends Composite {
 
   public void setProject(IIvyProject ivyProject) {
     scriptEngine = ivyProject.getIvyScriptEngine();
-    project = ivyProject.getProject();
+    project = ivyProject.project();
   }
 
 }

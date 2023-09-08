@@ -8,7 +8,7 @@ import ch.ivyteam.ivy.designer.inscription.ui.masks.fw.IInscriptionEditorTab;
 import ch.ivyteam.ivy.designer.inscription.ui.model.AbstractUiModelSwtInscriptionTab;
 import ch.ivyteam.ivy.resource.validation.restricted.IvyValidationEvent;
 import ch.ivyteam.ivy.resource.validation.restricted.IvyValidationResult;
-import ch.ivyteam.ivy.scripting.types.IVariable;
+import ch.ivyteam.ivy.scripting.types.classmembers.IVariable;
 import ch.ivyteam.ivy.ui.model.swt.IvySwtBinder;
 import ch.ivyteam.ui.model.swt.SwtTableModelBinder;
 
