@@ -33,8 +33,8 @@ import com.axonivy.ivy.process.element.rule.model.RulesModel;
 
 import ch.ivyteam.icons.Size;
 import ch.ivyteam.ivy.designer.ui.attribute.SelectAttributeDialog;
-import ch.ivyteam.ivy.project.IIvyProject;
 import ch.ivyteam.ivy.project.model.Project;
+import ch.ivyteam.ivy.scripting.dataclass.IDataClassManager;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptContext;
 import ch.ivyteam.ivy.scripting.language.IIvyScriptEngine;
 import ch.ivyteam.ivy.scripting.language.IvyScriptContextFactory;
@@ -226,9 +226,10 @@ public class DecisionTableEditor extends Composite {
     return new IVariable[] {};
   }
 
-  public void setProject(IIvyProject ivyProject) {
-    scriptEngine = ivyProject.getIvyScriptEngine();
-    project = ivyProject.project();
+  public void setProject(Project project) {
+    this.project = project;
+    var data = IDataClassManager.instance().getProjectDataModelFor(project);
+    scriptEngine = data.getIvyScriptEngine();
   }
 
 }
