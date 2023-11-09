@@ -1,6 +1,7 @@
 package com.axonivy.ivy.process.element.rule.ui;
 
 import java.util.List;
+import java.util.Map;
 
 import com.axonivy.ivy.process.element.rule.model.Row;
 import com.axonivy.ivy.process.element.rule.model.RulesModel;
@@ -42,18 +43,19 @@ public class DmnTableUiModel
   }
 
   private RulesModel loadRulesModel() {
+    Map<String, String> conf = element.getUserConfig().configs();
     try {
-      return RulesModelSerialization.deserialize(element.getUserConfig().getRawValue());
+      return RulesModelSerialization.deserialize(conf);
     } catch (Exception ex) {
-      LOGGER.error("Failed to load decision table config", ex);
+      LOGGER.error("Failed to load decision table config "+conf, ex);
       return new RulesModel();
     }
   }
 
   public void storeRulesModel() {
     try {
-      String json = RulesModelSerialization.serialize(rules);
-      element.setUserConfig(new UserConfig(json));
+      Map<String, String> conf =  RulesModelSerialization.serialize(rules);
+      element.setUserConfig(new UserConfig(conf));
     } catch (JsonProcessingException ex) {
       throw new RuntimeException("Failed to store decision table config", ex);
     }

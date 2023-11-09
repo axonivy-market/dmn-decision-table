@@ -31,8 +31,8 @@ public class TestRulesModelSerialization {
     rowModel.addCell(new ValueCell("8.5"));
     model.addRow(rowModel);
 
-    String json = RulesModelSerialization.serialize(model);
-    RulesModel deserializedModel = RulesModelSerialization.deserialize(json);
+    var conf = RulesModelSerialization.serialize(model);
+    RulesModel deserializedModel = RulesModelSerialization.deserialize(conf);
 
     assertEquals(model, deserializedModel);
   }
