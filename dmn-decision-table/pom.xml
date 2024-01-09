@@ -16,7 +16,7 @@
     <repository>
       <id>ivy.nightly.release</id>
       <layout>p2</layout>
-      <url>https://download.axonivy.rocks/p2/lts-10.0/</url>
+      <url>https://p2.axonivy.com/p2/lts-10.0/</url>
     </repository>
   </repositories>
 
