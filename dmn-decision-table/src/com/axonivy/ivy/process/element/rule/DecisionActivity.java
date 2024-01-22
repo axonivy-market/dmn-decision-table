@@ -19,8 +19,7 @@ public class DecisionActivity extends AbstractUserProcessExtension {
 
   @Override
   public CompositeObject perform(IRequestId requestId, CompositeObject in, IIvyScriptContext context)  throws Exception {
-    String ruleModelJson = getConfiguration();
-    RulesModel model = RulesModelSerialization.deserialize(ruleModelJson);
+    RulesModel model = RulesModelSerialization.deserialize(getConfig());
     InputStream dmnInputStream = new DmnSerializer(model).serialize();
     Map<String, Object> result = new DmnExecutor(dmnInputStream, in).execute();
     if (!result.isEmpty()) {
