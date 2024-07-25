@@ -8,4 +8,6 @@ on:
 
 jobs:
   build:
-    uses: axonivy-market/github-workflows/.github/workflows/ci.yml@v2
+    uses: axonivy-market/github-workflows/.github/workflows/ci.yml@v3
+    with:
+      javaVersion: 21
