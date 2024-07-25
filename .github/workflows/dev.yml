@@ -9,3 +9,5 @@ on:
 jobs:
   build:
     uses: axonivy-market/github-workflows/.github/workflows/dev.yml@v3
+    with:
+      mvnArgs: '-Dp2.repo=nightly'

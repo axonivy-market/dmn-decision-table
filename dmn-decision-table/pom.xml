@@ -10,13 +10,14 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.compiler.compliance>17</java.compiler.compliance>
     <tycho.version>3.0.4</tycho.version>
+    <p2.repo>11.3</p2.repo>
   </properties>
 
   <repositories>
     <repository>
       <id>ivy.nightly.release</id>
       <layout>p2</layout>
-      <url>https://p2.axonivy.com/p2/nightly/</url>
+      <url>https://p2.axonivy.com/p2/${p2.repo}/</url>
     </repository>
   </repositories>
 
