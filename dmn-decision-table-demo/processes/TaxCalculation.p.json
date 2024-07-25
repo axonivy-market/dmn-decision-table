@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.2.2/process.json",
+  "$schema" : "https://json-schema.axonivy.com/process/11.3.0/process.json",
   "id" : "15C82A89FA49E8E6",
   "config" : {
     "data" : "com.axonivy.ivy.supplements.rule.beans.demos.Data"
