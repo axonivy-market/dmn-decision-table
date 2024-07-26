@@ -8,6 +8,6 @@ on:
 
 jobs:
   build:
-    uses: axonivy-market/github-workflows/.github/workflows/dev.yml@v3
+    uses: axonivy-market/github-workflows/.github/workflows/dev.yml@v4
     with:
       mvnArgs: '-Dp2.repo=nightly'
