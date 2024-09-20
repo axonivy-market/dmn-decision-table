@@ -1,15 +1,15 @@
 # Decision Table
 
-Axon Ivy’s DMN Decision Table util helps you to accelerate process automation
-initiatives by applying DMN decision tables on your data without the need of
-scripting effort. This util:
+A DMN (Decision Model and Notation) decision table is a tabular representation used to model business rules and decisions. It defines conditions and corresponding actions or outcomes, enabling automated decision-making based on inputs. With this utility you can integrate DMN tables into your Axon Ivy processes.
 
-- Links process data to a decision table using low code.
-- Supports DMN conformance level 3.
-- Enables standardized XML-export.
-- Supports you with an easy-to-copy demo implementation to reduce your
-  integration effort.
-- Enables low code citizen developers to integrate rules/decisioning easily.
+This utility:
+
+- links process data to a decision table
+- enables convenient condition editing with zero scripting
+- supports DMN conformance level 3
+- enables standardized XML-export
+
+![Condition Editing](images/edit-condition.png)
 
 # Decision Table Activity
 Simple and expressive decision table element. 
