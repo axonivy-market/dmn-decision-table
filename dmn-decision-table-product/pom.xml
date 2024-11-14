@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.axonivy.dmn.decisiontable</groupId>
   <artifactId>dmn-decision-table-product</artifactId>
-  <version>11.3.2</version>
+  <version>11.3.3-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <build>
