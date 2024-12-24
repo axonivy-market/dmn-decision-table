@@ -1,0 +1,19 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/data-class/12.0.0/data-class.json",
+  "simpleName" : "Person",
+  "namespace" : "com.axonivy.ivy.supplements.rule.beans.demos",
+  "isBusinessCaseData" : false,
+  "fields" : [ {
+    "name" : "firstname",
+    "type" : "String"
+  }, {
+    "name" : "lastname",
+    "type" : "String"
+  }, {
+    "name" : "age",
+    "type" : "Number"
+  }, {
+    "name" : "gender",
+    "type" : "String"
+  } ]
+}
