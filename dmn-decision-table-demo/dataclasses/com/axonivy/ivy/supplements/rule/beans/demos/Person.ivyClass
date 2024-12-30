@@ -1,6 +1,0 @@
-Person #class
-com.axonivy.ivy.supplements.rule.beans.demos #namespace
-firstname String #field
-lastname String #field
-age Number #field
-gender String #field
