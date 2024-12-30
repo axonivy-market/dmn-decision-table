@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Decision Table
 Bundle-SymbolicName: dmn-decision-table;singleton:=true
-Bundle-Version: 11.3.3.qualifier
+Bundle-Version: 12.0.0.qualifier
 Require-Bundle: ch.ivyteam.ivy.components,
  ch.ivyteam.ivy.bpm.exec,
  ch.ivyteam.ivy.designer.process.ui;resolution:=optional,
@@ -30,4 +30,4 @@ Bundle-ClassPath: lib/camunda-commons-logging-1.4.0.jar,
  lib/juel-spi-2.2.7.jar,
  .
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21

@@ -8,9 +8,9 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.compiler.compliance>17</java.compiler.compliance>
-    <tycho.version>3.0.4</tycho.version>
-    <p2.repo>11.3</p2.repo>
+    <java.compiler.compliance>21</java.compiler.compliance>
+    <tycho.version>4.0.10</tycho.version>
+    <p2.repo>12.0</p2.repo>
   </properties>
 
   <repositories>
