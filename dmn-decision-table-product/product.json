@@ -6,7 +6,7 @@
       "data": {
         "projects": [
           {
-            "groupId": "com.axonivy.dmn.decisiontable",
+            "groupId": "com.axonivy.utils.dmn",
             "artifactId": "dmn-decision-table-demo",
             "version": "${version}",
             "type": "iar"
@@ -28,7 +28,7 @@
       "data": {
         "dependencies": [
           {
-            "groupId": "com.axonivy.dmn.decisiontable",
+            "groupId": "com.axonivy.utils.dmn",
             "artifactId": "dmn-decision-table",
             "version": "${version}"
           }
