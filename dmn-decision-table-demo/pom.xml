@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.axonivy.utils.dmn</groupId>
   <artifactId>dmn-decision-table-demo</artifactId>
-  <version>11.3.3-SNAPSHOT</version>
+  <version>11.3.4-SNAPSHOT</version>
   <packaging>iar</packaging>
   <properties>
     <project.build.plugin.version>11.3.0</project.build.plugin.version>
