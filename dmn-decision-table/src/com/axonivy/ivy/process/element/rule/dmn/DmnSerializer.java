@@ -15,16 +15,16 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
-import com.axonivy.dmn.specification.ObjectFactory;
-import com.axonivy.dmn.specification.TDecision;
-import com.axonivy.dmn.specification.TDecisionRule;
-import com.axonivy.dmn.specification.TDecisionTable;
-import com.axonivy.dmn.specification.TDefinitions;
-import com.axonivy.dmn.specification.THitPolicy;
-import com.axonivy.dmn.specification.TInputClause;
-import com.axonivy.dmn.specification.TLiteralExpression;
-import com.axonivy.dmn.specification.TOutputClause;
-import com.axonivy.dmn.specification.TUnaryTests;
+import com.axonivy.utils.dmn.specification.ObjectFactory;
+import com.axonivy.utils.dmn.specification.TDecision;
+import com.axonivy.utils.dmn.specification.TDecisionRule;
+import com.axonivy.utils.dmn.specification.TDecisionTable;
+import com.axonivy.utils.dmn.specification.TDefinitions;
+import com.axonivy.utils.dmn.specification.THitPolicy;
+import com.axonivy.utils.dmn.specification.TInputClause;
+import com.axonivy.utils.dmn.specification.TLiteralExpression;
+import com.axonivy.utils.dmn.specification.TOutputClause;
+import com.axonivy.utils.dmn.specification.TUnaryTests;
 import com.axonivy.ivy.process.element.rule.model.ActionColumn;
 import com.axonivy.ivy.process.element.rule.model.Cell;
 import com.axonivy.ivy.process.element.rule.model.Column;
