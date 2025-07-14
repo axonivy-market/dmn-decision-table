@@ -10,7 +10,7 @@
   </parent>
   <groupId>com.axonivy.utils.dmn</groupId>
   <artifactId>dmn-decision-table-demo</artifactId>
-  <version>11.3.4-SNAPSHOT</version>
+  <version>13.1.1-SNAPSHOT</version>
   <packaging>iar</packaging>
   <properties>
     <project.build.plugin.version>11.3.0</project.build.plugin.version>
