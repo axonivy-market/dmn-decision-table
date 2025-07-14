@@ -1,4 +1,0 @@
-TaxesDialogData #class
-com.axonivy.ivy.supplements.rule.beans.demos.TaxesDialog #namespace
-data com.axonivy.ivy.supplements.rule.beans.demos.Data #field
-data PERSISTENT #fieldModifier

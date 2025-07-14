@@ -1,6 +1,0 @@
-Data #class
-com.axonivy.ivy.supplements.rule.beans.demos #namespace
-person com.axonivy.ivy.supplements.rule.beans.demos.Person #field
-yearlyIncomeDollars Number #field
-isGoldMember Boolean #field
-taxrate Number #field
