@@ -7,6 +7,7 @@
   <packaging>iar</packaging>
   <properties>
     <project.build.plugin.version>11.3.0</project.build.plugin.version>
+    <engineDir>${project.build.directory}/ivyEngine</engineDir>
   </properties>
   <build>
     <plugins>
@@ -15,6 +16,33 @@
         <artifactId>project-build-plugin</artifactId>
         <version>${project.build.plugin.version}</version>
         <extensions>true</extensions>
+        <configuration>
+          <engineDirectory>${engineDir}</engineDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.0.2</version>
+        <executions>
+          <execution>
+            <id>copy-dmn-dropin</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${engineDir}/dropins</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>../dmn-decision-table/target</directory>
+                  <includes>
+                    <include>dmn-*.jar</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
