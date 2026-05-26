@@ -1,0 +1,19 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "Person",
+  "namespace" : "com.axonivy.ivy.supplements.rule.beans.demos",
+  "fields" : [ {
+    "name" : "firstname",
+    "modifiers" : [ ]
+  }, {
+    "name" : "lastname",
+    "modifiers" : [ ]
+  }, {
+    "name" : "age",
+    "type" : "Number",
+    "modifiers" : [ ]
+  }, {
+    "name" : "gender",
+    "modifiers" : [ ]
+  } ]
+}

@@ -1,8 +1,10 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0-dev/config/rest-clients-1.json
 RestClients:
-  genderize.io:
-    UUID: 9b19d52e-3e7a-4bec-9fae-9fdeee8b2535
+  genderizeio:
+    Name: genderize.io
     Url: https://api.genderize.io/
     Features:
-    - ch.ivyteam.ivy.rest.client.mapper.JsonFeature
+      - ch.ivyteam.ivy.rest.client.mapper.JsonFeature
     Properties:
       jersey.config.client.followRedirects: 'true'
+    LegacyUUID: 9b19d52e-3e7a-4bec-9fae-9fdeee8b2535

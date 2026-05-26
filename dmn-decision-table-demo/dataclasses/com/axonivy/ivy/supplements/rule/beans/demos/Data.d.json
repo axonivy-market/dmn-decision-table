@@ -1,0 +1,22 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "Data",
+  "namespace" : "com.axonivy.ivy.supplements.rule.beans.demos",
+  "fields" : [ {
+    "name" : "person",
+    "type" : "com.axonivy.ivy.supplements.rule.beans.demos.Person",
+    "modifiers" : [ ]
+  }, {
+    "name" : "yearlyIncomeDollars",
+    "type" : "Number",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isGoldMember",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "taxrate",
+    "type" : "Number",
+    "modifiers" : [ ]
+  } ]
+}
