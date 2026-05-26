@@ -3,7 +3,7 @@
 
   <groupId>com.axonivy.utils.dmn</groupId>
   <artifactId>dmn-decision-table-modules</artifactId>
-  <version>11.3.4-SNAPSHOT</version>
+  <version>14.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <modules>

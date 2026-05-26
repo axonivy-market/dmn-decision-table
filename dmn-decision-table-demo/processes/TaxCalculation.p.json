@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.3.0/process.json",
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process.json",
   "id" : "15C82A89FA49E8E6",
   "config" : {
     "data" : "com.axonivy.ivy.supplements.rule.beans.demos.Data"
@@ -72,7 +72,7 @@
       "name" : "evaluate gender",
       "config" : {
         "target" : {
-          "clientId" : "9b19d52e-3e7a-4bec-9fae-9fdeee8b2535",
+          "clientId" : "genderizeio",
           "queryParams" : {
             "name" : "in.person.firstname"
           }

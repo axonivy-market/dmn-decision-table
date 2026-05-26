@@ -1,0 +1,9 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "TaxesDialogData",
+  "namespace" : "com.axonivy.ivy.supplements.rule.beans.demos.TaxesDialog",
+  "fields" : [ {
+    "name" : "data",
+    "type" : "com.axonivy.ivy.supplements.rule.beans.demos.Data"
+  } ]
+}

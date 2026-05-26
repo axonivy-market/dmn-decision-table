@@ -1,0 +1,9 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "GatherPersonDataData",
+  "namespace" : "com.axonivy.ivy.supplements.rule.beans.demos.GatherPersonData",
+  "fields" : [ {
+    "name" : "data",
+    "type" : "com.axonivy.ivy.supplements.rule.beans.demos.Data"
+  } ]
+}
